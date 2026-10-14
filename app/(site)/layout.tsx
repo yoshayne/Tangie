@@ -10,15 +10,25 @@ export const ensureStatic = "shell";
 // The header and footer come from the database. `connection()` keeps that lookup at request
 // time (the build server cannot reach the database), and the fallback is the same layout with
 // the default links, so the static shell is never empty.
-async function SiteHeader() {
+async function loadChrome() {
   await connection();
-  const chrome = await getSiteChrome();
+  try {
+    const chrome = await getSiteChrome();
+    return chrome.headerNav.length > 0 ? chrome : DEFAULT_CHROME;
+  } catch (e) {
+    // If the database is unavailable the site still shows its header and footer.
+    console.error("Could not load header/footer from the database:", e);
+    return DEFAULT_CHROME;
+  }
+}
+
+async function SiteHeader() {
+  const chrome = await loadChrome();
   return <Header items={chrome.headerNav} cta={chrome.headerCta} />;
 }
 
 async function SiteFooter() {
-  await connection();
-  const chrome = await getSiteChrome();
+  const chrome = await loadChrome();
   return (
     <Footer
       nav={chrome.footerNav}

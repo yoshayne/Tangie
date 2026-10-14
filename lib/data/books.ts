@@ -20,7 +20,10 @@ export async function getBookBySlug(slug: string): Promise<BookSummary | null> {
     .from(schema.books)
     .where(eq(schema.books.slug, slug))
     .limit(1);
-  if (!book || !book.published) return null;
+  if (!book || !book.published) {
+    cacheLife("seconds");
+    return null;
+  }
   const [link] = await db
     .select()
     .from(schema.bookLinks)

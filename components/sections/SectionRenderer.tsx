@@ -71,7 +71,23 @@ export async function SectionRenderer({
       continue;
     }
 
-    const extra = entry.load ? await entry.load(parsed.data) : undefined;
+    let extra: unknown;
+    try {
+      extra = entry.load ? await entry.load(parsed.data) : undefined;
+    } catch (e) {
+      // One section's data failing (for example the events query) must not take down the page.
+      console.error(
+        `Could not load data for ${section.type} (${section.id}):`,
+        e,
+      );
+      if (preview)
+        out.push(
+          <Notice key={section.id}>
+            {section.type}: could not load its data
+          </Notice>,
+        );
+      continue;
+    }
     const node = entry.render(parsed.data, extra);
     out.push(
       section.anchorId ? (

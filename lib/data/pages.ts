@@ -32,7 +32,11 @@ export async function getPage(slug: string): Promise<PageData | null> {
       and(eq(schema.pages.slug, slug), eq(schema.pages.status, "published")),
     )
     .limit(1);
-  if (!page) return null;
+  if (!page) {
+    // Do not remember "not found" for long: the content may simply not have been loaded yet.
+    cacheLife("seconds");
+    return null;
+  }
 
   const rows = await db
     .select()
@@ -83,6 +87,9 @@ export async function getSiteChrome(): Promise<SiteChrome> {
   const settings = await db.select().from(schema.siteSettings);
   const setting = <T>(key: string, fallback: T): T =>
     (settings.find((s) => s.key === key)?.value as T | undefined) ?? fallback;
+
+  // An empty navigation table means setup has not finished; do not remember that for long.
+  if (nav.length === 0) cacheLife("seconds");
 
   const header = nav.filter((n) => n.location === "header");
   return {

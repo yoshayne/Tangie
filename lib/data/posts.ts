@@ -28,6 +28,9 @@ export async function getLatestPosts(
     .orderBy(desc(schema.posts.publishedAt))
     .limit(count);
 
+  // Nothing published yet may just mean setup is still running; check again soon.
+  if (rows.length === 0) cacheLife("minutes");
+
   return rows.map(({ post, cover }) => ({
     slug: post.slug,
     title: post.title,

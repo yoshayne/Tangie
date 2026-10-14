@@ -16,7 +16,7 @@ export async function generateMetadata({
 }: PageProps<"/[[...slug]]">): Promise<Metadata> {
   await connection();
   const { slug } = await params;
-  const page = await getPage(slugKey(slug));
+  const page = await getPage(slugKey(slug)).catch(() => null);
   if (!page) return {};
   const isHome = page.slug === "";
   return {
@@ -40,7 +40,22 @@ async function PageSections({
 }) {
   await connection();
   const { slug } = await params;
-  const page = await getPage(slugKey(slug));
+  let page;
+  try {
+    page = await getPage(slugKey(slug));
+  } catch (e) {
+    console.error("Could not load page from the database:", e);
+    return (
+      <div className="mx-auto max-w-[640px] px-6 py-32 text-center">
+        <h1 className="font-display text-h2 text-heading">
+          We&apos;re getting things ready
+        </h1>
+        <p className="mt-4 text-body text-copy">
+          This page isn&apos;t available just yet. Please try again in a minute.
+        </p>
+      </div>
+    );
+  }
   if (!page) notFound();
   return <SectionRenderer sections={page.sections} />;
 }
