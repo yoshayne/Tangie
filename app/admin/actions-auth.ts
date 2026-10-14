@@ -16,7 +16,7 @@ export async function login(
   _prev: LoginState,
   formData: FormData,
 ): Promise<LoginState> {
-  if (!adminEnabled()) return { error: "Admin is not enabled." };
+  if (!adminEnabled()) redirect("/admin"); // open mode: nothing to sign in to
 
   const h = await headers();
   const ip =

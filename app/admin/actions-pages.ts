@@ -3,7 +3,11 @@
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { createPreviewToken, requireAdminAction } from "@/lib/admin/auth";
+import {
+  OPEN_ADMIN_ID,
+  createPreviewToken,
+  requireAdminAction,
+} from "@/lib/admin/auth";
 import {
   fail,
   parseForm,
@@ -271,7 +275,12 @@ export async function publishPage(
     };
   const issues = await validateDoc(working.page, working.doc);
   if (issues.some((i) => i.level === "error")) return { ok: false, issues };
-  const result = await publishDoc(working.page, working.doc, note, admin.id);
+  const result = await publishDoc(
+    working.page,
+    working.doc,
+    note,
+    admin.id === OPEN_ADMIN_ID ? null : admin.id,
+  );
   invalidate(result.tags);
   return { ok: true, issues, slug: result.slug };
 }

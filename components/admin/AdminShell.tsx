@@ -20,9 +20,11 @@ const NAV: Array<{ label: string; href: string; group?: string }> = [
 /** Sidebar + header for every admin screen. Works on a phone: the menu folds into a dropdown. */
 export function AdminShell({
   email,
+  open = false,
   children,
 }: {
   email: string;
+  open?: boolean;
   children: React.ReactNode;
 }) {
   const groups = ["", "Content", "People", "Site"];
@@ -64,6 +66,16 @@ export function AdminShell({
         {nav}
       </aside>
       <div className="min-w-0 flex-1">
+        {open ? (
+          <p
+            role="note"
+            className="bg-[#fff6e5] px-4 py-2 text-center text-sm text-[#8a5a00] lg:px-8"
+          >
+            The admin is <strong>open</strong>: anyone who knows this address
+            can edit the site. Ask your developer to set the password before
+            launch.
+          </p>
+        ) : null}
         <header className="flex items-center justify-between gap-4 border-b border-line bg-white px-4 py-3 lg:px-8">
           <details className="relative lg:hidden">
             <summary className="cursor-pointer list-none px-3 py-2 text-sm font-semibold">
@@ -82,14 +94,16 @@ export function AdminShell({
           </Link>
           <div className="flex items-center gap-4 text-sm">
             <span className="hidden text-stone sm:inline">{email}</span>
-            <form action={logout}>
-              <button
-                type="submit"
-                className="border border-line px-3 py-1.5 hover:bg-ivory"
-              >
-                Sign out
-              </button>
-            </form>
+            {open ? null : (
+              <form action={logout}>
+                <button
+                  type="submit"
+                  className="border border-line px-3 py-1.5 hover:bg-ivory"
+                >
+                  Sign out
+                </button>
+              </form>
+            )}
           </div>
         </header>
         <main className="mx-auto max-w-6xl px-4 py-8 lg:px-8">{children}</main>

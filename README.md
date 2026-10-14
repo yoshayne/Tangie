@@ -41,9 +41,9 @@ Before launch run `npm run check:wix:prod` against the production database.
 
 ## Admin (`/admin`)
 
-The admin is **switched off** until these three variables exist on the server: `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`. Until then every `/admin` and `/api/admin` address returns 404.
+For now the admin is **open**: anyone who knows the `/admin` address can use it, and a banner says so. It locks itself (login page, 7-day session, rate limiting) as soon as these three variables exist on the server: `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`. Setting `ADMIN_DISABLED=true` hides the admin completely (404).
 
-To turn it on:
+To lock it:
 
 1. On your computer run `npm run hash-password -- "your long password"` and copy the printed hash.
 2. In Railway → Variables add `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (the hash) and `JWT_SECRET` (random text, 32+ characters).

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { SESSION_COOKIE, adminEnabled } from "@/lib/admin/auth";
+import { SESSION_COOKIE, adminDisabled, adminEnabled } from "@/lib/admin/auth";
 import { getRoutingSnapshot } from "@/lib/routing/lookup";
 
 /**
@@ -16,21 +16,28 @@ export async function proxy(request: NextRequest) {
       ? pathname.slice(0, -1)
       : pathname;
 
-  // Admin area. Until the admin credentials exist in the environment it does not exist at all
-  // (404), so the live site can never expose an unprotected admin. When enabled, this is only a
-  // quick cookie check; every admin page, action and API route also verifies the session itself.
+  // Admin area. With no password set it is open (client decision for the build phase); once
+  // JWT_SECRET, ADMIN_EMAIL and ADMIN_PASSWORD_HASH exist this becomes a quick cookie check, and
+  // every admin page, action and API route also verifies the session itself. ADMIN_DISABLED=true
+  // hides the whole area (404).
   if (
     path === "/admin" ||
     path.startsWith("/admin/") ||
     path.startsWith("/api/admin/")
   ) {
     const isApi = path.startsWith("/api/");
-    if (!adminEnabled()) {
+    if (adminDisabled()) {
       return isApi
         ? new NextResponse("Not found", { status: 404 })
         : NextResponse.rewrite(new URL("/not-found-page", request.url));
     }
-    if (path !== "/admin/login" && !request.cookies.get(SESSION_COOKIE)) {
+    // With a password set, a missing cookie goes to the login page. Without one (open mode)
+    // everything is reachable.
+    if (
+      adminEnabled() &&
+      path !== "/admin/login" &&
+      !request.cookies.get(SESSION_COOKIE)
+    ) {
       return isApi
         ? new NextResponse("Unauthorized", { status: 401 })
         : NextResponse.redirect(new URL("/admin/login", request.url));
