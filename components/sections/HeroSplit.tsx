@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Fragment } from "react";
 import {
   blurProps,
-  focalToPosition,
+  imageStyle,
   type ButtonRef,
   type ImageRef,
 } from "@/lib/sections/types";
@@ -29,7 +29,7 @@ export function HeroSplit({
   const roles = roleLine.split("|").map((r) => r.trim());
   return (
     <section className="relative bg-[linear-gradient(90deg,#d9ccbe_0%,#e6ddd3_20%,#ebe4dc_40%,#ece8e1_100%)] lg:h-[calc(var(--u)*680)]">
-      <div className="relative aspect-[4/5] max-h-[560px] w-full lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:max-h-none lg:w-[calc(var(--gutter-x)+var(--u)*720)] lg:[mask-image:linear-gradient(to_right,transparent,#000_9%)]">
+      <div className="relative aspect-[4/5] max-h-[560px] w-full overflow-hidden lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:max-h-none lg:w-[calc(var(--gutter-x)+var(--u)*720)] lg:[mask-image:linear-gradient(to_right,transparent,#000_9%)]">
         <Image
           src={image.src}
           {...blurProps(image)}
@@ -38,7 +38,7 @@ export function HeroSplit({
           priority
           sizes="(min-width: 1024px) 53vw, 100vw"
           className="object-cover"
-          style={{ objectPosition: focalToPosition(image.focal ?? [0.5, 0]) }}
+          style={imageStyle(image, [0.5, 0])}
         />
       </div>
       <div className="relative px-4 py-12 md:px-6 lg:flex lg:h-full lg:flex-col lg:justify-center lg:py-0 lg:pt-[calc(var(--u)*28)] lg:pl-[calc(var(--gutter-x)+var(--u)*109)] lg:pr-0">

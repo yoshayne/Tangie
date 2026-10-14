@@ -1,7 +1,7 @@
 import Image from "next/image";
 import {
   blurProps,
-  focalToPosition,
+  imageStyle,
   type Background,
   type ImageRef,
   type Spacing,
@@ -36,7 +36,7 @@ export function Quote({
               sizes="120px"
               {...blurProps(portrait)}
               className="object-cover"
-              style={{ objectPosition: focalToPosition(portrait.focal) }}
+              style={imageStyle(portrait)}
             />
           </div>
         ) : null}

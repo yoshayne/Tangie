@@ -2,7 +2,7 @@ import Image from "next/image";
 import { renderInline } from "@/lib/inline";
 import {
   blurProps,
-  focalToPosition,
+  imageStyle,
   type ButtonRef,
   type ImageRef,
 } from "@/lib/sections/types";
@@ -35,7 +35,7 @@ export function DarkFeature({
             fill
             sizes="62vw"
             className="object-cover"
-            style={{ objectPosition: focalToPosition(image.focal) }}
+            style={imageStyle(image)}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-ink from-[2%] via-ink/70 via-[28%] to-transparent to-[75%]" />
         </div>
@@ -49,7 +49,7 @@ export function DarkFeature({
             fill
             sizes="100vw"
             className="object-cover"
-            style={{ objectPosition: focalToPosition(image.focal) }}
+            style={imageStyle(image)}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink to-transparent" />
         </div>

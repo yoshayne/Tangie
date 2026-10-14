@@ -6,6 +6,7 @@ import { setMediaAlt } from "@/app/admin/actions-media";
 import { uploadFiles, type UploadState } from "@/lib/admin/client-upload";
 import { BACKGROUNDS, type FieldSpec } from "@/lib/sections/meta";
 import type { ImageRef } from "@/lib/sections/types";
+import { ImageAdjuster } from "./ImageAdjuster";
 import { MediaPicker } from "../MediaPicker";
 import { RichEditor } from "../RichEditor";
 
@@ -89,11 +90,15 @@ export function ImageInput({
   value,
   onChange,
   required,
+  aspects,
 }: {
   value: ImageRef | undefined;
   onChange: (v: ImageRef | undefined) => void;
   required?: boolean;
+  /** Frame shapes on the page (width ÷ height). With these, the position tool is offered. */
+  aspects?: Array<[string, number]>;
 }) {
+  const [adjusting, setAdjusting] = useState(false);
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [alt, setAlt] = useState<string | null>(null);
@@ -138,6 +143,15 @@ export function ImageInput({
             >
               {busy ? "Loading…" : value ? "Change photo" : "Choose or upload"}
             </button>
+            {value && aspects?.length ? (
+              <button
+                type="button"
+                onClick={() => setAdjusting(true)}
+                className="border border-bronze-light px-3 py-1.5 text-sm text-bronze"
+              >
+                Adjust position and size
+              </button>
+            ) : null}
             {value ? (
               <button
                 type="button"
@@ -165,6 +179,26 @@ export function ImageInput({
           ) : null}
         </div>
       </div>
+      {value?.crop ? (
+        <p className="mt-2 text-xs text-stone">
+          Position and size set by you.{" "}
+          <button
+            type="button"
+            className="underline"
+            onClick={() => onChange({ ...value, crop: undefined })}
+          >
+            Reset
+          </button>
+        </p>
+      ) : null}
+      {adjusting && value && aspects?.length ? (
+        <ImageAdjuster
+          value={value}
+          aspects={aspects}
+          onClose={() => setAdjusting(false)}
+          onApply={(crop) => onChange({ ...value, crop })}
+        />
+      ) : null}
       {open ? (
         <MediaPicker
           onClose={() => setOpen(false)}
@@ -447,6 +481,7 @@ export function FieldList({
               >
                 <ImageInput
                   required={f.required}
+                  aspects={f.aspects?.(value)}
                   value={v as ImageRef | undefined}
                   onChange={(x) => setV(x)}
                 />

@@ -1,9 +1,5 @@
 import Image from "next/image";
-import {
-  blurProps,
-  focalToPosition,
-  type ImageRef,
-} from "@/lib/sections/types";
+import { blurProps, imageStyle, type ImageRef } from "@/lib/sections/types";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export type PageHeroProps = {
@@ -30,7 +26,7 @@ export function PageHero({ eyebrow, heading, intro, image }: PageHeroProps) {
             sizes="100vw"
             {...blurProps(image)}
             className="object-cover opacity-45"
-            style={{ objectPosition: focalToPosition(image.focal) }}
+            style={imageStyle(image)}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/60 to-transparent" />
         </>

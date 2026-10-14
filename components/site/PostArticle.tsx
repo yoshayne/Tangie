@@ -4,7 +4,7 @@ import type { PostCardData } from "@/components/ui/PostCard";
 import { PostCard } from "@/components/ui/PostCard";
 import type { PostDetail } from "@/lib/data/posts";
 import { sanitizeRich } from "@/lib/html";
-import { blurProps, focalToPosition } from "@/lib/sections/types";
+import { blurProps, imageStyle } from "@/lib/sections/types";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ShareLinks } from "./ShareLinks";
 
@@ -49,7 +49,7 @@ export function PostArticle({
                 sizes="(min-width: 1024px) 76vw, 100vw"
                 {...blurProps(post.cover)}
                 className="object-cover"
-                style={{ objectPosition: focalToPosition(post.cover.focal) }}
+                style={imageStyle(post.cover)}
               />
             </div>
           </div>

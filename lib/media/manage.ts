@@ -252,6 +252,8 @@ function replaceRefs(value: Json, row: MediaRow): Json {
         width: row.width ?? 0,
         height: row.height ?? 0,
         blur: row.blurDataUrl ?? undefined,
+        alt: row.alt,
+        focal: [row.focalX, row.focalY],
       };
     }
     return Object.fromEntries(

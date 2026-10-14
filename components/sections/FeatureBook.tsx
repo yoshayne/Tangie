@@ -2,7 +2,7 @@ import Image from "next/image";
 import { renderInline } from "@/lib/inline";
 import {
   blurProps,
-  focalToPosition,
+  imageStyle,
   type ButtonRef,
   type ImageRef,
 } from "@/lib/sections/types";
@@ -34,7 +34,7 @@ export function FeatureBook({
     <section className="grid bg-sand lg:h-[calc(var(--u)*484)] lg:grid-cols-[calc(var(--gutter-x)+var(--u)*779)_1fr]">
       <div className="relative min-h-[380px]">
         <div
-          className={`absolute inset-x-0 ${imageFit === "contain" ? "inset-y-8" : "inset-0"}`}
+          className={`absolute inset-x-0 overflow-hidden ${imageFit === "contain" ? "inset-y-8" : "inset-0"}`}
         >
           <Image
             src={image.src}
@@ -45,7 +45,7 @@ export function FeatureBook({
             className={
               imageFit === "contain" ? "object-contain" : "object-cover"
             }
-            style={{ objectPosition: focalToPosition(image.focal) }}
+            style={imageStyle(image)}
           />
         </div>
       </div>

@@ -4,7 +4,7 @@ import type { EventListData } from "@/lib/data/events";
 import { sanitizeRich } from "@/lib/html";
 import {
   blurProps,
-  focalToPosition,
+  imageStyle,
   type Background,
   type Spacing,
 } from "@/lib/sections/types";
@@ -93,9 +93,7 @@ export function EventList({
                         sizes="360px"
                         {...blurProps(e.image)}
                         className="object-cover"
-                        style={{
-                          objectPosition: focalToPosition(e.image.focal),
-                        }}
+                        style={imageStyle(e.image)}
                       />
                     </div>
                   ) : null}

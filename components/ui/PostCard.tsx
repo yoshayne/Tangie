@@ -2,11 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLink } from "./ArrowLink";
 import { QuillIcon } from "./QuillIcon";
-import {
-  blurProps,
-  focalToPosition,
-  type ImageRef,
-} from "@/lib/sections/types";
+import { blurProps, imageStyle, type ImageRef } from "@/lib/sections/types";
 
 export type PostCardData = {
   slug: string;
@@ -30,7 +26,7 @@ export function PostCard({ post }: { post: PostCardData }) {
               fill
               sizes="(min-width: 1024px) 30vw, (min-width: 768px) 33vw, 100vw"
               className="object-cover"
-              style={{ objectPosition: focalToPosition(post.image.focal) }}
+              style={imageStyle(post.image)}
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-ivory-deep">

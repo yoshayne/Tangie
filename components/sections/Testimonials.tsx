@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { TestimonialData } from "@/lib/data/testimonials";
 import {
   blurProps,
-  focalToPosition,
+  imageStyle,
   type Background,
   type Spacing,
 } from "@/lib/sections/types";
@@ -68,9 +68,7 @@ export function Testimonials({
                       sizes="48px"
                       {...blurProps(t.portrait)}
                       className="object-cover"
-                      style={{
-                        objectPosition: focalToPosition(t.portrait.focal),
-                      }}
+                      style={imageStyle(t.portrait)}
                     />
                   </span>
                 ) : null}

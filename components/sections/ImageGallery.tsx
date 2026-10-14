@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import {
   blurProps,
-  focalToPosition,
+  imageStyle,
   type Background,
   type ImageRef,
   type Spacing,
@@ -94,9 +94,7 @@ export function ImageGallery({
                     sizes="(min-width: 1024px) 33vw, 100vw"
                     {...blurProps(item.image)}
                     className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                    style={{
-                      objectPosition: focalToPosition(item.image.focal),
-                    }}
+                    style={imageStyle(item.image)}
                   />
                 )}
               </div>

@@ -24,7 +24,14 @@ export type FieldSpec =
       required?: boolean;
     })
   | (Base & { kind: "richtext"; required?: boolean })
-  | (Base & { kind: "image"; required?: boolean })
+  | (Base & {
+      kind: "image";
+      required?: boolean;
+      /** Shapes of the frame the photo sits in (width ÷ height), for the position tool. */
+      aspects?: (
+        props: Record<string, unknown>,
+      ) => Array<[label: string, ratio: number]>;
+    })
   | (Base & { kind: "buttons" })
   | (Base & { kind: "select"; options: Option[]; numeric?: boolean })
   | (Base & { kind: "bookSelect" })
@@ -141,7 +148,16 @@ export const SECTION_META: Record<string, SectionMeta> = {
         required: true,
       },
       buttons,
-      { kind: "image", name: "image", label: "Portrait", required: true },
+      {
+        kind: "image",
+        name: "image",
+        label: "Portrait",
+        required: true,
+        aspects: () => [
+          ["On a computer", 1.18],
+          ["On a phone", 0.8],
+        ],
+      },
       side("right"),
     ],
   },
@@ -183,7 +199,19 @@ export const SECTION_META: Record<string, SectionMeta> = {
         max: 500,
       },
       buttons,
-      { kind: "image", name: "image", label: "Photo", required: true },
+      {
+        kind: "image",
+        name: "image",
+        label: "Photo",
+        required: true,
+        aspects: (p) =>
+          p.imageFit === "contain"
+            ? []
+            : [
+                ["On a computer", 1.78],
+                ["On a phone", 1],
+              ],
+      },
       {
         kind: "select",
         name: "imageFit",
@@ -228,7 +256,19 @@ export const SECTION_META: Record<string, SectionMeta> = {
         hint: "Put *asterisks* around a word to make it italic.",
       },
       buttons,
-      { kind: "image", name: "image", label: "Photo", required: true },
+      {
+        kind: "image",
+        name: "image",
+        label: "Photo",
+        required: true,
+        aspects: (p) =>
+          p.imageStyle === "bleed"
+            ? [
+                ["On a computer", 2.1],
+                ["On a phone", 1.6],
+              ]
+            : [["Photo frame", 1.14]],
+      },
       side("left"),
       {
         kind: "select",
@@ -271,7 +311,15 @@ export const SECTION_META: Record<string, SectionMeta> = {
         hint: "Put *asterisks* around a word to make it italic.",
       },
       buttons,
-      { kind: "image", name: "image", label: "Photo" },
+      {
+        kind: "image",
+        name: "image",
+        label: "Photo",
+        aspects: () => [
+          ["On a computer", 2.4],
+          ["On a phone", 16 / 9],
+        ],
+      },
     ],
   },
   event_cards: {
@@ -465,7 +513,15 @@ export const SECTION_META: Record<string, SectionMeta> = {
         required: true,
       },
       { kind: "textarea", name: "intro", label: "Introduction", max: 500 },
-      { kind: "image", name: "image", label: "Background photo" },
+      {
+        kind: "image",
+        name: "image",
+        label: "Background photo",
+        aspects: () => [
+          ["On a computer", 3.2],
+          ["On a phone", 1.3],
+        ],
+      },
     ],
   },
   rich_text: {
@@ -514,7 +570,12 @@ export const SECTION_META: Record<string, SectionMeta> = {
         required: true,
       },
       { kind: "text", name: "attribution", label: "Who said it", max: 80 },
-      { kind: "image", name: "portrait", label: "Portrait (optional)" },
+      {
+        kind: "image",
+        name: "portrait",
+        label: "Portrait (optional)",
+        aspects: () => [["Round portrait", 1]],
+      },
       ...appearanceFields,
     ],
   },
@@ -592,7 +653,13 @@ export const SECTION_META: Record<string, SectionMeta> = {
         max: 40,
         titleField: "caption",
         fields: [
-          { kind: "image", name: "image", label: "Photo", required: true },
+          {
+            kind: "image",
+            name: "image",
+            label: "Photo",
+            required: true,
+            aspects: () => [["Photo frame", 4 / 3]],
+          },
           { kind: "text", name: "caption", label: "Caption", max: 140 },
         ],
       },

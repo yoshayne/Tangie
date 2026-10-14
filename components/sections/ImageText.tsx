@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 import { renderInline } from "@/lib/inline";
 import {
   blurProps,
-  focalToPosition,
+  imageStyle as photoStyle,
   type ButtonRef,
   type ImageRef,
 } from "@/lib/sections/types";
@@ -48,7 +48,7 @@ export function ImageText({
       <section className="grid bg-ivory lg:h-[calc(var(--u)*357)] lg:grid-cols-[calc(var(--gutter-x)+var(--u)*646)_1fr] lg:pt-[calc(var(--u)*9)]">
         <div
           className={cn(
-            "relative aspect-[16/10] lg:aspect-auto",
+            "relative aspect-[16/10] overflow-hidden lg:aspect-auto",
             imageRight && "lg:order-2",
           )}
         >
@@ -59,7 +59,7 @@ export function ImageText({
             fill
             sizes="(min-width: 1024px) 45vw, 100vw"
             className="object-cover"
-            style={{ objectPosition: focalToPosition(image.focal) }}
+            style={photoStyle(image)}
           />
         </div>
         <div className="flex px-4 py-12 md:px-6 lg:items-center lg:py-0 lg:pb-[calc(var(--u)*9)] lg:pl-[calc(var(--u)*76)] lg:pr-6">
@@ -85,7 +85,7 @@ export function ImageText({
             fill
             sizes="(min-width: 1024px) 31vw, 100vw"
             className="object-cover"
-            style={{ objectPosition: focalToPosition(image.focal) }}
+            style={photoStyle(image)}
           />
         </div>
         {text}

@@ -54,6 +54,13 @@ const image = z.object({
   height: z.number(),
   focal: z.tuple([z.number(), z.number()]).optional(),
   blur: z.string().optional(),
+  crop: z
+    .object({
+      x: z.number().min(0).max(1),
+      y: z.number().min(0).max(1),
+      zoom: z.number().min(1).max(4),
+    })
+    .optional(),
 });
 
 const button = z.object({

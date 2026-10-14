@@ -95,7 +95,9 @@ export async function hydrateDoc(doc: DraftDoc): Promise<DraftDoc> {
       const o = v as Record<string, unknown>;
       if (typeof o.mediaId === "string" && typeof o.src === "string") {
         const m = byId.get(o.mediaId);
-        return m ? toImageRef(m) : o;
+        if (!m) return o;
+        // Keep the position and zoom chosen for this particular use of the photo.
+        return { ...toImageRef(m), ...(o.crop ? { crop: o.crop } : {}) };
       }
       return Object.fromEntries(
         Object.entries(o).map(([k, x]) => [k, walk(x)]),
