@@ -40,7 +40,7 @@ async function SiteFooter() {
 
 export default function SiteLayout({ children }: LayoutProps<"/">) {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-bronze focus:px-4 focus:py-2 focus:text-white"
@@ -57,7 +57,9 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       >
         <SiteHeader />
       </Suspense>
-      <main id="main">{children}</main>
+      <main id="main" className="flex-1">
+        {children}
+      </main>
       <Suspense
         fallback={
           <Footer
@@ -69,6 +71,6 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       >
         <SiteFooter />
       </Suspense>
-    </>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Newsreader } from "next/font/google";
+import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 // Display serif: the mockup's headline face is closest to Newsreader (CLAUDE.md §2).
@@ -19,6 +20,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: "Tangie Brickhouse-Beaty",
   description:
     "Author, playwright, director, and producer whose work spans books, stage, and screen.",

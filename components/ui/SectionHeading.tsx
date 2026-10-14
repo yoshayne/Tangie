@@ -7,7 +7,7 @@ type Props = {
   heading: string;
   italic?: boolean;
   /** "h2" is the standard section size; "feature" and "compact" match the mockup's larger and smaller headings. */
-  size?: "h2" | "feature" | "compact";
+  size?: "h2" | "feature" | "compact" | "page";
   onDark?: boolean;
   level?: 1 | 2;
   className?: string;
@@ -17,6 +17,7 @@ const SIZE: Record<NonNullable<Props["size"]>, string> = {
   h2: "text-h2",
   feature: "text-h2-feat",
   compact: "text-h2-news",
+  page: "text-page-h1",
 };
 
 export function SectionHeading({

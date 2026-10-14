@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { connection } from "next/server";
+import { PageUnavailable } from "@/components/site/PageUnavailable";
 import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { getPage } from "@/lib/data/pages";
 
@@ -11,12 +12,17 @@ function slugKey(slug?: string[]) {
   return (slug ?? []).join("/");
 }
 
+// Template stacks (`_template/...`) are editable in the admin but are not public pages.
+const isTemplate = (key: string) => key.startsWith("_template");
+
 export async function generateMetadata({
   params,
 }: PageProps<"/[[...slug]]">): Promise<Metadata> {
   await connection();
   const { slug } = await params;
-  const page = await getPage(slugKey(slug)).catch(() => null);
+  const key = slugKey(slug);
+  if (isTemplate(key)) return {};
+  const page = await getPage(key).catch(() => null);
   if (!page) return {};
   const isHome = page.slug === "";
   return {
@@ -28,6 +34,7 @@ export async function generateMetadata({
         }
       : (page.seoTitle ?? `${page.title} | ${SITE_NAME}`),
     description: page.seoDescription ?? undefined,
+    alternates: { canonical: key ? `/${key}` : "/" },
   };
 }
 
@@ -35,35 +42,40 @@ export async function generateMetadata({
 // cached. The slug is awaited inside Suspense, as Cache Components requires.
 async function PageSections({
   params,
-}: {
-  params: PageProps<"/[[...slug]]">["params"];
-}) {
+  searchParams,
+}: Pick<PageProps<"/[[...slug]]">, "params" | "searchParams">) {
   await connection();
   const { slug } = await params;
+  const key = slugKey(slug);
+  if (isTemplate(key)) notFound();
+
   let page;
   try {
-    page = await getPage(slugKey(slug));
+    page = await getPage(key);
   } catch (e) {
     console.error("Could not load page from the database:", e);
-    return (
-      <div className="mx-auto max-w-[640px] px-6 py-32 text-center">
-        <h1 className="font-display text-h2 text-heading">
-          We&apos;re getting things ready
-        </h1>
-        <p className="mt-4 text-body text-copy">
-          This page isn&apos;t available just yet. Please try again in a minute.
-        </p>
-      </div>
-    );
+    return <PageUnavailable />;
   }
   if (!page) notFound();
-  return <SectionRenderer sections={page.sections} />;
+
+  return (
+    <SectionRenderer
+      sections={page.sections}
+      context={{
+        pathname: key ? `/${key}` : "/",
+        searchParams: await searchParams,
+      }}
+    />
+  );
 }
 
-export default function Page({ params }: PageProps<"/[[...slug]]">) {
+export default function Page({
+  params,
+  searchParams,
+}: PageProps<"/[[...slug]]">) {
   return (
     <Suspense fallback={<div className="min-h-[70vh]" aria-hidden />}>
-      <PageSections params={params} />
+      <PageSections params={params} searchParams={searchParams} />
     </Suspense>
   );
 }

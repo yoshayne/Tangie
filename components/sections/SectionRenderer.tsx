@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
-import { isSectionType, registry } from "@/lib/sections/registry";
+import {
+  isSectionType,
+  registry,
+  type SectionContext,
+} from "@/lib/sections/registry";
 
 export type RenderableSection = {
   id: string;
@@ -24,9 +28,11 @@ function Notice({ children }: { children: ReactNode }) {
 export async function SectionRenderer({
   sections,
   preview = false,
+  context = { pathname: "/", searchParams: {} },
 }: {
   sections: RenderableSection[];
   preview?: boolean;
+  context?: SectionContext;
 }) {
   const out: ReactNode[] = [];
 
@@ -52,7 +58,7 @@ export async function SectionRenderer({
           error?: { message: string };
         };
       };
-      load?: (p: unknown) => Promise<unknown>;
+      load?: (p: unknown, ctx: SectionContext) => Promise<unknown>;
       render: (p: unknown, extra: unknown) => ReactNode;
     };
     const parsed = entry.schema.safeParse(section.props);
@@ -73,7 +79,7 @@ export async function SectionRenderer({
 
     let extra: unknown;
     try {
-      extra = entry.load ? await entry.load(parsed.data) : undefined;
+      extra = entry.load ? await entry.load(parsed.data, context) : undefined;
     } catch (e) {
       // One section's data failing (for example the events query) must not take down the page.
       console.error(

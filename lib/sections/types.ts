@@ -19,6 +19,7 @@ export type ButtonRef = {
 };
 
 export type Background = "ivory" | "ivory-deep" | "sand" | "white" | "ink";
+export type Spacing = "compact" | "normal" | "spacious";
 
 export function focalToPosition(focal?: [number, number]): string {
   const [x, y] = focal ?? [0.5, 0.5];

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --ivory: #f7f4ee;
@@ -75,6 +76,18 @@
   --text-link: max(10.5px, calc(var(--u) * 12.5));
   --text-link--line-height: 1;
   --text-small: max(11px, calc(var(--u) * 13));
+
+  /* Inner pages (no mockup exists for these; sized to sit with the homepage scale). */
+  --text-page-h1: max(38px, calc(var(--u) * 62));
+  --text-page-h1--line-height: 1.05;
+  --text-lead: max(17px, calc(var(--u) * 24));
+  --text-lead--line-height: 1.5;
+  --text-h3: max(22px, calc(var(--u) * 32));
+  --text-h3--line-height: 1.15;
+  --text-quote: max(25px, calc(var(--u) * 42));
+  --text-quote--line-height: 1.25;
+  --text-stat: max(44px, calc(var(--u) * 76));
+  --text-stat--line-height: 1;
 }
 
 html {
@@ -102,4 +115,51 @@ body {
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* Article / rich text styling (journal posts, rich_text sections, legal pages). */
+.prose-site {
+  --tw-prose-body: var(--copy);
+  --tw-prose-headings: var(--heading);
+  --tw-prose-lead: var(--copy);
+  --tw-prose-links: var(--bronze);
+  --tw-prose-bold: var(--heading);
+  --tw-prose-counters: var(--bronze);
+  --tw-prose-bullets: var(--bronze-light);
+  --tw-prose-hr: var(--line);
+  --tw-prose-quotes: var(--heading);
+  --tw-prose-quote-borders: var(--bronze-light);
+  --tw-prose-captions: var(--stone);
+  font-size: max(16px, calc(var(--u) * 21));
+  line-height: 1.65;
+  max-width: none;
+}
+.prose-site :where(h2, h3, h4) {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-weight: 400;
+  line-height: 1.15;
+}
+.prose-site :where(h2) {
+  font-size: 1.7em;
+  margin-top: 1.9em;
+  margin-bottom: 0.6em;
+}
+.prose-site :where(h3) {
+  font-size: 1.35em;
+}
+.prose-site :where(blockquote) {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.2em;
+  quotes: none;
+  border-inline-start-width: 2px;
+}
+.prose-site :where(blockquote p:first-of-type)::before,
+.prose-site :where(blockquote p:last-of-type)::after {
+  content: none;
+}
+.prose-site :where(a) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }

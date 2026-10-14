@@ -21,6 +21,7 @@ import {
   SOCIAL_LINKS,
 } from "@/lib/site-data";
 import * as content from "./seed-content";
+import { buildInnerPages, type PageSeed } from "./seed-pages";
 
 type ManifestEntry = {
   slot: string | null;
@@ -404,6 +405,83 @@ async function seedHome(media: Map<string, MediaRow>) {
   console.log(`home page created with ${stack.length} sections`);
 }
 
+const kb = (n: number) => `${Math.max(1, Math.round(n / 1024))} KB`;
+
+async function createPageIfMissing(def: PageSeed & { isSystem?: boolean }) {
+  const [existing] = await db
+    .select()
+    .from(schema.pages)
+    .where(eq(schema.pages.slug, def.slug))
+    .limit(1);
+  if (existing) return false;
+  const [page] = await db
+    .insert(schema.pages)
+    .values({
+      slug: def.slug,
+      title: def.title,
+      seoDescription: def.seoDescription,
+      template: def.template ?? "standard",
+      status: "published",
+      isSystem: true,
+      publishedAt: new Date(),
+    })
+    .returning();
+  for (const [i, sec] of def.stack.entries()) {
+    const [row] = await db
+      .insert(schema.sections)
+      .values({
+        pageId: page.id,
+        type: sec.type,
+        props: sec.props,
+        sortOrder: i + 1,
+        anchorId: sec.anchorId,
+        hidden: sec.hidden ?? false,
+      })
+      .returning();
+    await setMediaUsage(db, "section", row.id, findMediaRefs(sec.props));
+  }
+  console.log(`page /${def.slug} created with ${def.stack.length} sections`);
+  return true;
+}
+
+async function seedInnerPages(media: Map<string, MediaRow>) {
+  const img = (
+    slot: string,
+    over?: { alt?: string; focal?: [number, number] },
+  ) => {
+    const m = media.get(slot);
+    if (!m) throw new Error(`Missing media for ${slot}`);
+    const base = slotInfo.get(slot);
+    return toImageRef(m, {
+      alt: over?.alt ?? base?.alt,
+      focal: over?.focal ?? base?.focal,
+    });
+  };
+  const logo = media.get("press.logo-white");
+  const cover = media.get("book.justified-lies.cover");
+  const pages = buildInnerPages(img, {
+    logoUrl: logo?.url,
+    logoSize: logo ? kb(logo.sizeBytes) : undefined,
+    coverUrl: cover?.url,
+    coverSize: cover ? kb(cover.sizeBytes) : undefined,
+  });
+  for (const p of pages) await createPageIfMissing(p);
+}
+
+async function seedCredits() {
+  const [{ n }] = await db.select({ n: count() }).from(schema.credits);
+  if (n > 0) return;
+  // TODO(client): the full credits list, roles, years and the Tubi / Peacock links.
+  await db.insert(schema.credits).values({
+    title: "Secrets in Plain Sight",
+    category: "film_tv",
+    description:
+      "Hit TV series created with her team, streaming on Tubi and Peacock.",
+    featured: true,
+    sortOrder: 1,
+  });
+}
+
 async function main() {
   if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
   console.log(`Storage: ${storageDriverName()}`);
@@ -415,6 +493,8 @@ async function main() {
   await seedSettings();
   await seedNav();
   await seedHome(media);
+  await seedCredits();
+  await seedInnerPages(media);
   console.log("Seed complete.");
   process.exit(0);
 }
