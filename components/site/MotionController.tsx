@@ -7,8 +7,21 @@ import { useEffect } from "react";
  * (the styles are in globals.css). Also picks up sections that appear after navigating to a
  * new page.
  */
-export function MotionController() {
+export function MotionController({
+  enabled = true,
+  level = "bold",
+}: {
+  enabled?: boolean;
+  level?: "gentle" | "bold";
+}) {
   useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.motionLevel = level;
+    // Switched off in Site Settings: drop the class so nothing animates or stays hidden.
+    if (!enabled) {
+      root.classList.remove("motion");
+      return;
+    }
     if (!("IntersectionObserver" in window)) {
       document
         .querySelectorAll("[data-motion]")
@@ -46,6 +59,6 @@ export function MotionController() {
       io.disconnect();
       mo.disconnect();
     };
-  }, []);
+  }, [enabled, level]);
   return null;
 }

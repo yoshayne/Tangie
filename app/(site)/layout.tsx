@@ -28,10 +28,6 @@ async function SiteHeader() {
   const a = chrome.announcement;
   return (
     <>
-      {chrome.motion ? null : (
-        // Scroll animations are switched off in Site Settings.
-        <style>{`.motion [data-motion]{opacity:1!important;transform:none!important;animation:none!important}`}</style>
-      )}
       {a ? (
         <div className="bg-ink px-4 py-2 text-center text-[13px] text-ivory">
           {a.link ? (
@@ -44,6 +40,22 @@ async function SiteHeader() {
         </div>
       ) : null}
       <Header items={chrome.headerNav} cta={chrome.headerCta} />
+    </>
+  );
+}
+
+// Scroll animation settings (on/off and Gentle/Bold) come from Site Settings.
+async function SiteMotion() {
+  const chrome = await loadChrome();
+  return (
+    <>
+      {chrome.motion.enabled ? null : (
+        <style>{`.motion [data-motion]{opacity:1!important;scale:none!important;animation:none!important}`}</style>
+      )}
+      <MotionController
+        enabled={chrome.motion.enabled}
+        level={chrome.motion.level}
+      />
     </>
   );
 }
@@ -83,7 +95,9 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
       </ViewTransition>
-      <MotionController />
+      <Suspense fallback={<MotionController />}>
+        <SiteMotion />
+      </Suspense>
       <Suspense
         fallback={
           <Footer

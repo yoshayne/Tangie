@@ -75,7 +75,7 @@ Adding a new section type: add its component, a zod schema + entry in `lib/secti
 
 ## Motion (mobile and desktop)
 
-- **Scroll reveal:** sections fade up as they scroll into view (`components/site/MotionController.tsx`, styles in `app/globals.css`). The first block on a page and hero/title sections stay still so the page paints instantly. Each section has an **Animation** option in the page builder (Standard / Fade up / Fade in / None), and Site Settings → Motion switches it all off.
+- **Scroll reveal (Bold, the default):** each section scales and fades in, its text rises one piece after another (label, heading, paragraph, buttons), photos wipe in from the bottom and then drift slowly against the scroll. Site Settings → Motion offers **Gentle** (a soft fade up) or off. Sections fade up as they scroll into view (`components/site/MotionController.tsx`, styles in `app/globals.css`). The first block on a page and hero/title sections stay still so the page paints instantly. Each section has an **Animation** option in the page builder (Standard / Fade up / Fade in / None), and Site Settings → Motion switches it all off.
 - It is switched on by a tiny script in `<head>` only for visitors who have not asked for reduced motion; if scripts fail, content un-hides itself after 2.5 s, and with JavaScript off nothing is hidden at all.
 - **Header (phones):** slides away when scrolling down, returns on scroll up or keyboard focus, with a thin bronze reading-progress line.
 - **Swipeable rows (phones):** upcoming-event cards and journal cards become snap-scrolling rows; from tablet width up they are the normal grid.

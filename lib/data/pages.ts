@@ -89,7 +89,7 @@ export type SiteChrome = {
   affiliates: NavItem[];
   announcement: { text: string; link: string } | null;
   /** False when scroll animations are switched off in Site Settings. */
-  motion: boolean;
+  motion: { enabled: boolean; level: "gentle" | "bold" };
 };
 
 /** Header/footer data: navigation from `nav_items`, links from `site_settings`. */
@@ -126,8 +126,16 @@ export async function getSiteChrome(): Promise<SiteChrome> {
       .map((n) => ({ label: n.label, href: n.href })),
     social: setting<SocialLink[]>("social", []),
     affiliates: setting<NavItem[]>("affiliates", []),
-    motion:
-      setting<{ enabled?: boolean } | null>("motion", null)?.enabled !== false,
+    motion: (() => {
+      const m = setting<{ enabled?: boolean; level?: string } | null>(
+        "motion",
+        null,
+      );
+      return {
+        enabled: m?.enabled !== false,
+        level: m?.level === "gentle" ? ("gentle" as const) : ("bold" as const),
+      };
+    })(),
     announcement: (() => {
       const a = setting<{ on?: boolean; text?: string; link?: string } | null>(
         "announcement",

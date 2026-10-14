@@ -186,20 +186,71 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
-   Motion. Sections fade up as they scroll into view. Only active when the small script in the
-   page <head> has added `.motion` (not for people who asked their device to reduce motion), and
-   it always un-hides after 2.5s even if scripts fail, so content can never stay invisible.
+   Motion. Only active when the small script in the page <head> has added `.motion` (not for
+   people who asked their device to reduce motion). Content can never stay invisible: the wrapper
+   un-hides itself after 2.5s even if scripts fail, and nothing is hidden without JavaScript.
+
+   Bold (default): a section scales and fades in, its text rises in a staggered sequence,
+   photos wipe upward and drift against the scroll. Gentle: just a soft fade up.
    --------------------------------------------------------------------------- */
+:root {
+  --m-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --m-dur: 1s;
+  --m-dist: 56px;
+  --m-step: 120ms;
+  --m-scale: 0.94;
+}
+
+html[data-motion-level="gentle"] {
+  --m-dur: 0.7s;
+  --m-dist: 24px;
+  --m-scale: 1;
+}
+
 @keyframes motion-failsafe {
   to {
     opacity: 1;
     transform: none;
+    scale: none;
+  }
+}
+
+@keyframes m-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--m-dist));
+  }
+}
+
+@keyframes m-wipe {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes m-settle {
+  from {
+    scale: 1.18;
+  }
+}
+
+@keyframes m-drift {
+  from {
+    translate: 0 -6%;
+    scale: 1.12;
+  }
+  to {
+    translate: 0 6%;
+    scale: 1.12;
   }
 }
 
 .motion [data-motion="fade-up"]:not(.is-in) {
   opacity: 0;
-  transform: translateY(28px);
+  scale: var(--m-scale);
   animation: motion-failsafe 0s 2.5s forwards;
 }
 
@@ -210,14 +261,91 @@ body {
 
 .motion [data-motion].is-in {
   transition:
-    opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+    opacity var(--m-dur) var(--m-ease),
+    scale var(--m-dur) var(--m-ease);
+}
+
+/* Text rises one piece after another (label, heading, paragraph, buttons). */
+.motion
+  [data-motion="fade-up"].is-in
+  :is(h1, h2, h3, p, blockquote, figure, form, ul, ol, .flex-wrap):not(
+    :is(blockquote, figure, form, ul, ol, .flex-wrap, .snap-x, summary, dialog)
+      *
+  ) {
+  animation: m-rise var(--m-dur) var(--m-ease) both;
+  animation-delay: calc(60ms + var(--n, 0) * var(--m-step));
+}
+.motion
+  [data-motion="fade-up"].is-in
+  :is(h1, h2, h3, p, blockquote, figure, form, ul, ol, .flex-wrap):nth-child(
+    2
+  ) {
+  --n: 1;
+}
+.motion
+  [data-motion="fade-up"].is-in
+  :is(h1, h2, h3, p, blockquote, figure, form, ul, ol, .flex-wrap):nth-child(
+    3
+  ) {
+  --n: 2;
+}
+.motion
+  [data-motion="fade-up"].is-in
+  :is(h1, h2, h3, p, blockquote, figure, form, ul, ol, .flex-wrap):nth-child(
+    4
+  ) {
+  --n: 3;
+}
+.motion
+  [data-motion="fade-up"].is-in
+  :is(h1, h2, h3, p, blockquote, figure, form, ul, ol, .flex-wrap):nth-child(
+    5
+  ) {
+  --n: 4;
+}
+.motion
+  [data-motion="fade-up"].is-in
+  :is(h1, h2, h3, p, blockquote, figure, form, ul, ol, .flex-wrap):nth-child(
+    n + 6
+  ) {
+  --n: 5;
+}
+
+html[data-motion-level="gentle"] .motion [data-motion].is-in * {
+  animation: none !important;
+}
+
+/* Photos: wipe in from the bottom, then drift slowly against the scroll where the browser
+   supports scroll-linked animation (otherwise they settle from slightly zoomed in). */
+.motion [data-motion="fade-up"].is-in div:has(> img[data-nimg]) {
+  animation: m-wipe 1.2s var(--m-ease) both;
+}
+
+@supports (animation-timeline: view()) {
+  .motion [data-motion] img[data-nimg="fill"]:not(.group img) {
+    animation: m-drift linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+}
+
+@supports not (animation-timeline: view()) {
+  .motion [data-motion="fade-up"].is-in div:has(> img[data-nimg]) img {
+    animation: m-settle 1.6s var(--m-ease) both;
+  }
+}
+
+html[data-motion-level="gentle"] .motion [data-motion] img[data-nimg="fill"] {
+  animation: none !important;
 }
 
 @media print {
   .motion [data-motion] {
     opacity: 1 !important;
-    transform: none !important;
+    scale: none !important;
+  }
+  .motion [data-motion] * {
+    clip-path: none !important;
     animation: none !important;
   }
 }

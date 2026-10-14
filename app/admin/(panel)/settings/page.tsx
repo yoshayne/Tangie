@@ -17,6 +17,10 @@ export default async function SettingsAdmin() {
     affiliates: get("affiliates", []),
     categories: get<string[]>("journal_categories", []).join("\n"),
     motionOn: get<{ enabled?: boolean }>("motion", {}).enabled !== false,
+    motionLevel:
+      get<{ level?: string }>("motion", {}).level === "gentle"
+        ? "gentle"
+        : "bold",
     announcementOn: ann.on,
     announcementText: ann.text,
     announcementLink: ann.link,

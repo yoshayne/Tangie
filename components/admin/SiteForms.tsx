@@ -4,7 +4,13 @@ import { saveNavigation, saveSettings } from "@/app/admin/actions-site";
 import { ActionForm } from "./ActionForm";
 import { ImageField } from "./ImageField";
 import type { PickedMedia } from "./MediaPicker";
-import { RepeaterField, TextAreaField, TextField, ToggleField } from "./fields";
+import {
+  RepeaterField,
+  SelectField,
+  TextAreaField,
+  TextField,
+  ToggleField,
+} from "./fields";
 
 export function NavigationForm({
   defaults,
@@ -99,6 +105,15 @@ export function SettingsForm({
           name="motionOn"
           label="Animate sections as visitors scroll"
           hint="Sections fade up gently as they come into view. Visitors who have “reduce motion” turned on in their device settings never see animation. You can also set it for a single section in the page builder."
+        />
+        <SelectField
+          name="motionLevel"
+          label="Animation style"
+          hint="Bold: sections scale in, text rises one piece at a time, photos wipe in and drift as you scroll. Gentle: a soft fade up."
+          options={[
+            ["bold", "Bold"],
+            ["gentle", "Gentle"],
+          ]}
         />
       </section>
       <section className="space-y-4">

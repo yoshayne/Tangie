@@ -69,5 +69,5 @@ export const DEFAULT_CHROME = {
   social: SOCIAL_LINKS as SocialLink[],
   affiliates: AFFILIATES,
   announcement: null as { text: string; link: string } | null,
-  motion: true,
+  motion: { enabled: true, level: "bold" as "gentle" | "bold" },
 };
