@@ -1,0 +1,205 @@
+{
+  "generated": "2026-10-14T09:56:20.306Z",
+  "note": "Priority per slot: 'file' (mockup/) if set, else 'fallback' (wix/), else skip and log TODO(client).",
+  "images": [
+    {
+      "slot": "home.hero.image",
+      "file": null,
+      "fallback": "wix/790a13_99bf0b919afc4ea59b0044d468fc4d5d.jpeg",
+      "alt": "Tangie Brickhouse-Beaty portrait",
+      "focal": [
+        0.5,
+        0.2
+      ],
+      "width": 800,
+      "height": 867,
+      "bytes": 110381,
+      "sha256": "5ddd0e05bea739ca5f94af26c2e237bb449af02feed11c2c8d8e293f6416e043",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_99bf0b919afc4ea59b0044d468fc4d5d~mv2.jpeg",
+      "note": "IMG_0171, only 800x867: low-res for a full-bleed hero; replace with mockup/ original"
+    },
+    {
+      "slot": "book.justified-lies.cover",
+      "file": null,
+      "fallback": "wix/790a13_acf9544c14b349ca81ebd9030249d43f.jpeg",
+      "alt": "Justified Lies book cover by Tangie Brickhouse Beaty",
+      "focal": [
+        0.5,
+        0.5
+      ],
+      "width": 1728,
+      "height": 2592,
+      "bytes": 564278,
+      "sha256": "8af0b65895a5aa7a89a5fb914196cea6a7d460ff492782f1e87ffad286953731",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_acf9544c14b349ca81ebd9030249d43f~mv2.jpeg",
+      "note": "poster; also used for both past events and the featured-book fallback"
+    },
+    {
+      "slot": "home.meet.image",
+      "file": null,
+      "fallback": "wix/790a13_87286e09ced04f729c098b9775ede62f.jpeg",
+      "alt": "Tangie Brickhouse-Beaty smiling",
+      "focal": [
+        0.5,
+        0.3
+      ],
+      "width": 1404,
+      "height": 936,
+      "bytes": 86352,
+      "sha256": "6b313c8fac2d8dfeda249c6dba690c2eb25aa7118c0a811edb9de073e7790e84",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_87286e09ced04f729c098b9775ede62f~mv2.jpg"
+    },
+    {
+      "slot": "home.speaking.image",
+      "file": null,
+      "fallback": "wix/790a13_f260de8e95574041849e604976da58c0.jpeg",
+      "alt": "Tangie Brickhouse-Beaty speaking",
+      "focal": [
+        0.5,
+        0.3
+      ],
+      "width": 704,
+      "height": 1472,
+      "bytes": 156208,
+      "sha256": "74b49f29548341995ddd9fb74ed2d6feca44ad11010d12208aaeff910fd80be2",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_f260de8e95574041849e604976da58c0~mv2.jpeg",
+      "note": "IMG_0179"
+    },
+    {
+      "slot": "post.your-time-your-truth.cover",
+      "file": null,
+      "fallback": "wix/790a13_11bf9785b14b442e959b2e288ed2f2a9.jpeg",
+      "alt": "Cover image for Your Time, Your Truth",
+      "focal": [
+        0.5,
+        0.5
+      ],
+      "width": 1024,
+      "height": 768,
+      "bytes": 207159,
+      "sha256": "a038b8972d96c4f29a40181242f81207e7dd43c65912a9692cd1c6b9777dc26c",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_11bf9785b14b442e959b2e288ed2f2a9~mv2.jpg"
+    },
+    {
+      "slot": null,
+      "file": null,
+      "fallback": "wix/790a13_b6a64feccf0f4157a731c7585a9559dd.png",
+      "alt": "",
+      "focal": [
+        0.5,
+        0.5
+      ],
+      "width": 500,
+      "height": 125,
+      "bytes": 16252,
+      "sha256": "1ced2e6d72501cc9ccaccd7fea9774cefa03e4b00caf6005284e12a0e739205f",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_b6a64feccf0f4157a731c7585a9559dd~mv2.png",
+      "note": "labelled share image on Wix but is really a 500x125 red/black wordmark; too small for link previews, backup only"
+    },
+    {
+      "slot": "press.logo-white",
+      "file": null,
+      "fallback": "wix/790a13_5781dd0a26324b30b05b7407b834b52c.png",
+      "alt": "Tangie Brickhouse-Beaty logo (white)",
+      "focal": [
+        0.5,
+        0.5
+      ],
+      "width": 6250,
+      "height": 4044,
+      "bytes": 528246,
+      "sha256": "15837b179dde74021e81d5ee405f59578307eafd8a0a4ed0aa206bb02c3a2324",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_5781dd0a26324b30b05b7407b834b52c~mv2.png",
+      "note": "6250x4044 transparent PNG, gold quill + white lettering; press kit only"
+    },
+    {
+      "slot": "video.launch.poster",
+      "file": null,
+      "fallback": "wix/790a13_19098ccfb0254bd5bd8ed2c026ea15cef000.jpeg",
+      "alt": "Justified Lies launch video still",
+      "focal": [
+        0.5,
+        0.5
+      ],
+      "width": 1080,
+      "height": 1920,
+      "bytes": 228638,
+      "sha256": "1d5e95b99e16d67d680a5711ec29c921b2f379e9c262cbf44fae80d30b2bfe22",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_19098ccfb0254bd5bd8ed2c026ea15cef000.jpg",
+      "note": "ask client for the original video file"
+    },
+    {
+      "slot": "contact.image",
+      "file": null,
+      "fallback": "wix/790a13_4fcbbd342d5740a0bc65fa0dfb3236bf.png",
+      "alt": "Contact page image",
+      "focal": [
+        0.5,
+        0.3
+      ],
+      "width": 1640,
+      "height": 2360,
+      "bytes": 5187371,
+      "sha256": "be17190e56d0834961de72cf5f87bab2ef63e102d1c5c9f483127619be7ae623",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_4fcbbd342d5740a0bc65fa0dfb3236bf~mv2.png",
+      "note": "woman in green blazer; confirm with client this is an approved photo"
+    },
+    {
+      "slot": null,
+      "file": null,
+      "fallback": "wix/790a13_464e829c7a62485fb2855fd1a60f0739.png",
+      "alt": "",
+      "focal": [
+        0.5,
+        0.5
+      ],
+      "width": 500,
+      "height": 500,
+      "bytes": 34010,
+      "sha256": "8fabdc81599421cc302e6ba72ed0df619117455a215d52b402d4ae815e73c3f0",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_464e829c7a62485fb2855fd1a60f0739~mv2.png",
+      "note": "gold quill icon on transparent background"
+    },
+    {
+      "slot": null,
+      "file": null,
+      "fallback": "wix/790a13_c983acfbeb1844119e4ad639a7968c30.png",
+      "alt": "",
+      "focal": [
+        0.5,
+        0.5
+      ],
+      "width": 500,
+      "height": 500,
+      "bytes": 21461,
+      "sha256": "ffb31e5d9b0f48a2f1e47defc4d93171bcd83aee985998e551a2a0e2c8529ff5",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_c983acfbeb1844119e4ad639a7968c30~mv2.png",
+      "note": "quick-facts badge; check what it is"
+    },
+    {
+      "slot": null,
+      "file": null,
+      "fallback": "wix/790a13_c905af5ddd6c4444aca5b2fd943d2555.png",
+      "alt": "",
+      "focal": [
+        0.5,
+        0.5
+      ],
+      "width": 500,
+      "height": 125,
+      "bytes": 35054,
+      "sha256": "f31bf08762267df6d596e81f2c8caff1644024c5697c3fa1249e0e9ac26e9911",
+      "legacy_url": "https://static.wixstatic.com/media/790a13_c905af5ddd6c4444aca5b2fd943d2555~mv2.png",
+      "note": "'Hey, I'm Tangie' text graphic; backup only, not used in the new design"
+    }
+  ],
+  "missing": [
+    "TODO(client): missing image for site.share-image (1200x630 social share image; Wix file is too small)",
+    "TODO(client): missing image for home.featured-book.image (book on marble surface)",
+    "TODO(client): missing image for home.dark-feature.image (stage photo)",
+    "TODO(client): missing image for home.newsletter.image (books and plant)",
+    "TODO(client): missing image for post.praise-god-for-closed-doors.cover (Wix stock, not licensed for reuse)",
+    "TODO(client): missing image for post.the-real-battle.cover (Wix stock, not licensed for reuse)",
+    "TODO(client): missing image for unused.woman-using-laptop (Wix stock, not licensed for reuse)"
+  ]
+}
