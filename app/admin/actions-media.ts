@@ -81,3 +81,20 @@ export async function deleteMedia(
   const res = await deleteMediaItem(id);
   return res.ok ? { ok: true } : { ok: false, error: res.error };
 }
+
+/** Changes only the description (alt text) of a photo and refreshes every place that shows it. */
+export async function setMediaAlt(
+  id: string,
+  alt: string,
+): Promise<{ ok: boolean; error?: string }> {
+  await requireAdminAction();
+  const [row] = await getDb()
+    .update(schema.media)
+    .set({ alt: alt.trim().slice(0, 300), updatedAt: new Date() })
+    .where(eq(schema.media.id, id))
+    .returning();
+  if (!row) return { ok: false, error: "That file no longer exists." };
+  await refreshReferences(row);
+  invalidate(await tagsForMedia(id));
+  return { ok: true };
+}

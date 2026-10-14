@@ -50,3 +50,16 @@ To turn it on:
 3. Redeploy. The first start creates the admin account; sign in at `/admin/login`.
 
 What is in it: Dashboard, Books, Events, Journal (rich-text editor with photos), Film & Theater credits, Speaking topics, Testimonials, Inquiries inbox, Subscribers (CSV download), Media Library (upload, alt text, focal point, replace, safe delete), Navigation and Site Settings (social links, partner links, journal categories, announcement bar).
+
+### Page builder (Admin → Pages)
+
+Every page, including the homepage, is a stack of sections. In **Admin → Pages**, pick a page and **Edit**:
+
+- Left: the page's sections (drag to reorder, or use the arrows; eye = hide; duplicate; delete). Click a section to edit its fields. **+ Add section** opens the picker (28 section types, plus your own saved blocks). **Page settings** holds the title, web address, search text, share photo and "Show in the header menu".
+- Right: a live preview (desktop / tablet / phone). Click a section in the preview to select it on the left. On a phone the two sides become Edit / Preview tabs.
+- Changes save automatically as a **draft** (nothing changes on the live site). **Publish** checks the page (descriptions on photos, links, required fields), then puts it live and remembers the version in **History**, where any of the last 25 versions can be restored into the draft. **Discard changes** throws the draft away; **Undo/Redo** cover edits made in this session.
+- New pages start with a title section; they are not visible on the website until published.
+
+How drafts are stored: `pages.draft` (JSON) holds the unpublished copy of the whole page (sections, order, hidden flags, settings). `sections.draft_props`, `is_draft_new` and `is_draft_deleted` exist from the first schema but are not used; ordering and hiding are page-level drafts, so one column covers everything.
+
+Adding a new section type: add its component, a zod schema + entry in `lib/sections/registry.tsx`, and its editor fields in `lib/sections/meta.ts`. `npm run check:sections` (runs before every build) fails if the two lists differ.

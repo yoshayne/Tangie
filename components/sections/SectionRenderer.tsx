@@ -69,9 +69,12 @@ export async function SectionRenderer({
       );
       if (preview) {
         out.push(
-          <Notice key={section.id}>
-            {section.type} has invalid content: {parsed.error?.message}
-          </Notice>,
+          <div key={section.id} data-section-id={section.id}>
+            <Notice>
+              {section.type} is not complete yet. Open it on the left and fill
+              in the missing details.
+            </Notice>
+          </div>,
         );
       }
       continue;
@@ -95,6 +98,21 @@ export async function SectionRenderer({
       continue;
     }
     const node = entry.render(parsed.data, extra);
+    if (preview) {
+      // The builder's preview marks each section so a click can select it in the editor.
+      out.push(
+        <div key={section.id} data-section-id={section.id}>
+          {section.anchorId ? (
+            <div id={section.anchorId} className="scroll-mt-24">
+              {node}
+            </div>
+          ) : (
+            node
+          )}
+        </div>,
+      );
+      continue;
+    }
     out.push(
       section.anchorId ? (
         <div key={section.id} id={section.anchorId} className="scroll-mt-24">

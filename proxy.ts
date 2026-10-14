@@ -38,6 +38,9 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // The builder's preview pages check the admin session and a signed link themselves.
+  if (path.startsWith("/preview/")) return NextResponse.next();
+
   const snap = await getRoutingSnapshot().catch(() => null);
   if (!snap) return NextResponse.next(); // database unavailable: never block the site
 

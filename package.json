@@ -16,15 +16,19 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrate.ts",
     "seed": "tsx scripts/seed.ts",
-    "prebuild": "tsx scripts/check-no-wix.ts",
+    "prebuild": "tsx scripts/check-no-wix.ts && tsx scripts/check-sections.ts",
     "check:wix": "tsx scripts/check-no-wix.ts",
     "check:wix:prod": "tsx scripts/check-no-wix.ts --require-db",
-    "hash-password": "tsx scripts/hash-password.ts"
+    "hash-password": "tsx scripts/hash-password.ts",
+    "check:sections": "tsx scripts/check-sections.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1151.0",
     "@aws-sdk/lib-storage": "3.1151.0",
     "@aws-sdk/s3-request-presigner": "3.1151.0",
+    "@dnd-kit/core": "6.3.1",
+    "@dnd-kit/sortable": "10.0.0",
+    "@dnd-kit/utilities": "3.2.2",
     "@getbrevo/brevo": "6.1.0",
     "@marsidev/react-turnstile": "1.6.2",
     "@tailwindcss/typography": "0.5.20",

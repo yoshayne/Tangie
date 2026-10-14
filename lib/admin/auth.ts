@@ -116,3 +116,31 @@ export async function verifyLogin(
   const ok = await compare(password, row?.passwordHash ?? (await dummyHash()));
   return ok && row ? { id: row.id, email: row.email } : null;
 }
+
+// ---------------------------------------------------------------------------
+// Preview tokens: short-lived links that let the editor's iframe show an unpublished page.
+// ---------------------------------------------------------------------------
+export async function createPreviewToken(pageId: string): Promise<string> {
+  return new SignJWT({ pageId })
+    .setProtectedHeader({ alg: "HS256" })
+    .setAudience("preview")
+    .setIssuedAt()
+    .setExpirationTime("4h")
+    .sign(secret());
+}
+
+export async function verifyPreviewToken(
+  token: string | undefined,
+  pageId: string,
+): Promise<boolean> {
+  if (!token || !adminEnabled()) return false;
+  try {
+    const { payload } = await jwtVerify(token, secret(), {
+      algorithms: ["HS256"],
+      audience: "preview",
+    });
+    return payload.pageId === pageId;
+  } catch {
+    return false;
+  }
+}

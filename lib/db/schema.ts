@@ -265,6 +265,9 @@ export const pages = pgTable("pages", {
   createdAt: createdAt(),
   updatedAt: updatedAt(),
   publishedAt: timestamp("published_at", { withTimezone: true }),
+  // The whole unpublished version of the page (section stack + settings), or null when there is
+  // nothing waiting to be published. The live site never reads it.
+  draft: jsonb("draft").$type<Record<string, unknown> | null>(),
 });
 
 export const sections = pgTable(

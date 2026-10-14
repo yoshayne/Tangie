@@ -3,6 +3,7 @@ import { logout } from "@/app/admin/actions-auth";
 
 const NAV: Array<{ label: string; href: string; group?: string }> = [
   { label: "Dashboard", href: "/admin" },
+  { label: "Pages", href: "/admin/pages", group: "Content" },
   { label: "Books", href: "/admin/books", group: "Content" },
   { label: "Events", href: "/admin/events", group: "Content" },
   { label: "Journal", href: "/admin/journal", group: "Content" },
