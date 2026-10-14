@@ -33,9 +33,14 @@ export function EventCards({
           </div>
         </div>
         {events.length > 0 ? (
-          <div className="mt-5 grid gap-4 md:grid-cols-3 lg:mt-[calc(var(--u)*9)] lg:gap-[calc(var(--u)*26)]">
+          <div className="-mx-4 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 md:pb-0 lg:mt-[calc(var(--u)*9)] lg:gap-[calc(var(--u)*26)] [&::-webkit-scrollbar]:hidden">
             {events.map((e) => (
-              <EventCard key={e.slug} event={e} />
+              <div
+                key={e.slug}
+                className="w-[84%] shrink-0 snap-start md:w-auto"
+              >
+                <EventCard event={e} />
+              </div>
             ))}
           </div>
         ) : (

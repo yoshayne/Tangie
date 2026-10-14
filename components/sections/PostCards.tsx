@@ -26,9 +26,11 @@ export function PostCards({
             <ArrowLink href={linkHref}>{linkLabel}</ArrowLink>
           </div>
         </div>
-        <div className="mt-6 grid gap-8 md:grid-cols-3 md:gap-5 lg:mt-0 lg:gap-[calc(var(--u)*32)]">
+        <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:mt-0 lg:gap-[calc(var(--u)*32)] [&::-webkit-scrollbar]:hidden">
           {posts.map((p) => (
-            <PostCard key={p.slug} post={p} />
+            <div key={p.slug} className="w-[84%] shrink-0 snap-start md:w-auto">
+              <PostCard post={p} />
+            </div>
           ))}
         </div>
         <div className="mt-8 sm:hidden">

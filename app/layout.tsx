@@ -50,7 +50,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-scroll-behavior="smooth"
       className={`${newsreader.variable} ${dmSans.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* Turns on scroll animations before the first paint, unless the visitor prefers less motion. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("motion")}catch(e){}',
+          }}
+        />
+      </head>
       <body>
         {children}
         <Suspense fallback={null}>

@@ -93,6 +93,16 @@ export function SettingsForm({
       </section>
       <section className="space-y-4">
         <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-bronze">
+          Motion
+        </h2>
+        <ToggleField
+          name="motionOn"
+          label="Animate sections as visitors scroll"
+          hint="Sections fade up gently as they come into view. Visitors who have “reduce motion” turned on in their device settings never see animation. You can also set it for a single section in the page builder."
+        />
+      </section>
+      <section className="space-y-4">
+        <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-bronze">
           Sharing
         </h2>
         <ImageField

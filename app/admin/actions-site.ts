@@ -144,6 +144,7 @@ const SettingsForm = z.object({
   ),
   categories: z.string().max(2000).optional(),
   shareImage: uuidOrNull,
+  motionOn: bool,
   announcementOn: bool,
   announcementText: opt(200),
   announcementLink: opt(300),
@@ -194,6 +195,7 @@ export async function saveSettings(
     affiliates,
     journal_categories: categories,
     share_image: { id: d.shareImage },
+    motion: { enabled: d.motionOn },
     announcement: {
       on: d.announcementOn,
       text: d.announcementText ?? "",

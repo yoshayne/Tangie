@@ -16,6 +16,7 @@ export default async function SettingsAdmin() {
   const defaults: Record<string, unknown> = {
     affiliates: get("affiliates", []),
     categories: get<string[]>("journal_categories", []).join("\n"),
+    motionOn: get<{ enabled?: boolean }>("motion", {}).enabled !== false,
     announcementOn: ann.on,
     announcementText: ann.text,
     announcementLink: ann.link,

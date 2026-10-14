@@ -1,7 +1,8 @@
-import { Suspense } from "react";
+import { Suspense, ViewTransition } from "react";
 import { connection } from "next/server";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
+import { MotionController } from "@/components/site/MotionController";
 import { getSiteChrome } from "@/lib/data/pages";
 import { DEFAULT_CHROME } from "@/lib/site-data";
 
@@ -27,6 +28,10 @@ async function SiteHeader() {
   const a = chrome.announcement;
   return (
     <>
+      {chrome.motion ? null : (
+        // Scroll animations are switched off in Site Settings.
+        <style>{`.motion [data-motion]{opacity:1!important;transform:none!important;animation:none!important}`}</style>
+      )}
       {a ? (
         <div className="bg-ink px-4 py-2 text-center text-[13px] text-ivory">
           {a.link ? (
@@ -73,9 +78,12 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       >
         <SiteHeader />
       </Suspense>
-      <main id="main" className="flex-1">
-        {children}
-      </main>
+      <ViewTransition>
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+      </ViewTransition>
+      <MotionController />
       <Suspense
         fallback={
           <Footer

@@ -30,7 +30,7 @@ export function Button({
   onClick,
 }: Props) {
   const classes = cn(
-    "inline-flex items-center justify-center whitespace-nowrap text-btn font-semibold uppercase tracking-[0.16em] transition-colors duration-200 ease-in-out",
+    "inline-flex items-center justify-center whitespace-nowrap active:scale-[0.98] text-btn font-semibold uppercase tracking-[0.16em] transition-colors duration-200 ease-in-out",
     size === "md"
       ? "min-h-12 px-8 lg:h-[calc(var(--u)*57)]"
       : "min-h-11 px-6 lg:h-[calc(var(--u)*53)] lg:px-[calc(var(--u)*28)]",

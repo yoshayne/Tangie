@@ -864,6 +864,32 @@ function SectionForm({
               Lets a link jump straight here, like /speaking#inquiry.
             </p>
           </div>
+          <div>
+            <label
+              htmlFor="animation"
+              className="mb-1 block text-sm font-semibold"
+            >
+              Animation when it scrolls into view
+            </label>
+            <select
+              id="animation"
+              value={String(section.props.animation ?? "")}
+              onChange={(e) => {
+                const next = { ...section.props };
+                if (e.target.value) next.animation = e.target.value;
+                else delete next.animation;
+                onProps(next);
+              }}
+              className="w-full border border-line bg-white px-3 py-2"
+            >
+              <option value="">
+                Standard (fades up; the first block on a page stays still)
+              </option>
+              <option value="fade-up">Fade up</option>
+              <option value="fade">Fade in</option>
+              <option value="none">None</option>
+            </select>
+          </div>
           <label className="flex items-center gap-3 text-sm font-semibold">
             <input
               type="checkbox"

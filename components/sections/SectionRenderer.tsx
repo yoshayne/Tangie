@@ -5,6 +5,25 @@ import {
   type SectionContext,
 } from "@/lib/sections/registry";
 
+const ANIMATIONS = ["fade-up", "fade", "none"] as const;
+type Animation = (typeof ANIMATIONS)[number];
+
+/** The section's own choice, else the default: fade up, except for the first block on the page. */
+function animationFor(
+  section: { type: string; props: Record<string, unknown> },
+  first: boolean,
+): Animation {
+  const chosen = section.props.animation;
+  if (
+    typeof chosen === "string" &&
+    (ANIMATIONS as readonly string[]).includes(chosen)
+  )
+    return chosen as Animation;
+  return first || section.type === "hero_split" || section.type === "page_hero"
+    ? "none"
+    : "fade-up";
+}
+
 export type RenderableSection = {
   id: string;
   type: string;
@@ -113,13 +132,24 @@ export async function SectionRenderer({
       );
       continue;
     }
+    const motion = animationFor(section, out.length === 0);
+    const motionAttr = motion === "none" ? {} : { "data-motion": motion };
     out.push(
       section.anchorId ? (
-        <div key={section.id} id={section.anchorId} className="scroll-mt-24">
+        <div
+          key={section.id}
+          id={section.anchorId}
+          className="scroll-mt-24"
+          {...motionAttr}
+        >
           {node}
         </div>
       ) : (
-        <div key={section.id} className="contents">
+        <div
+          key={section.id}
+          className={motion === "none" ? "contents" : ""}
+          {...motionAttr}
+        >
           {node}
         </div>
       ),
