@@ -253,13 +253,13 @@ redirects         id, from_path (unique), to_path, status_code (default 301), cr
 
 **Rule:** no public page layout is hard-coded. Every page, including the homepage, renders from `pages` + `sections`.
 
-**Image references:** every image column above (`*_media_id`) and every image field in section props stores a **`media.id`**, never a typed-in URL. Resolve to the R2 URL when reading (join `media`, or a cached `{ id, url, alt, width, height, focal, blur }` object inside section props, refreshed on Replace file).
+**Image references:** every image column above (`*_media_id`) and every image field in section props stores a **`media.id`**, never a typed-in URL. Resolve to the `/media/…` URL when reading (join `media`, or a cached `{ id, url, alt, width, height, focal, blur }` object inside section props, refreshed on Replace file).
 
 ---
 
 ## 5B. Content & image migration — MIGRATE, never reference
 
-The Wix site is **cancelled after launch**. Every Wix URL (`static.wixstatic.com`, `tangiebeaty.com/_paylink/...`, Wix blog/event URLs) will stop working. This build **copies** everything it needs into our own database and R2 bucket. The new site must work identically the day Wix is switched off.
+The Wix site is **cancelled after launch**. Every Wix URL (`static.wixstatic.com`, `tangiebeaty.com/_paylink/...`, Wix blog/event URLs) will stop working. This build **copies** everything it needs into our own database and Railway bucket. The new site must work identically the day Wix is switched off.
 
 ### Rules
 1. **No runtime dependency on Wix.** No `wixstatic.com` in code, config, DB rows (except the `media.legacy_url` audit column), `next/image` remotePatterns, or rendered HTML.
@@ -340,7 +340,7 @@ seed-assets/
 ### Image processing pipeline (`lib/media/process-image.ts`, also used by the seed)
 1. Auto-rotate from EXIF, then **strip all EXIF/GPS metadata** (privacy: phone photos carry location).
 2. Resize so the longest side is ≤ 2400px (never upscale).
-3. Encode to **WebP** quality 82 for the served file; keep the untouched original under `originals/` in R2 (for future re-crops).
+3. Encode to **WebP** quality 82 for the served file; keep the untouched original under `originals/` in the bucket (for future re-crops).
 4. Generate a tiny blurred placeholder (`blur_data_url`) for `next/image` `placeholder="blur"`.
 5. Store width, height, size and a SHA-256 hash (to warn "This photo is already in your library").
 - Bucket keys: `media/YYYY/MM/<uuid>-<slugified-name>.webp` and `originals/YYYY/MM/<uuid>.<ext>`. Public URL = `/media/` + key (served by the app, see §1).
