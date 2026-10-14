@@ -29,7 +29,7 @@ Companion file: **`SITE_CONTENT.md`** — verbatim content and image URLs scrape
 | Language | TypeScript **6.0.x** — **not 7.x**: `typescript-eslint` (used by `eslint-config-next`) only supports `<6.1.0` | `typescript` 6.0.3 |
 | Lint | ESLint flat config (`next lint` was removed in Next 16; run `eslint .` directly) | `eslint` 10.x, `eslint-config-next` 16.4.0 |
 | Styling | Tailwind CSS **v4** (CSS-first `@theme` config, no `tailwind.config.js`) + `@tailwindcss/typography` for journal prose | `tailwindcss` 4.3.3 |
-| Fonts | `next/font/google`: **Cormorant Garamond** (500, 600, 500 italic) for display; **DM Sans** (400, 500, 600) for UI/body | — |
+| Fonts | `next/font/google`: **Newsreader** (variable, `opsz` axis, regular + italic) for display; **DM Sans** (400, 500, 600) for UI/body | — |
 | DB | Postgres (Railway or Neon) via **Drizzle ORM** — use the stable 0.45 line; Drizzle 1.0 is still RC, don't use it | `drizzle-orm` 0.45.4, `drizzle-kit` 0.31.11, `postgres` 3.4.9 |
 | Validation | Zod **4** (`import { z } from 'zod'`) | `zod` 4.6.7 |
 | Images & files | Cloudflare R2 (S3 API) is the **only** home for every image, video and download. `sharp` processes uploads; presigned URLs for large files; `next/image` renders. | `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` 3.1151.0, `sharp` 0.35.5, `file-type` 22.1.1 |
@@ -96,12 +96,15 @@ BOOK_PURCHASE_URL=             # Stripe Payment Link or retailer URL (see Open Q
 | `--line` | `#D9D0C3` | Hairlines, input borders |
 
 ### Typography
+
+> **M2 calibration note (read before touching type or spacing).** The mockup's display face is closest to **Newsreader**, not Cormorant Garamond, and its real sizes are larger than the table below. In M2 every size and spacing value was measured from `design/homepage-mockup.png` (scaled to 1440px wide) and the page was matched to it. The values in the table below are the original estimates; the **truth is in `app/globals.css`** (`--text-*` tokens) and the section components. Desktop layout is written in a design unit: `calc(var(--u) * N)` where N is px at 1440 and `--u` is 1px at 1440+ and shrinks proportionally below. Do not hand-tune a size without re-measuring against the mockup.
+
 | Style | Font | Size desktop / mobile | Notes |
 |---|---|---|---|
-| Hero name line 1 ("TANGIE") | Cormorant Garamond 500 | 88px / 52px | uppercase, line-height 0.95, letter-spacing 0.01em |
-| Hero name line 2 ("BRICKHOUSE-BEATY") | Cormorant Garamond 500 | 44px / 28px | uppercase |
-| H2 section titles | Cormorant Garamond 500 | 40px / 30px | Sentence case. "Justified Lies" uses **500 italic** |
-| Card titles (events, journal) | Cormorant Garamond 600 | 20px / 19px | |
+| Hero name line 1 ("TANGIE") | Newsreader 500 | 88px / 52px | uppercase, line-height 0.95, letter-spacing 0.01em |
+| Hero name line 2 ("BRICKHOUSE-BEATY") | Newsreader 500 | 44px / 28px | uppercase |
+| H2 section titles | Newsreader 500 | 40px / 30px | Sentence case. "Justified Lies" uses **500 italic** |
+| Card titles (events, journal) | Newsreader 600 | 20px / 19px | |
 | Eyebrow labels | DM Sans 600 | 11px | uppercase, letter-spacing 0.18em, color `--bronze` |
 | Role line ("AUTHOR \| PLAYWRIGHT…") | DM Sans 500 | 12px | uppercase, letter-spacing 0.22em, `--stone`, separators are thin `\|` with 12px spacing |
 | Body | DM Sans 400 | 16px / 15px | line-height 1.65, max-width 34rem |

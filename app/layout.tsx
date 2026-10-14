@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { DM_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+// Display serif: the mockup's headline face is closest to Newsreader (CLAUDE.md §2).
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
-  weight: ["500", "600"],
   style: ["normal", "italic"],
+  axes: ["opsz"],
   display: "swap",
 });
 
@@ -32,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${cormorant.variable} ${dmSans.variable}`}
+      className={`${newsreader.variable} ${dmSans.variable}`}
     >
       <body>{children}</body>
     </html>

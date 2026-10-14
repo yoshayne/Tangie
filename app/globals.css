@@ -3,6 +3,7 @@
 :root {
   --ivory: #f7f4ee;
   --ivory-deep: #efeae2;
+  --ivory-soft: #fbf8f6;
   --sand: #e6dccd;
   --white: #ffffff;
   --charcoal: #252522;
@@ -11,11 +12,21 @@
   --bronze: #8c6b3f;
   --bronze-light: #b89a72;
   --line: #d9d0c3;
+
+  /*
+   * Design unit. The approved mockup is laid out on a 1440px canvas, so every desktop
+   * measurement is written as calc(var(--u) * <px at 1440>). --u is 1px at 1440px and
+   * wider and shrinks in proportion on smaller screens.
+   */
+  --u: min(0.0694444vw, 1px);
+  /* Space to the left/right of the 1440px canvas on wider screens, so full-bleed images still reach the edge. */
+  --gutter-x: max(0px, calc((100vw - 1440px) / 2));
 }
 
 @theme inline {
   --color-ivory: var(--ivory);
   --color-ivory-deep: var(--ivory-deep);
+  --color-ivory-soft: var(--ivory-soft);
   --color-sand: var(--sand);
   --color-white: var(--white);
   --color-charcoal: var(--charcoal);
@@ -24,8 +35,46 @@
   --color-bronze: var(--bronze);
   --color-bronze-light: var(--bronze-light);
   --color-line: var(--line);
-  --font-display: var(--font-cormorant), Georgia, serif;
+  --color-heading: #101010;
+  --color-copy: #46433f;
+  --color-copy-strong: #2f2c29;
+  --font-display: var(--font-newsreader), Georgia, serif;
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+
+  /* Type scale measured from the mockup at 1440px (second number = px at 1440). */
+  --text-wm: max(30px, calc(var(--u) * 42));
+  --text-wm--line-height: 1;
+  --text-wm-sub: max(10px, calc(var(--u) * 13.8));
+  --text-wm-sub--line-height: 1;
+  --text-nav: max(13px, calc(var(--u) * 14.8));
+  --text-btn: max(11px, calc(var(--u) * 14.6));
+  --text-btn--line-height: 1;
+  --text-eyebrow: max(11px, calc(var(--u) * 14.5));
+  --text-eyebrow--line-height: 1;
+  --text-role: max(11px, calc(var(--u) * 14));
+  --text-role--line-height: 1;
+  --text-hero1: max(52px, calc(var(--u) * 83.6));
+  --text-hero1--line-height: 0.95;
+  --text-hero2: max(28px, calc(var(--u) * 55.6));
+  --text-hero2--line-height: 1;
+  --text-hero-body: max(16px, calc(var(--u) * 24.6));
+  --text-hero-body--line-height: 1.59;
+  --text-h2: max(30px, calc(var(--u) * 49));
+  --text-h2--line-height: 1.12;
+  --text-h2-feat: max(40px, calc(var(--u) * 62.8));
+  --text-h2-feat--line-height: 1.1;
+  --text-h2-news: max(30px, calc(var(--u) * 42.7));
+  --text-h2-news--line-height: 1.1;
+  --text-body: max(15px, calc(var(--u) * 20.6));
+  --text-body--line-height: 1.5;
+  --text-body-feat: max(15px, calc(var(--u) * 23));
+  --text-body-feat--line-height: 1.48;
+  --text-card-title: max(19px, calc(var(--u) * 21));
+  --text-card-title--line-height: 1.15;
+  --text-card-meta: max(13px, calc(var(--u) * 15));
+  --text-link: max(10.5px, calc(var(--u) * 12.5));
+  --text-link--line-height: 1;
+  --text-small: max(11px, calc(var(--u) * 13));
 }
 
 html {
