@@ -150,7 +150,7 @@ export function ToggleField({
           type="checkbox"
           name={name}
           defaultChecked={checked}
-          className="h-5 w-5 accent-[#8c6b3f]"
+          className="h-5 w-5 accent-[#b34815]"
         />
         {label}
       </label>

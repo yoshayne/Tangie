@@ -35,7 +35,7 @@ export function EventList({
     <SectionShell background={background} spacing={spacing}>
       {scope !== "past" ? (
         <div>
-          <h2 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
+          <h2 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-label-text">
             Upcoming Events
           </h2>
           {data.upcoming.length > 0 ? (
@@ -57,7 +57,7 @@ export function EventList({
         <div
           className={scope === "both" ? "mt-16 lg:mt-[calc(var(--u)*88)]" : ""}
         >
-          <h2 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
+          <h2 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-label-text">
             Past Events
           </h2>
           <div className="border-b border-bronze-light/60">

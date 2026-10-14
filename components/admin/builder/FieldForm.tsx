@@ -282,7 +282,7 @@ function ButtonsInput({
                 type="checkbox"
                 checked={Boolean(b.newTab)}
                 onChange={(e) => set(i, { newTab: e.target.checked })}
-                className="h-4 w-4 accent-[#8c6b3f]"
+                className="h-4 w-4 accent-[#b34815]"
               />
               Open in a new tab
             </label>
@@ -549,7 +549,7 @@ export function FieldList({
                     type="checkbox"
                     checked={Boolean(v ?? defaults?.[f.name])}
                     onChange={(e) => setV(e.target.checked)}
-                    className="h-5 w-5 accent-[#8c6b3f]"
+                    className="h-5 w-5 accent-[#b34815]"
                   />
                   {f.label}
                 </label>
@@ -595,7 +595,7 @@ export function FieldList({
                         role="radio"
                         aria-checked={on}
                         onClick={() => setV(val || undefined)}
-                        className={`flex items-center gap-2 border px-2.5 py-1.5 text-sm ${on ? "border-bronze bg-[#f6efe3]" : "border-line bg-white"}`}
+                        className={`flex items-center gap-2 border px-2.5 py-1.5 text-sm ${on ? "border-bronze bg-[#fbece2]" : "border-line bg-white"}`}
                       >
                         <span
                           className="h-4 w-4 border border-line"

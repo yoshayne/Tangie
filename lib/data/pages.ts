@@ -2,6 +2,7 @@ import { and, asc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { getDb, schema } from "@/lib/db";
 import { versionOf } from "@/lib/seo";
+import { DEFAULT_THEME, isThemeId, type ThemeId } from "@/lib/theme";
 import type { NavItem, SocialLink } from "@/lib/site-data";
 
 export type PageData = {
@@ -90,6 +91,7 @@ export type SiteChrome = {
   announcement: { text: string; link: string } | null;
   /** False when scroll animations are switched off in Site Settings. */
   motion: { enabled: boolean; level: "gentle" | "bold" };
+  theme: ThemeId;
 };
 
 /** Header/footer data: navigation from `nav_items`, links from `site_settings`. */
@@ -126,6 +128,10 @@ export async function getSiteChrome(): Promise<SiteChrome> {
       .map((n) => ({ label: n.label, href: n.href })),
     social: setting<SocialLink[]>("social", []),
     affiliates: setting<NavItem[]>("affiliates", []),
+    theme: (() => {
+      const t = setting<{ id?: string } | null>("theme", null);
+      return isThemeId(t?.id) ? t.id : DEFAULT_THEME;
+    })(),
     motion: (() => {
       const m = setting<{ enabled?: boolean; level?: string } | null>(
         "motion",

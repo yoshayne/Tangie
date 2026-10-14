@@ -55,7 +55,7 @@ export default async function MediaPage({
             name="unused"
             value="1"
             defaultChecked={unused}
-            className="h-5 w-5 accent-[#8c6b3f]"
+            className="h-5 w-5 accent-[#b34815]"
           />{" "}
           Unused only
         </label>

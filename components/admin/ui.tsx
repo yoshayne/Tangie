@@ -18,7 +18,7 @@ export function PageHeader({
       {action ? (
         <Link
           href={action.href}
-          className="bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#815f36]"
+          className="bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#9a3d12]"
         >
           {action.label}
         </Link>

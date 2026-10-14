@@ -57,7 +57,7 @@ export function AddSectionDialog({
                 role="tab"
                 aria-selected={tab === k}
                 onClick={() => setTab(k)}
-                className={`border px-3 py-1.5 text-sm ${tab === k ? "border-bronze bg-[#f6efe3]" : "border-line"}`}
+                className={`border px-3 py-1.5 text-sm ${tab === k ? "border-bronze bg-[#fbece2]" : "border-line"}`}
               >
                 {l}
               </button>

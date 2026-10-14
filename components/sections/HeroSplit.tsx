@@ -28,7 +28,7 @@ export function HeroSplit({
 }: HeroSplitProps) {
   const roles = roleLine.split("|").map((r) => r.trim());
   return (
-    <section className="relative bg-[linear-gradient(90deg,#d9ccbe_0%,#e6ddd3_20%,#ebe4dc_40%,#ece8e1_100%)] lg:h-[calc(var(--u)*680)]">
+    <section className="relative bg-[linear-gradient(90deg,var(--hero-a)_0%,var(--hero-b)_20%,var(--hero-c)_40%,var(--hero-d)_100%)] lg:h-[calc(var(--u)*680)]">
       <div className="relative aspect-[4/5] max-h-[560px] w-full overflow-hidden lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:max-h-none lg:w-[calc(var(--gutter-x)+var(--u)*720)] lg:[mask-image:linear-gradient(to_right,transparent,#000_9%)]">
         <Image
           src={image.src}

@@ -59,7 +59,7 @@ export function BookDetailView({ book }: { book: BookDetail }) {
             className="mt-10 scroll-mt-28 lg:mt-[calc(var(--u)*48)]"
           >
             {book.status === "coming_soon" ? (
-              <p className="mb-5 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
+              <p className="mb-5 text-eyebrow font-semibold uppercase tracking-[0.18em] text-label-text">
                 Coming soon
               </p>
             ) : null}

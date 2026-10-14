@@ -60,7 +60,7 @@ export function NewsletterForm({
             <button
               type="submit"
               disabled={pending}
-              className="h-12 bg-bronze px-8 text-btn font-semibold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[#815f36] disabled:opacity-60 lg:h-[calc(var(--u)*54)] lg:w-[calc(var(--u)*180)] lg:px-0"
+              className="h-12 bg-bronze px-8 text-btn font-semibold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-accent-hover disabled:opacity-60 lg:h-[calc(var(--u)*54)] lg:w-[calc(var(--u)*180)] lg:px-0"
             >
               {pending ? "…" : buttonLabel}
             </button>

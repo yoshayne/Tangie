@@ -363,7 +363,7 @@ export function PageEditor(props: PageEditorProps) {
                 key={d}
                 onClick={() => setDevice(d)}
                 aria-pressed={device === d}
-                className={`border px-2.5 py-1.5 text-xs capitalize ${device === d ? "border-bronze bg-[#f6efe3]" : "border-line bg-white"}`}
+                className={`border px-2.5 py-1.5 text-xs capitalize ${device === d ? "border-bronze bg-[#fbece2]" : "border-line bg-white"}`}
               >
                 {d}
               </button>
@@ -397,7 +397,7 @@ export function PageEditor(props: PageEditorProps) {
           ) : null}
           <button
             onClick={openPublish}
-            className="bg-bronze px-4 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#815f36]"
+            className="bg-bronze px-4 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#9a3d12]"
           >
             Publish
           </button>
@@ -893,7 +893,7 @@ function SectionForm({
           <label className="flex items-center gap-3 text-sm font-semibold">
             <input
               type="checkbox"
-              className="h-5 w-5 accent-[#8c6b3f]"
+              className="h-5 w-5 accent-[#b34815]"
               checked={section.hidden}
               onChange={(e) => onMeta({ hidden: e.target.checked })}
             />

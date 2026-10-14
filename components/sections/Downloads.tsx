@@ -49,7 +49,7 @@ export function Downloads({
                   </span>
                 ) : null}
                 {item.fileType || item.sizeLabel ? (
-                  <span className="mt-2 block text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
+                  <span className="mt-2 block text-eyebrow font-semibold uppercase tracking-[0.18em] text-label-text">
                     {[item.fileType, item.sizeLabel]
                       .filter(Boolean)
                       .join(" · ")}

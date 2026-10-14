@@ -3,6 +3,7 @@
 import { saveNavigation, saveSettings } from "@/app/admin/actions-site";
 import { ActionForm } from "./ActionForm";
 import { ImageField } from "./ImageField";
+import { ThemePicker } from "./ThemePicker";
 import type { PickedMedia } from "./MediaPicker";
 import {
   RepeaterField,
@@ -96,6 +97,12 @@ export function SettingsForm({
           label="Link (optional)"
           placeholder="/events"
         />
+      </section>
+      <section className="space-y-4">
+        <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-bronze">
+          Colors
+        </h2>
+        <ThemePicker />
       </section>
       <section className="space-y-4">
         <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-bronze">

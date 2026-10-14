@@ -2,19 +2,35 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --ivory: #f7f4ee;
-  --ivory-deep: #efeae2;
-  --ivory-soft: #fbf8f6;
-  --sand: #e6dccd;
+  /* Colour theme "royal" (the default). Other themes override these from lib/theme.ts. */
+  --ivory: #f9f6f1;
+  --ivory-deep: #f1eaf0;
+  --ivory-soft: #fcfaf8;
+  --sand: #d6eae6;
   --white: #ffffff;
-  --charcoal: #252522;
-  --ink: #1c1a18;
-  --stone: #6b665e;
-  --bronze: #8c6b3f;
-  --bronze-light: #b89a72;
-  /* Small bronze text needs a slightly deeper tone to reach 4.5:1 on sand and ivory (WCAG AA). */
-  --bronze-text: #7a5c33;
-  --line: #d9d0c3;
+  --charcoal: #2a1f33;
+  --ink: #2b1245;
+  --stone: #635b6e;
+  /* Action colour (buttons, links): burnt orange. Names kept from the first design. */
+  --bronze: #b34815;
+  --bronze-light: #f2a56e;
+  /* Small orange text needs a deeper tone to reach 4.5:1 on every band (WCAG AA). */
+  --bronze-text: #9a3d10;
+  --accent-hover: #9a3d12;
+  --outline: #c75f26;
+  /* Small uppercase labels above headings: teal. */
+  --label: #0f766e;
+  --label-text: #0b5f59;
+  --label-light: #6ccdc5;
+  --line: #dcd2de;
+  --heading: #1c0f2a;
+  --copy: #4b4358;
+  --copy-strong: #33293d;
+  --hero-a: #dccfe6;
+  --hero-b: #e8dfec;
+  --hero-c: #f0eaf0;
+  --hero-d: #f6f1f2;
+  --tile: #e2f0ee;
 
   /*
    * Design unit. The approved mockup is laid out on a 1440px canvas, so every desktop
@@ -39,9 +55,15 @@
   --color-bronze-light: var(--bronze-light);
   --color-bronze-text: var(--bronze-text);
   --color-line: var(--line);
-  --color-heading: #101010;
-  --color-copy: #46433f;
-  --color-copy-strong: #2f2c29;
+  --color-heading: var(--heading);
+  --color-copy: var(--copy);
+  --color-copy-strong: var(--copy-strong);
+  --color-accent-hover: var(--accent-hover);
+  --color-outline: var(--outline);
+  --color-label: var(--label);
+  --color-label-text: var(--label-text);
+  --color-label-light: var(--label-light);
+  --color-tile: var(--tile);
   --font-display: var(--font-newsreader), Georgia, serif;
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
 
@@ -124,32 +146,36 @@ body {
 /* Dark sections: article text, links and small bronze text switch to light tones. */
 .on-dark .prose-site,
 .prose-site.on-dark {
-  --tw-prose-body: #e8e3da;
-  --tw-prose-headings: #f7f4ee;
-  --tw-prose-lead: #e8e3da;
-  --tw-prose-links: #b89a72;
-  --tw-prose-bold: #f7f4ee;
-  --tw-prose-counters: #b89a72;
-  --tw-prose-quotes: #f7f4ee;
+  --tw-prose-body: color-mix(in srgb, var(--ivory) 92%, transparent);
+  --tw-prose-headings: var(--ivory);
+  --tw-prose-lead: color-mix(in srgb, var(--ivory) 92%, transparent);
+  --tw-prose-links: var(--bronze-light);
+  --tw-prose-bold: var(--ivory);
+  --tw-prose-counters: var(--bronze-light);
+  --tw-prose-quotes: var(--ivory);
   --tw-prose-hr: rgba(255, 255, 255, 0.22);
-  --tw-prose-quote-borders: #b89a72;
+  --tw-prose-quote-borders: var(--label-light);
 }
 
 .on-dark .text-bronze-text {
   color: var(--bronze-light);
 }
 
+.on-dark .text-label-text {
+  color: var(--label-light);
+}
+
 .prose-site {
-  --tw-prose-body: var(--copy);
+  --tw-prose-body: var(--charcoal);
   --tw-prose-headings: var(--heading);
-  --tw-prose-lead: var(--copy);
+  --tw-prose-lead: var(--charcoal);
   --tw-prose-links: var(--bronze-text);
   --tw-prose-bold: var(--heading);
   --tw-prose-counters: var(--bronze-text);
   --tw-prose-bullets: var(--bronze-light);
   --tw-prose-hr: var(--line);
   --tw-prose-quotes: var(--heading);
-  --tw-prose-quote-borders: var(--bronze-light);
+  --tw-prose-quote-borders: var(--label);
   --tw-prose-captions: var(--stone);
   font-size: max(16px, calc(var(--u) * 21));
   line-height: 1.65;

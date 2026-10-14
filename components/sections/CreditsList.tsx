@@ -40,7 +40,7 @@ export function CreditsList({
           if (items.length === 0) return null;
           return (
             <div key={group.key}>
-              <h3 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
+              <h3 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-label-text">
                 {group.label}
               </h3>
               <ul className="border-b border-bronze-light/60">

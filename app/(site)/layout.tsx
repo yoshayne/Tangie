@@ -5,6 +5,7 @@ import { Header } from "@/components/site/Header";
 import { MotionController } from "@/components/site/MotionController";
 import { getSiteChrome } from "@/lib/data/pages";
 import { DEFAULT_CHROME } from "@/lib/site-data";
+import { DEFAULT_THEME, themeCss } from "@/lib/theme";
 
 export const ensureStatic = "shell";
 
@@ -28,6 +29,10 @@ async function SiteHeader() {
   const a = chrome.announcement;
   return (
     <>
+      {chrome.theme === DEFAULT_THEME ? null : (
+        // The colour theme chosen in Site Settings (the default needs no override).
+        <style>{themeCss(chrome.theme)}</style>
+      )}
       {a ? (
         <div className="bg-ink px-4 py-2 text-center text-[13px] text-ivory">
           {a.link ? (

@@ -15,20 +15,20 @@ export function inquiryNotification(opts: {
   message: string;
 }) {
   const rows = opts.rows.filter((r): r is [string, string] => Boolean(r[1]));
-  const html = `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;color:#252522;line-height:1.5">
+  const html = `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;color:#2a1f33;line-height:1.5">
 <h2 style="font-weight:normal;margin:0 0 4px">New ${esc(opts.type)} inquiry</h2>
-<p style="margin:0 0 20px;color:#6b665e">from ${esc(opts.name)} via TangieBeaty.com</p>
+<p style="margin:0 0 20px;color:#635b6e">from ${esc(opts.name)} via TangieBeaty.com</p>
 <table cellpadding="6" cellspacing="0" style="border-collapse:collapse">
 ${rows
   .map(
     ([k, v]) =>
-      `<tr><td style="color:#6b665e;vertical-align:top;white-space:nowrap">${esc(k)}</td><td>${esc(v)}</td></tr>`,
+      `<tr><td style="color:#635b6e;vertical-align:top;white-space:nowrap">${esc(k)}</td><td>${esc(v)}</td></tr>`,
   )
   .join("\n")}
 </table>
-<p style="margin:24px 0 6px;color:#6b665e">Message</p>
-<div style="white-space:pre-wrap;border-left:3px solid #b89a72;padding-left:12px">${esc(opts.message)}</div>
-<p style="margin-top:28px;color:#6b665e;font-size:13px">Reply to this email to answer ${esc(opts.name)} directly.</p>
+<p style="margin:24px 0 6px;color:#635b6e">Message</p>
+<div style="white-space:pre-wrap;border-left:3px solid #b34815;padding-left:12px">${esc(opts.message)}</div>
+<p style="margin-top:28px;color:#635b6e;font-size:13px">Reply to this email to answer ${esc(opts.name)} directly.</p>
 </body></html>`;
   const text = [
     `New ${opts.type} inquiry from ${opts.name}`,
@@ -50,7 +50,7 @@ export function inquiryAutoReply(opts: { name: string }) {
     "Thank you — Tangie's team will respond within 2–3 business days.";
   return {
     subject: "We received your message",
-    html: `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;color:#252522;line-height:1.6">
+    html: `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;color:#2a1f33;line-height:1.6">
 <p>Hi ${esc(first)},</p>
 <p>${esc(line)}</p>
 <p style="margin-top:24px">With gratitude,<br>Tangie Brickhouse-Beaty</p>

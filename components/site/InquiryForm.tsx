@@ -149,7 +149,7 @@ export function InquiryForm({
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex h-12 items-center justify-center bg-bronze px-10 text-btn font-semibold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[#815f36] disabled:opacity-60 lg:h-[calc(var(--u)*57)] lg:px-[calc(var(--u)*44)]"
+          className="inline-flex h-12 items-center justify-center bg-bronze px-10 text-btn font-semibold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-accent-hover disabled:opacity-60 lg:h-[calc(var(--u)*57)] lg:px-[calc(var(--u)*44)]"
         >
           {pending ? "Sending…" : submitLabel}
         </button>

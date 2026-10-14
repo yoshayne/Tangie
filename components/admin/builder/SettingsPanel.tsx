@@ -93,7 +93,7 @@ export function SettingsPanel({
         <label className="flex items-center gap-3 text-sm font-semibold">
           <input
             type="checkbox"
-            className="h-5 w-5 accent-[#8c6b3f]"
+            className="h-5 w-5 accent-[#b34815]"
             checked={settings.showInMenu}
             onChange={(e) => set({ showInMenu: e.target.checked })}
           />

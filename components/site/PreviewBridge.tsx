@@ -68,8 +68,8 @@ export function PreviewBridge() {
   return (
     <style>{`
       [data-section-id] { cursor: pointer; position: relative; }
-      [data-section-id]:hover { outline: 2px solid rgba(140,107,63,.45); outline-offset: -2px; }
-      [data-section-id][data-selected="true"] { outline: 3px solid #8c6b3f; outline-offset: -3px; }
+      [data-section-id]:hover { outline: 2px solid rgba(179,72,21,.45); outline-offset: -2px; }
+      [data-section-id][data-selected="true"] { outline: 3px solid #b34815; outline-offset: -3px; }
     `}</style>
   );
 }

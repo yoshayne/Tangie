@@ -93,7 +93,7 @@ export function ImageAdjuster({
       zoom: Math.round(clamp(c.zoom + d, 1, 3) * 100) / 100,
     }));
 
-  const slider = "w-full accent-[#8c6b3f]";
+  const slider = "w-full accent-[#b34815]";
   const btn =
     "border border-line bg-white px-3 py-1.5 text-sm hover:bg-[#f3efe8]";
 
@@ -125,7 +125,7 @@ export function ImageAdjuster({
                 type="button"
                 aria-pressed={shape === i}
                 onClick={() => setShape(i)}
-                className={`border px-3 py-1.5 text-sm ${shape === i ? "border-bronze bg-[#f6efe3]" : "border-line bg-white"}`}
+                className={`border px-3 py-1.5 text-sm ${shape === i ? "border-bronze bg-[#fbece2]" : "border-line bg-white"}`}
               >
                 {label}
               </button>

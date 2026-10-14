@@ -39,10 +39,12 @@ export function Button({
         ? "lg:px-[calc(var(--u)*38)]"
         : "lg:px-[calc(var(--u)*42)]"),
     variant === "filled"
-      ? "bg-bronze text-white hover:bg-[#815f36]"
+      ? "bg-bronze text-white hover:bg-accent-hover"
       : cn(
-          "border border-bronze-light hover:border-bronze hover:bg-bronze hover:text-white",
-          onDark ? "text-ivory" : "text-charcoal",
+          "border hover:border-bronze hover:bg-bronze hover:text-white",
+          onDark
+            ? "border-bronze-light text-ivory"
+            : "border-outline text-charcoal",
         ),
     className,
   );

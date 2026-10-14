@@ -43,7 +43,7 @@ export function PostCard({
           )}
         </div>
       </Link>
-      <Heading className="mt-4 line-clamp-2 font-display text-card-title font-medium text-[#222] lg:mt-[calc(var(--u)*18)]">
+      <Heading className="mt-4 line-clamp-2 font-display text-card-title font-medium text-heading lg:mt-[calc(var(--u)*18)]">
         <Link href={href}>{post.title}</Link>
       </Heading>
       <p className="mt-1 text-small text-stone lg:mt-[calc(var(--u)*10)]">

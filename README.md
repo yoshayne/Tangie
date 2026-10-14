@@ -80,3 +80,7 @@ Adding a new section type: add its component, a zod schema + entry in `lib/secti
 - **Header (phones):** slides away when scrolling down, returns on scroll up or keyboard focus, with a thin bronze reading-progress line.
 - **Swipeable rows (phones):** upcoming-event cards and journal cards become snap-scrolling rows; from tablet width up they are the normal grid.
 - **Page cross-fade** between pages uses React's `<ViewTransition>`; buttons have a small press effect.
+
+## Colors and themes
+
+The site's colours are variables in `app/globals.css` (the default "royal" theme: deep purple dark bands and footer, burnt orange buttons and links, soft teal feature bands and small labels). `lib/theme.ts` holds three complete themes: **Royal** (purple-led, default), **Teal-led** (deep teal bands, lavender feature bands, purple labels) and **Classic** (the original ivory and bronze). Pick one in Admin → Site Settings → Colors; it recolours the whole site at once. Every text/background pair in all three was checked for WCAG AA contrast, and axe reports no violations in any of them. To add a theme, add an entry in `lib/theme.ts` (and keep the default's values in `:root` identical to `royal`).

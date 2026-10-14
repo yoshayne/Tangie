@@ -145,6 +145,7 @@ const SettingsForm = z.object({
   categories: z.string().max(2000).optional(),
   shareImage: uuidOrNull,
   motionOn: bool,
+  theme: z.enum(["royal", "teal", "classic"]).default("royal"),
   motionLevel: z.enum(["gentle", "bold"]).default("bold"),
   announcementOn: bool,
   announcementText: opt(200),
@@ -197,6 +198,7 @@ export async function saveSettings(
     journal_categories: categories,
     share_image: { id: d.shareImage },
     motion: { enabled: d.motionOn, level: d.motionLevel },
+    theme: { id: d.theme },
     announcement: {
       on: d.announcementOn,
       text: d.announcementText ?? "",

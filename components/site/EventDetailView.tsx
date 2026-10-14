@@ -27,7 +27,7 @@ export function EventDetailView({
           </h1>
           <dl className="mt-8 grid gap-6 sm:grid-cols-2 lg:mt-[calc(var(--u)*40)]">
             <div>
-              <dt className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
+              <dt className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-label-text">
                 When
               </dt>
               <dd className="mt-2 text-body text-heading">
@@ -37,7 +37,7 @@ export function EventDetailView({
               </dd>
             </div>
             <div>
-              <dt className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
+              <dt className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-label-text">
                 Where
               </dt>
               <dd className="mt-2 text-body text-heading">
@@ -77,7 +77,7 @@ export function EventDetailView({
           ) : null}
           {event.recapHtml ? (
             <div className="mt-12 lg:mt-[calc(var(--u)*64)]">
-              <h2 className="mb-5 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
+              <h2 className="mb-5 text-eyebrow font-semibold uppercase tracking-[0.18em] text-label-text">
                 Recap
               </h2>
               <div

@@ -53,7 +53,7 @@ export function RichEditor({
     fn();
   };
   const active = (n: string, a?: object) =>
-    editor?.isActive(n, a) ? "bg-[#efe6d8]" : "";
+    editor?.isActive(n, a) ? "bg-[#f8e0d0]" : "";
 
   function setLink() {
     if (!editor) return;

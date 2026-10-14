@@ -26,7 +26,7 @@ export function NavList({
             <Link
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className={`border-b pb-1 text-nav font-medium text-[#3d3a3a] ${active ? "border-bronze" : "border-transparent"}`}
+              className={`border-b pb-1 text-nav font-medium text-[var(--copy-strong)] ${active ? "border-bronze" : "border-transparent"}`}
             >
               {item.label}
             </Link>

@@ -15,7 +15,7 @@ export function EventCard({ event }: { event: EventCardData }) {
     <article className="flex items-center gap-4 bg-ivory-deep p-4 lg:gap-[calc(var(--u)*32)] lg:p-[calc(var(--u)*13)]">
       <DateTile month={event.month} day={event.day} />
       <div className="min-w-0">
-        <h3 className="font-display text-card-title font-semibold text-[#222]">
+        <h3 className="font-display text-card-title font-semibold text-heading">
           <Link href={`/events/${event.slug}`}>{event.title}</Link>
         </h3>
         <p className="mt-1 text-card-meta text-stone">{event.location}</p>
