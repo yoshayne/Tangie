@@ -61,6 +61,7 @@ export function DarkFeature({
         </p>
         <SectionButtons
           buttons={buttons}
+          onDark
           className="mt-7 lg:mt-[calc(var(--u)*28)]"
         />
       </div>

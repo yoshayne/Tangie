@@ -35,7 +35,8 @@ export function HeroSplit({
           {...blurProps(image)}
           alt={image.alt}
           fill
-          priority
+          preload
+          fetchPriority="high"
           sizes="(min-width: 1024px) 53vw, 100vw"
           className="object-cover"
           style={imageStyle(image, [0.5, 0])}

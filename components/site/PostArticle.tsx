@@ -45,7 +45,8 @@ export function PostArticle({
                 src={post.cover.src}
                 alt={post.cover.alt}
                 fill
-                priority
+                preload
+                fetchPriority="high"
                 sizes="(min-width: 1024px) 76vw, 100vw"
                 {...blurProps(post.cover)}
                 className="object-cover"

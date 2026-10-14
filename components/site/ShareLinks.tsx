@@ -8,7 +8,7 @@ export function ShareLinks({ url, title }: { url: string; title: string }) {
   const u = encodeURIComponent(url);
   const t = encodeURIComponent(title);
   const link =
-    "text-link font-semibold uppercase tracking-[0.16em] text-bronze hover:text-[#6f5430]";
+    "text-link font-semibold uppercase tracking-[0.16em] text-bronze-text hover:text-[#6f5430]";
 
   return (
     <div

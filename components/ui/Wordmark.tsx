@@ -11,7 +11,6 @@ export function Wordmark({
   return (
     <Link
       href="/"
-      aria-label="Tangie Brickhouse-Beaty, home"
       className={cn(
         "inline-flex flex-col",
         light ? "text-ivory" : "text-charcoal",
@@ -24,6 +23,7 @@ export function Wordmark({
       <span className="mt-[max(6px,calc(var(--u)*8))] font-display text-wm-sub font-normal uppercase tracking-[0.28em]">
         Brickhouse-Beaty
       </span>
+      <span className="sr-only">(home)</span>
     </Link>
   );
 }

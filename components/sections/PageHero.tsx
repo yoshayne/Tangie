@@ -22,7 +22,8 @@ export function PageHero({ eyebrow, heading, intro, image }: PageHeroProps) {
             src={image.src}
             alt={image.alt}
             fill
-            priority
+            preload
+            fetchPriority="high"
             sizes="100vw"
             {...blurProps(image)}
             className="object-cover opacity-45"

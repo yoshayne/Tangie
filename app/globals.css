@@ -12,6 +12,8 @@
   --stone: #6b665e;
   --bronze: #8c6b3f;
   --bronze-light: #b89a72;
+  /* Small bronze text needs a slightly deeper tone to reach 4.5:1 on sand and ivory (WCAG AA). */
+  --bronze-text: #7a5c33;
   --line: #d9d0c3;
 
   /*
@@ -35,6 +37,7 @@
   --color-stone: var(--stone);
   --color-bronze: var(--bronze);
   --color-bronze-light: var(--bronze-light);
+  --color-bronze-text: var(--bronze-text);
   --color-line: var(--line);
   --color-heading: #101010;
   --color-copy: #46433f;
@@ -118,13 +121,31 @@ body {
 }
 
 /* Article / rich text styling (journal posts, rich_text sections, legal pages). */
+/* Dark sections: article text, links and small bronze text switch to light tones. */
+.on-dark .prose-site,
+.prose-site.on-dark {
+  --tw-prose-body: #e8e3da;
+  --tw-prose-headings: #f7f4ee;
+  --tw-prose-lead: #e8e3da;
+  --tw-prose-links: #b89a72;
+  --tw-prose-bold: #f7f4ee;
+  --tw-prose-counters: #b89a72;
+  --tw-prose-quotes: #f7f4ee;
+  --tw-prose-hr: rgba(255, 255, 255, 0.22);
+  --tw-prose-quote-borders: #b89a72;
+}
+
+.on-dark .text-bronze-text {
+  color: var(--bronze-light);
+}
+
 .prose-site {
   --tw-prose-body: var(--copy);
   --tw-prose-headings: var(--heading);
   --tw-prose-lead: var(--copy);
-  --tw-prose-links: var(--bronze);
+  --tw-prose-links: var(--bronze-text);
   --tw-prose-bold: var(--heading);
-  --tw-prose-counters: var(--bronze);
+  --tw-prose-counters: var(--bronze-text);
   --tw-prose-bullets: var(--bronze-light);
   --tw-prose-hr: var(--line);
   --tw-prose-quotes: var(--heading);

@@ -7,7 +7,7 @@ const BG: Record<Background, string> = {
   "ivory-deep": "bg-ivory-deep text-charcoal",
   sand: "bg-sand text-charcoal",
   white: "bg-white text-charcoal",
-  ink: "bg-ink text-ivory",
+  ink: "on-dark bg-ink text-ivory",
 };
 
 const PAD: Record<Spacing, string> = {

@@ -402,7 +402,12 @@ export const registry = {
     render: (p, book) => {
       const learnMore = book ? `/books/${book.slug}` : "/books";
       const fallbackButtons = [
-        { label: "Learn More", href: learnMore, variant: "filled" as const },
+        {
+          label: "Learn More",
+          href: learnMore,
+          variant: "filled" as const,
+          srText: book ? `about ${book.title}` : "about the book",
+        },
         ...(book
           ? [
               {

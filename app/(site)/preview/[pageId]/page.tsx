@@ -47,7 +47,7 @@ async function Preview({
 
 export default function PreviewPage(props: PageProps<"/preview/[pageId]">) {
   return (
-    <Suspense fallback={<div className="min-h-[70vh]" aria-hidden />}>
+    <Suspense fallback={<div className="min-h-[100svh]" aria-hidden />}>
       <Preview params={props.params} searchParams={props.searchParams} />
     </Suspense>
   );

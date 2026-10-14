@@ -2,6 +2,8 @@
 
 import { saveNavigation, saveSettings } from "@/app/admin/actions-site";
 import { ActionForm } from "./ActionForm";
+import { ImageField } from "./ImageField";
+import type { PickedMedia } from "./MediaPicker";
 import { RepeaterField, TextAreaField, TextField, ToggleField } from "./fields";
 
 export function NavigationForm({
@@ -63,8 +65,10 @@ const SOCIALS: Array<[string, string]> = [
 
 export function SettingsForm({
   defaults,
+  shareImage,
 }: {
   defaults: Record<string, unknown>;
+  shareImage: PickedMedia | null;
 }) {
   return (
     <ActionForm
@@ -85,6 +89,17 @@ export function SettingsForm({
           name="announcementLink"
           label="Link (optional)"
           placeholder="/events"
+        />
+      </section>
+      <section className="space-y-4">
+        <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-bronze">
+          Sharing
+        </h2>
+        <ImageField
+          name="shareImage"
+          label="Default share photo"
+          hint="Shown when a page without its own share photo is shared on Facebook, LinkedIn, X and in messages. Leave empty to use the home page's first photo."
+          initial={shareImage}
         />
       </section>
       <section className="space-y-4">

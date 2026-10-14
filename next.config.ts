@@ -18,6 +18,9 @@ const LEGACY_POSTS: Array<[string, string]> = [
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
+  // Page titles, descriptions, canonical and share tags go in <head> for every visitor, so no
+  // crawler (Google, Bing, social sites, AI assistants) has to run JavaScript to see them.
+  htmlLimitedBots: /.*/,
   partialPrefetching: true,
   images: {
     // All photos are served by this app from /media/ (they live in a private bucket).

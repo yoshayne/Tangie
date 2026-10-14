@@ -32,6 +32,7 @@ export function CtaBanner({
         ) : null}
         <SectionButtons
           buttons={buttons}
+          onDark={dark}
           className="mt-8 justify-center lg:mt-[calc(var(--u)*36)]"
         />
       </div>

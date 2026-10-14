@@ -4,8 +4,9 @@ import { z } from "zod";
 import { requireAdminAction } from "@/lib/admin/auth";
 import { fail, parseForm, type AdminFormState } from "@/lib/admin/form";
 import { invalidate } from "@/lib/admin/invalidate";
-import { bool, opt, rows } from "@/lib/admin/zod";
+import { bool, opt, rows, uuidOrNull } from "@/lib/admin/zod";
 import { getDb, schema } from "@/lib/db";
+import { setMediaUsage } from "@/lib/media/usage";
 
 const linkOk = (v: string) =>
   v.startsWith("/") || /^https:\/\//i.test(v) || /^mailto:/i.test(v);
@@ -142,6 +143,7 @@ const SettingsForm = z.object({
     }),
   ),
   categories: z.string().max(2000).optional(),
+  shareImage: uuidOrNull,
   announcementOn: bool,
   announcementText: opt(200),
   announcementLink: opt(300),
@@ -191,6 +193,7 @@ export async function saveSettings(
     })),
     affiliates,
     journal_categories: categories,
+    share_image: { id: d.shareImage },
     announcement: {
       on: d.announcementOn,
       text: d.announcementText ?? "",
@@ -203,6 +206,14 @@ export async function saveSettings(
       .insert(schema.siteSettings)
       .values({ key, value })
       .onConflictDoUpdate({ target: schema.siteSettings.key, set: { value } });
+  await setMediaUsage(
+    db,
+    "settings",
+    "share_image",
+    d.shareImage
+      ? [{ mediaId: d.shareImage, fieldPath: "default share photo" }]
+      : [],
+  );
   invalidate(["settings"]);
   return { status: "success", message: "Settings saved." };
 }

@@ -49,7 +49,7 @@ export function Downloads({
                   </span>
                 ) : null}
                 {item.fileType || item.sizeLabel ? (
-                  <span className="mt-2 block text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze">
+                  <span className="mt-2 block text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
                     {[item.fileType, item.sizeLabel]
                       .filter(Boolean)
                       .join(" · ")}
@@ -58,7 +58,7 @@ export function Downloads({
               </span>
               <span
                 aria-hidden
-                className="shrink-0 text-bronze transition-transform duration-200 group-hover:translate-y-0.5"
+                className="shrink-0 text-bronze-text transition-transform duration-200 group-hover:translate-y-0.5"
               >
                 ↓
               </span>

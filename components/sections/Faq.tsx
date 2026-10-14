@@ -40,7 +40,7 @@ export function Faq({
                 </span>
                 <span
                   aria-hidden
-                  className="text-2xl leading-none text-bronze transition-transform duration-200 group-open:rotate-45"
+                  className="text-2xl leading-none text-bronze-text transition-transform duration-200 group-open:rotate-45"
                 >
                   +
                 </span>

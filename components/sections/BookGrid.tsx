@@ -32,7 +32,7 @@ export function BookGrid({ books, background, spacing }: BookGridProps) {
               </div>
               <div className="mx-auto mt-5 lg:max-w-[calc(var(--u)*420)]">
                 <span
-                  className={`inline-block px-3 py-1 text-eyebrow font-semibold uppercase tracking-[0.16em] ${b.status === "available" ? "bg-bronze text-white" : "border border-bronze-light text-bronze"}`}
+                  className={`inline-block px-3 py-1 text-eyebrow font-semibold uppercase tracking-[0.16em] ${b.status === "available" ? "bg-bronze text-white" : "border border-bronze-light text-bronze-text"}`}
                 >
                   {b.status === "available" ? "Available" : "Coming Soon"}
                 </span>

@@ -9,6 +9,8 @@ import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { getEventDetail } from "@/lib/data/events";
 import { getTemplateSections } from "@/lib/data/template-stack";
 import { htmlToText } from "@/lib/html";
+import { getDefaultShareImage } from "@/lib/data/seo";
+import { pageMetadata, tidyDescription, versionOf } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 
 export async function generateMetadata({
@@ -18,14 +20,21 @@ export async function generateMetadata({
   const { slug } = await params;
   const event = await getEventDetail(slug).catch(() => null);
   if (!event) return {};
-  return {
-    title: `${event.title} | Tangie Brickhouse-Beaty`,
-    description: event.descriptionHtml
-      ? htmlToText(event.descriptionHtml).slice(0, 200)
-      : undefined,
-    alternates: { canonical: `/events/${event.slug}` },
-    openGraph: { images: event.image ? [event.image.src] : undefined },
-  };
+  const fallback = event.image?.mediaId
+    ? null
+    : await getDefaultShareImage().catch(() => null);
+  return pageMetadata({
+    title: event.title,
+    description: tidyDescription(event.descriptionHtml),
+    path: `/events/${event.slug}`,
+    image: event.image?.mediaId
+      ? {
+          mediaId: event.image.mediaId,
+          version: versionOf(event.image.src),
+          alt: event.image.alt,
+        }
+      : fallback,
+  });
 }
 
 async function EventContent({
@@ -97,7 +106,7 @@ export default function Page({
   searchParams,
 }: PageProps<"/events/[slug]">) {
   return (
-    <Suspense fallback={<div className="min-h-[70vh]" aria-hidden />}>
+    <Suspense fallback={<div className="min-h-[100svh]" aria-hidden />}>
       <EventContent params={params} searchParams={searchParams} />
     </Suspense>
   );

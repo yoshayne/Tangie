@@ -98,7 +98,7 @@ function MobileMenuPanel({ onClose, items, cta }: Omit<Props, "open">) {
                   href={item.href}
                   onClick={onClose}
                   aria-current={active ? "page" : undefined}
-                  className={`font-display text-[34px] font-normal leading-tight ${active ? "text-bronze" : "text-charcoal"}`}
+                  className={`font-display text-[34px] font-normal leading-tight ${active ? "text-bronze-text" : "text-charcoal"}`}
                 >
                   {item.label}
                 </Link>

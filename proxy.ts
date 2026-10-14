@@ -72,6 +72,6 @@ export async function proxy(request: NextRequest) {
 export const config = {
   // Skip assets and utility routes: Next internals, photos, health check, files with an extension.
   matcher: [
-    "/((?!_next/|media/|health|favicon\\.ico|api/admin/media/|.*\\.[a-zA-Z0-9]{2,5}$).*)",
+    "/((?!_next/|media/|health|favicon\\.ico|api/admin/media/|og/|.*\\.[a-zA-Z0-9]{2,5}$).*)",
   ],
 };

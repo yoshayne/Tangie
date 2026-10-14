@@ -14,7 +14,7 @@ export function ArrowLink({
     <Link
       href={href}
       className={cn(
-        "group inline-flex items-center gap-2 text-link font-semibold uppercase tracking-[0.16em] text-bronze",
+        "group inline-flex items-center gap-2 text-link font-semibold uppercase tracking-[0.16em] text-bronze-text",
         className,
       )}
     >

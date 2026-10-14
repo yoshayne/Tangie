@@ -12,11 +12,19 @@ export type PostCardData = {
   image?: ImageRef;
 };
 
-export function PostCard({ post }: { post: PostCardData }) {
+export function PostCard({
+  post,
+  headingLevel = 3,
+}: {
+  post: PostCardData;
+  /** Use 2 when the cards sit directly under the page title (there is no section heading). */
+  headingLevel?: 2 | 3;
+}) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
   const href = `/journal/${post.slug}`;
   return (
     <article>
-      <Link href={href} className="block">
+      <Link href={href} className="block" tabIndex={-1} aria-hidden>
         <div className="relative aspect-video w-full overflow-hidden bg-sand lg:aspect-[403/165]">
           {post.image ? (
             <Image
@@ -35,9 +43,9 @@ export function PostCard({ post }: { post: PostCardData }) {
           )}
         </div>
       </Link>
-      <h3 className="mt-4 line-clamp-2 font-display text-card-title font-medium text-[#222] lg:mt-[calc(var(--u)*18)]">
+      <Heading className="mt-4 line-clamp-2 font-display text-card-title font-medium text-[#222] lg:mt-[calc(var(--u)*18)]">
         <Link href={href}>{post.title}</Link>
-      </h3>
+      </Heading>
       <p className="mt-1 text-small text-stone lg:mt-[calc(var(--u)*10)]">
         {post.date}
       </p>

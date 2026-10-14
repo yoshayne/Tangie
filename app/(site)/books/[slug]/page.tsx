@@ -9,6 +9,8 @@ import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { getBookDetail } from "@/lib/data/books";
 import { getTemplateSections } from "@/lib/data/template-stack";
 import { htmlToText } from "@/lib/html";
+import { getDefaultShareImage } from "@/lib/data/seo";
+import { pageMetadata, tidyDescription, versionOf } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 
 export async function generateMetadata({
@@ -18,15 +20,24 @@ export async function generateMetadata({
   const { slug } = await params;
   const book = await getBookDetail(slug).catch(() => null);
   if (!book) return {};
-  return {
-    title: `${book.title} | Tangie Brickhouse-Beaty`,
-    description: book.shortBlurb?.replace(/\*/g, "") ?? undefined,
-    alternates: { canonical: `/books/${book.slug}` },
-    openGraph: {
-      images: book.cover ? [book.cover.src] : undefined,
-      type: "book",
-    },
-  };
+  const fallback = book.cover?.mediaId
+    ? null
+    : await getDefaultShareImage().catch(() => null);
+  return pageMetadata({
+    title: book.title,
+    description:
+      tidyDescription(book.shortBlurb) ?? tidyDescription(book.synopsisHtml),
+    path: `/books/${book.slug}`,
+    type: "book",
+    image: book.cover?.mediaId
+      ? {
+          mediaId: book.cover.mediaId,
+          version: versionOf(book.cover.src),
+          alt: book.cover.alt,
+          fit: "contain",
+        }
+      : fallback,
+  });
 }
 
 async function BookContent({
@@ -78,7 +89,7 @@ export default function Page({
   searchParams,
 }: PageProps<"/books/[slug]">) {
   return (
-    <Suspense fallback={<div className="min-h-[70vh]" aria-hidden />}>
+    <Suspense fallback={<div className="min-h-[100svh]" aria-hidden />}>
       <BookContent params={params} searchParams={searchParams} />
     </Suspense>
   );

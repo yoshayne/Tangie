@@ -64,3 +64,11 @@ Every page, including the homepage, is a stack of sections. In **Admin → Pages
 How drafts are stored: `pages.draft` (JSON) holds the unpublished copy of the whole page (sections, order, hidden flags, settings). `sections.draft_props`, `is_draft_new` and `is_draft_deleted` exist from the first schema but are not used; ordering and hiding are page-level drafts, so one column covers everything.
 
 Adding a new section type: add its component, a zod schema + entry in `lib/sections/registry.tsx`, and its editor fields in `lib/sections/meta.ts`. `npm run check:sections` (runs before every build) fails if the two lists differ.
+
+## SEO, accessibility and speed (M8)
+
+- **Search and sharing:** every page has a title, description, canonical address and Open Graph / Twitter tags in `<head>` (`lib/seo.ts`). Pages use their own search text and share photo from Page settings; otherwise the description comes from the page's first paragraph and the photo from Site Settings → Default share photo (else the home page's first photo). Share pictures are made on demand as 1200×630 JPEGs at `/og/<photo id>`.
+- **sitemap.xml and robots.txt** are built from the database (published pages, books, events and posts; never `_template` stacks or the thank-you page). They refresh whenever something is published or saved. `robots.txt` blocks everything unless `NEXT_PUBLIC_SITE_URL` is exactly `https://www.tangiebeaty.com`, so the Railway test address is never indexed.
+- **Structured data:** Person + WebSite (home), Person (About), BreadcrumbList (other pages), plus Book, Event and BlogPosting on their pages.
+- **Accessibility:** axe (WCAG 2.1 A/AA + best practices) reports no violations on every public page and all 27 builder section types, including dark backgrounds, at desktop and phone width. Small bronze text uses a slightly deeper bronze (`--bronze-text`) to reach 4.5:1 contrast.
+- **Speed:** the heading font is self-hosted and trimmed (`app/fonts/README.md`), the main photo is preloaded with high priority, and a full-screen placeholder holds the page while content streams in so the footer never jumps.

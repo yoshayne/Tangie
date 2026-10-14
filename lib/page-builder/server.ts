@@ -219,6 +219,20 @@ const DECORATIVE_IMAGES: Record<string, string[]> = {
   page_hero: ["image"],
 };
 
+const VAGUE_LABELS =
+  /^(click here|click this|here|this|go|start|right here|more|read more|learn more)[.!]*$/i;
+
+function collectButtonLabels(v: unknown, out: string[] = []): string[] {
+  if (Array.isArray(v)) v.forEach((x) => collectButtonLabels(x, out));
+  else if (v && typeof v === "object") {
+    const o = v as Record<string, unknown>;
+    if (typeof o.label === "string" && typeof o.href === "string" && !o.srText)
+      out.push(o.label);
+    for (const x of Object.values(o)) collectButtonLabels(x, out);
+  }
+  return out;
+}
+
 const DYNAMIC_PREFIXES = ["/books/", "/events/", "/journal/", "/media/"];
 
 export function checkLink(
@@ -322,6 +336,13 @@ export async function validateDoc(
         const problem = checkLink(link, known);
         if (problem) add("error", s.id, `${label}: ${problem}`);
       }
+    for (const label of collectButtonLabels(s.props))
+      if (VAGUE_LABELS.test(label.trim()))
+        add(
+          "warning",
+          s.id,
+          `The button “${label.trim()}” does not say where it goes. Search engines and screen readers read buttons on their own, so something like “Learn more about the book” is better.`,
+        );
     if (s.anchorId && !/^[a-z][a-z0-9-]*$/.test(s.anchorId))
       add(
         "error",

@@ -1,6 +1,7 @@
 import { and, asc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { getDb, schema } from "@/lib/db";
+import { versionOf } from "@/lib/seo";
 import type { NavItem, SocialLink } from "@/lib/site-data";
 
 export type PageData = {
@@ -9,6 +10,9 @@ export type PageData = {
   title: string;
   seoTitle: string | null;
   seoDescription: string | null;
+  /** The share photo chosen for this page, if any. */
+  ogMedia: { id: string; version: string | undefined; alt: string } | null;
+  updatedAt: string;
   sections: Array<{
     id: string;
     type: string;
@@ -49,12 +53,24 @@ export async function getPage(slug: string): Promise<PageData | null> {
     )
     .orderBy(asc(schema.sections.sortOrder));
 
+  const og = page.ogMediaId
+    ? (
+        await db
+          .select()
+          .from(schema.media)
+          .where(eq(schema.media.id, page.ogMediaId))
+          .limit(1)
+      )[0]
+    : undefined;
+
   return {
     id: page.id,
     slug: page.slug,
     title: page.title,
     seoTitle: page.seoTitle,
     seoDescription: page.seoDescription,
+    ogMedia: og ? { id: og.id, version: versionOf(og.url), alt: og.alt } : null,
+    updatedAt: page.updatedAt.toISOString(),
     sections: rows.map((s) => ({
       id: s.id,
       type: s.type,

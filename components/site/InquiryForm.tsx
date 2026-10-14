@@ -99,7 +99,7 @@ export function InquiryForm({
             >
               {f.label}
               {f.required ? (
-                <span className="text-bronze" aria-hidden>
+                <span className="text-bronze-text" aria-hidden>
                   {" "}
                   *
                 </span>

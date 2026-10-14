@@ -21,7 +21,8 @@ export function BookDetailView({ book }: { book: BookDetail }) {
                 src={book.cover.src}
                 alt={book.cover.alt}
                 fill
-                priority
+                preload
+                fetchPriority="high"
                 sizes="(min-width: 1024px) 32vw, 90vw"
                 {...blurProps(book.cover)}
                 className="object-cover"
@@ -40,7 +41,7 @@ export function BookDetailView({ book }: { book: BookDetail }) {
             </p>
           ) : null}
           {book.tagline ? (
-            <p className="mt-4 font-display text-h3 font-normal italic text-bronze">
+            <p className="mt-4 font-display text-h3 font-normal italic text-bronze-text">
               {book.tagline}
             </p>
           ) : null}
@@ -58,7 +59,7 @@ export function BookDetailView({ book }: { book: BookDetail }) {
             className="mt-10 scroll-mt-28 lg:mt-[calc(var(--u)*48)]"
           >
             {book.status === "coming_soon" ? (
-              <p className="mb-5 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze">
+              <p className="mb-5 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
                 Coming soon
               </p>
             ) : null}

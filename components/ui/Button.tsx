@@ -6,9 +6,13 @@ type Props = {
   children: React.ReactNode;
   variant?: "filled" | "outline";
   size?: "md" | "sm";
+  /** Use on a dark background so the outline style stays readable. */
+  onDark?: boolean;
   newTab?: boolean;
   /** Analytics event to fire when clicked. */
   track?: string;
+  /** Hidden extra words that say where the button goes (read by screen readers and search engines). */
+  srText?: string;
   className?: string;
   onClick?: () => void;
 };
@@ -18,8 +22,10 @@ export function Button({
   children,
   variant = "filled",
   size = "md",
+  onDark,
   newTab,
   track,
+  srText,
   className,
   onClick,
 }: Props) {
@@ -34,7 +40,10 @@ export function Button({
         : "lg:px-[calc(var(--u)*42)]"),
     variant === "filled"
       ? "bg-bronze text-white hover:bg-[#815f36]"
-      : "border border-bronze-light text-charcoal hover:border-bronze hover:bg-bronze hover:text-white",
+      : cn(
+          "border border-bronze-light hover:border-bronze hover:bg-bronze hover:text-white",
+          onDark ? "text-ivory" : "text-charcoal",
+        ),
     className,
   );
   return (
@@ -46,6 +55,7 @@ export function Button({
       {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
       {children}
+      {srText ? <span className="sr-only"> {srText}</span> : null}
     </Link>
   );
 }

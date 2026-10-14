@@ -47,7 +47,7 @@ export function Quote({
         </blockquote>
         {attribution ? (
           <figcaption
-            className={`mt-6 text-eyebrow font-semibold uppercase tracking-[0.18em] lg:mt-[calc(var(--u)*32)] ${dark ? "text-bronze-light" : "text-bronze"}`}
+            className={`mt-6 text-eyebrow font-semibold uppercase tracking-[0.18em] lg:mt-[calc(var(--u)*32)] ${dark ? "text-bronze-light" : "text-bronze-text"}`}
           >
             {attribution}
           </figcaption>

@@ -27,7 +27,7 @@ export function EventDetailView({
           </h1>
           <dl className="mt-8 grid gap-6 sm:grid-cols-2 lg:mt-[calc(var(--u)*40)]">
             <div>
-              <dt className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze">
+              <dt className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
                 When
               </dt>
               <dd className="mt-2 text-body text-heading">
@@ -37,7 +37,7 @@ export function EventDetailView({
               </dd>
             </div>
             <div>
-              <dt className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze">
+              <dt className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
                 Where
               </dt>
               <dd className="mt-2 text-body text-heading">
@@ -55,7 +55,7 @@ export function EventDetailView({
                           href={maps}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-link font-semibold uppercase tracking-[0.16em] text-bronze"
+                          className="text-link font-semibold uppercase tracking-[0.16em] text-bronze-text"
                         >
                           View on map →
                         </a>
@@ -77,7 +77,7 @@ export function EventDetailView({
           ) : null}
           {event.recapHtml ? (
             <div className="mt-12 lg:mt-[calc(var(--u)*64)]">
-              <h2 className="mb-5 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze">
+              <h2 className="mb-5 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
                 Recap
               </h2>
               <div
@@ -106,7 +106,8 @@ export function EventDetailView({
               src={event.image.src}
               alt={event.image.alt}
               fill
-              priority
+              preload
+              fetchPriority="high"
               sizes="(min-width: 1024px) 30vw, 90vw"
               {...blurProps(event.image)}
               className="object-cover"

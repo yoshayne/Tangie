@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { DM_Sans, Newsreader } from "next/font/google";
+import { DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@/components/site/Analytics";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
-// Display serif: the mockup's headline face is closest to Newsreader (CLAUDE.md §2).
-const newsreader = Newsreader({
+// Display serif: the mockup's headline face is closest to Newsreader (CLAUDE.md §2). Self-hosted and
+// trimmed to the weights and characters the site uses (see app/fonts/README.md).
+const newsreader = localFont({
+  src: [
+    {
+      path: "./fonts/newsreader-normal.woff2",
+      style: "normal",
+      weight: "400 600",
+    },
+    {
+      path: "./fonts/newsreader-italic.woff2",
+      style: "italic",
+      weight: "400 600",
+    },
+  ],
   variable: "--font-newsreader",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
   display: "swap",
+  adjustFontFallback: "Times New Roman",
 });
 
 const dmSans = DM_Sans({

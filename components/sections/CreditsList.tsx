@@ -40,7 +40,7 @@ export function CreditsList({
           if (items.length === 0) return null;
           return (
             <div key={group.key}>
-              <h3 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze">
+              <h3 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
                 {group.label}
               </h3>
               <ul className="border-b border-bronze-light/60">
@@ -50,7 +50,7 @@ export function CreditsList({
                     className={`grid gap-4 border-t border-bronze-light/60 py-6 lg:gap-[calc(var(--u)*32)] lg:py-[calc(var(--u)*32)] ${c.year ? "lg:grid-cols-[calc(var(--u)*120)_1fr_auto]" : "lg:grid-cols-[1fr_auto]"}`}
                   >
                     {c.year ? (
-                      <p className="font-display text-h3 font-normal text-bronze">
+                      <p className="font-display text-h3 font-normal text-bronze-text">
                         {c.year}
                       </p>
                     ) : null}
@@ -68,7 +68,7 @@ export function CreditsList({
                           {c.roles.map((r) => (
                             <li
                               key={r}
-                              className="border border-bronze-light px-3 py-1 text-eyebrow font-semibold uppercase tracking-[0.14em] text-bronze"
+                              className="border border-bronze-light px-3 py-1 text-eyebrow font-semibold uppercase tracking-[0.14em] text-bronze-text"
                             >
                               {r}
                             </li>

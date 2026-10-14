@@ -7,7 +7,8 @@ type Mode = "action" | "route";
 
 /** Refreshes cached public pages. Server actions use updateTag (instant); route handlers use revalidateTag. */
 export function invalidate(tags: Iterable<string>, mode: Mode = "action") {
-  for (const tag of new Set(tags)) {
+  // Anything that can change what exists on the site also refreshes the sitemap.
+  for (const tag of new Set([...tags, "sitemap"])) {
     if (mode === "action") updateTag(tag);
     else revalidateTag(tag, "max");
   }

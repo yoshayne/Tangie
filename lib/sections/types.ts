@@ -25,6 +25,8 @@ export type ButtonRef = {
   newTab?: boolean;
   /** Analytics event to fire on click (e.g. "book_purchase_click"). */
   track?: string;
+  /** Extra words for screen readers and search engines only, e.g. "about Justified Lies". */
+  srText?: string;
 };
 
 export type Background = "ivory" | "ivory-deep" | "sand" | "white" | "ink";

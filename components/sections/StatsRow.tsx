@@ -20,7 +20,7 @@ export function StatsRow({ items, background, spacing }: StatsRowProps) {
               {s.value}
             </dd>
             <dt
-              className={`mt-3 text-eyebrow font-semibold uppercase tracking-[0.18em] ${dark ? "text-bronze-light" : "text-bronze"}`}
+              className={`mt-3 text-eyebrow font-semibold uppercase tracking-[0.18em] ${dark ? "text-bronze-light" : "text-bronze-text"}`}
             >
               {s.label}
             </dt>

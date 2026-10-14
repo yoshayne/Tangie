@@ -48,7 +48,7 @@ export function ListFeature({
             {item.icon && item.icon !== "none" ? (
               <FeatureIcon
                 name={item.icon}
-                className="mt-1 h-6 w-6 shrink-0 text-bronze"
+                className="mt-1 h-6 w-6 shrink-0 text-bronze-text"
               />
             ) : null}
             <div>

@@ -6,3 +6,12 @@ export function getSiteUrl(): string {
     return `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`;
   return "http://localhost:3000";
 }
+
+/**
+ * True only on the real public address. Everything else (the Railway test address, local) tells
+ * search engines to stay away. Read at run time on purpose, so changing the variable is enough.
+ */
+export function isProductionSite(): boolean {
+  const v = process.env["NEXT_PUBLIC_SITE_URL"];
+  return v?.replace(/\/$/, "") === "https://www.tangiebeaty.com";
+}

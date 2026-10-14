@@ -35,7 +35,7 @@ export function EventList({
     <SectionShell background={background} spacing={spacing}>
       {scope !== "past" ? (
         <div>
-          <h2 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze">
+          <h2 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
             Upcoming Events
           </h2>
           {data.upcoming.length > 0 ? (
@@ -57,7 +57,7 @@ export function EventList({
         <div
           className={scope === "both" ? "mt-16 lg:mt-[calc(var(--u)*88)]" : ""}
         >
-          <h2 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze">
+          <h2 className="mb-6 text-eyebrow font-semibold uppercase tracking-[0.18em] text-bronze-text">
             Past Events
           </h2>
           <div className="border-b border-bronze-light/60">
@@ -78,7 +78,7 @@ export function EventList({
                   </span>
                   <span
                     aria-hidden
-                    className="text-2xl leading-none text-bronze transition-transform duration-200 group-open:rotate-45"
+                    className="text-2xl leading-none text-bronze-text transition-transform duration-200 group-open:rotate-45"
                   >
                     +
                   </span>
@@ -109,7 +109,7 @@ export function EventList({
                     <p className="mt-6">
                       <Link
                         href={`/events/${e.slug}`}
-                        className="text-link font-semibold uppercase tracking-[0.16em] text-bronze"
+                        className="text-link font-semibold uppercase tracking-[0.16em] text-bronze-text"
                       >
                         View event page →
                       </Link>

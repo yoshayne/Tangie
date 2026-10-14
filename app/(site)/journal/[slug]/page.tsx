@@ -8,6 +8,8 @@ import { PostArticle } from "@/components/site/PostArticle";
 import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { getPostDetail, getRelatedPosts } from "@/lib/data/posts";
 import { getTemplateSections } from "@/lib/data/template-stack";
+import { getDefaultShareImage } from "@/lib/data/seo";
+import { pageMetadata, tidyDescription, versionOf } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 
 export async function generateMetadata({
@@ -17,16 +19,27 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPostDetail(slug).catch(() => null);
   if (!post) return {};
-  return {
-    title: post.seoTitle ?? `${post.title} | Tangie Brickhouse-Beaty`,
-    description: post.seoDescription ?? undefined,
-    alternates: { canonical: `/journal/${post.slug}` },
-    openGraph: {
-      type: "article",
-      publishedTime: post.publishedAtIso,
-      images: post.cover ? [post.cover.src] : undefined,
-    },
-  };
+  const fallback = post.cover?.mediaId
+    ? null
+    : await getDefaultShareImage().catch(() => null);
+  return pageMetadata({
+    title: post.seoTitle ?? post.title,
+    absoluteTitle: Boolean(post.seoTitle),
+    description:
+      post.seoDescription ??
+      tidyDescription(post.excerpt) ??
+      tidyDescription(post.bodyHtml),
+    path: `/journal/${post.slug}`,
+    type: "article",
+    publishedTime: post.publishedAtIso,
+    image: post.cover?.mediaId
+      ? {
+          mediaId: post.cover.mediaId,
+          version: versionOf(post.cover.src),
+          alt: post.cover.alt,
+        }
+      : fallback,
+  });
 }
 
 async function PostContent({
@@ -81,7 +94,7 @@ export default function Page({
   searchParams,
 }: PageProps<"/journal/[slug]">) {
   return (
-    <Suspense fallback={<div className="min-h-[70vh]" aria-hidden />}>
+    <Suspense fallback={<div className="min-h-[100svh]" aria-hidden />}>
       <PostContent params={params} searchParams={searchParams} />
     </Suspense>
   );

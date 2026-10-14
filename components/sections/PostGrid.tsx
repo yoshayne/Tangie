@@ -42,7 +42,7 @@ export function PostGrid({
           <Link
             href={href(basePath)}
             aria-current={!activeCategory ? "page" : undefined}
-            className={`${chip} ${!activeCategory ? "border-bronze bg-bronze text-white" : "border-bronze-light text-bronze hover:border-bronze"}`}
+            className={`${chip} ${!activeCategory ? "border-bronze bg-bronze text-white" : "border-bronze-light text-bronze-text hover:border-bronze"}`}
           >
             All
           </Link>
@@ -51,7 +51,7 @@ export function PostGrid({
               key={c}
               href={href(basePath, c)}
               aria-current={activeCategory === c ? "page" : undefined}
-              className={`${chip} ${activeCategory === c ? "border-bronze bg-bronze text-white" : "border-bronze-light text-bronze hover:border-bronze"}`}
+              className={`${chip} ${activeCategory === c ? "border-bronze bg-bronze text-white" : "border-bronze-light text-bronze-text hover:border-bronze"}`}
             >
               {c}
             </Link>
@@ -62,7 +62,7 @@ export function PostGrid({
       {data.posts.length > 0 ? (
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-[calc(var(--u)*32)] lg:gap-y-[calc(var(--u)*56)]">
           {data.posts.map((p) => (
-            <PostCard key={p.slug} post={p} />
+            <PostCard key={p.slug} post={p} headingLevel={2} />
           ))}
         </div>
       ) : (
@@ -80,7 +80,7 @@ export function PostGrid({
             <Link
               href={href(basePath, activeCategory, data.page - 1)}
               rel="prev"
-              className="text-link font-semibold uppercase tracking-[0.16em] text-bronze"
+              className="text-link font-semibold uppercase tracking-[0.16em] text-bronze-text"
             >
               ← Newer
             </Link>
@@ -94,7 +94,7 @@ export function PostGrid({
             <Link
               href={href(basePath, activeCategory, data.page + 1)}
               rel="next"
-              className="text-link font-semibold uppercase tracking-[0.16em] text-bronze"
+              className="text-link font-semibold uppercase tracking-[0.16em] text-bronze-text"
             >
               Older →
             </Link>
