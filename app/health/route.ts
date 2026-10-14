@@ -1,6 +1,9 @@
 import { sql } from "drizzle-orm";
 import { connection } from "next/server";
 import { getDb } from "@/lib/db";
+import { emailConfigured, newsletterConfigured } from "@/lib/email/brevo";
+import { redisConfigured } from "@/lib/forms/rate-limit";
+import { turnstileEnabled } from "@/lib/forms/turnstile";
 import { getObject, storageDriverName } from "@/lib/storage";
 
 /** Never leak connection strings or keys in a diagnostic message. */
@@ -67,6 +70,14 @@ export async function GET(request: Request) {
       ...safeError(e),
     };
   }
+
+  // Which optional services are switched on (true/false only, never the keys themselves).
+  result.services = {
+    brevoEmail: emailConfigured(),
+    brevoNewsletter: newsletterConfigured(),
+    turnstile: turnstileEnabled(),
+    redis: redisConfigured(),
+  };
 
   const ok =
     (result.database as { ok?: boolean }).ok === true &&

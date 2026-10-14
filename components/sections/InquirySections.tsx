@@ -3,31 +3,10 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Background, Spacing } from "@/lib/sections/types";
 import { SectionShell } from "./SectionShell";
 
-export const INQUIRY_TYPES = [
-  "General",
-  "Booking / Speaking",
-  "Media / Press",
-  "Books / Book Club",
-  "Collaboration",
-];
-export const EVENT_TYPES = [
-  "Author talk",
-  "Book club",
-  "Faith-based women's event",
-  "Teen & youth",
-  "Creative leadership",
-  "Panel or conference",
-  "Workshop",
-  "Other",
-];
-// TODO(client): confirm the budget ranges before launch.
-export const BUDGETS = [
-  "Under $1,000",
-  "$1,000 – $2,500",
-  "$2,500 – $5,000",
-  "$5,000+",
-  "Not sure yet",
-];
+import { submitBookingForm, submitContactForm } from "@/app/actions/forms";
+import { BUDGETS, EVENT_TYPES, INQUIRY_TYPES } from "@/lib/forms/schemas";
+
+export { INQUIRY_TYPES };
 
 type Common = {
   eyebrow?: string;
@@ -117,6 +96,7 @@ export function ContactForm({ presetType, ...rest }: ContactFormProps) {
         fields={fields}
         submitLabel="Send message"
         formName="Contact"
+        action={submitContactForm}
       />
     </Wrapper>
   );
@@ -192,6 +172,7 @@ export function BookingForm(props: BookingFormProps) {
         fields={fields}
         submitLabel="Send booking request"
         formName="Booking request"
+        action={submitBookingForm}
       />
     </Wrapper>
   );

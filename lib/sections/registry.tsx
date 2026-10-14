@@ -61,6 +61,7 @@ const button = z.object({
   href: z.string().min(1),
   variant: z.enum(["filled", "outline"]).default("filled"),
   newTab: z.boolean().optional(),
+  track: z.string().max(40).optional(),
 });
 const buttons = z.array(button).max(2);
 
@@ -311,7 +312,7 @@ const formText = {
 };
 const contactForm = z.object({
   ...formText,
-  presetType: z.enum(INQUIRY_TYPES as [string, ...string[]]).optional(),
+  presetType: z.enum(INQUIRY_TYPES).optional(),
   ...appearance,
 });
 const bookingForm = z.object({ ...formText, ...appearance });
@@ -402,6 +403,7 @@ export const registry = {
                 href: book.buyUrl ?? `${learnMore}#buy`,
                 variant: "outline" as const,
                 newTab: Boolean(book.buyUrl),
+                track: "book_purchase_click",
               },
             ]
           : []),

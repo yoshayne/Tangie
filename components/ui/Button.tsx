@@ -7,6 +7,8 @@ type Props = {
   variant?: "filled" | "outline";
   size?: "md" | "sm";
   newTab?: boolean;
+  /** Analytics event to fire when clicked. */
+  track?: string;
   className?: string;
   onClick?: () => void;
 };
@@ -17,6 +19,7 @@ export function Button({
   variant = "filled",
   size = "md",
   newTab,
+  track,
   className,
   onClick,
 }: Props) {
@@ -39,6 +42,7 @@ export function Button({
       href={href}
       className={classes}
       onClick={onClick}
+      {...(track ? { "data-track": track } : {})}
       {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
       {children}

@@ -33,8 +33,8 @@ Companion file: **`SITE_CONTENT.md`** — verbatim content and image URLs scrape
 | DB | Postgres (Railway or Neon) via **Drizzle ORM** — use the stable 0.45 line; Drizzle 1.0 is still RC, don't use it | `drizzle-orm` 0.45.4, `drizzle-kit` 0.31.11, `postgres` 3.4.9 |
 | Validation | Zod **4** (`import { z } from 'zod'`) | `zod` 4.6.7 |
 | Images & files | The **Railway Storage Bucket** (S3-compatible, private) is the **only** home for every image, video and download. `sharp` processes uploads; presigned PUT URLs for large files; `next/image` renders. Because the bucket has no public URL, the app serves files itself from a same-origin route `/media/<key>` (streams from the bucket with `Cache-Control: public, max-age=31536000, immutable`; keys contain a uuid so they never change). | `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` 3.1151.0, `sharp` 0.35.5, `file-type` 22.1.1 |
-| Email | Resend (transactional: inquiry notifications + auto-reply) | `resend` 6.32.1 |
-| Newsletter | Store subscribers in DB **and** sync to Brevo list via API (double opt-in through Brevo) | `@getbrevo/brevo` 6.1.0 |
+| Email | **Brevo** (transactional: inquiry notification to the team + auto-reply to the sender). Client decision: Brevo for all email, no Resend. | `@getbrevo/brevo` 6.1.0 |
+| Newsletter | Store subscribers in DB **and** sign them up through Brevo's double opt-in (`contacts.createDoiContact`: needs `BREVO_LIST_ID` + `BREVO_DOI_TEMPLATE_ID`) | `@getbrevo/brevo` 6.1.0 |
 | Auth (admin only) | Custom: bcryptjs + jose (JWT in httpOnly cookie) + zod. Single admin role. | `bcryptjs` 3.0.3, `jose` 6.2.12 |
 | Spam | Cloudflare Turnstile on every public form + honeypot field | `@marsidev/react-turnstile` 1.6.2 |
 | Rich text | **TipTap v3** editor in admin; store HTML (sanitize with `sanitize-html` on save) | `@tiptap/react` + `@tiptap/starter-kit` 3.32.0, `sanitize-html` 2.18.0 |
@@ -66,11 +66,12 @@ BUCKET_ENDPOINT=
 BUCKET_REGION=
 BUCKET_ACCESS_KEY_ID=
 BUCKET_SECRET_ACCESS_KEY=
-RESEND_API_KEY=
-INQUIRY_TO_EMAIL=tangiebeaty@gmail.com
-INQUIRY_FROM_EMAIL=            # e.g. hello@tangiebeaty.com (verify domain in Resend)
 BREVO_API_KEY=
+INQUIRY_TO_EMAIL=tangiebeaty@gmail.com
+INQUIRY_FROM_EMAIL=            # a sender address verified in Brevo
+INQUIRY_FROM_NAME=TangieBeaty.com
 BREVO_LIST_ID=
+BREVO_DOI_TEMPLATE_ID=         # Brevo double opt-in confirmation template
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=
 TURNSTILE_SECRET_KEY=
 NEXT_PUBLIC_SITE_URL=https://www.tangiebeaty.com
@@ -468,7 +469,7 @@ All public forms: server actions, zod validation, Turnstile verify, honeypot, ac
 
 - **Contact** (`/contact`): first name*, last name*, email*, phone, inquiry type*, message*.
 - **Booking** (`/speaking#inquiry`): name*, email*, phone, organization, event type (Author talk / Book club / Faith-based women's event / Teen & youth / Creative leadership / Panel or conference / Workshop / Other), event date, location, audience, estimated attendance, budget range (optional select), message*.
-- On submit → insert `inquiries` → Resend email to `INQUIRY_TO_EMAIL` (subject: `[TangieBeaty.com] New {type} inquiry from {name}`) → auto-reply to sender ("Thank you — Tangie's team will respond within 2–3 business days.").
+- On submit → insert `inquiries` → Brevo email to `INQUIRY_TO_EMAIL` (subject: `[TangieBeaty.com] New {type} inquiry from {name}`) → auto-reply to sender ("Thank you — Tangie's team will respond within 2–3 business days.").
 - **Newsletter:** insert/ignore duplicate → Brevo `contacts/doubleOptinConfirmation` → show "Check your inbox to confirm."
 - Fire analytics events: `inquiry_submit` (with type), `newsletter_signup`, `book_purchase_click`.
 
@@ -508,7 +509,7 @@ Drizzle schema + migrations (including `pages`, `sections`, `page_revisions`, `s
 Build the 21 extra section types from §6B. Seed About, Speaking, Books, Events, Journal, Film & Theater, Contact, Press, Privacy and Terms as section stacks. Build detail templates `/books/[slug]`, `/events/[slug]`, `/journal/[slug]`, custom 404, redirects from §4 plus the `redirects` table in `proxy.ts`.
 
 **M5 — Forms, email, newsletter**
-Contact + booking forms (as `contact_form` / `booking_form` sections), Turnstile, Resend notifications + auto-reply, Brevo double opt-in, analytics events.
+Contact + booking forms (as `contact_form` / `booking_form` sections), Turnstile, Brevo notifications + auto-reply, Brevo double opt-in, analytics events.
 
 **M6 — Admin foundation & content CRUD**
 > **Status (client decision):** admin login stays OFF and the site stays public until the client says to turn it on. Build the admin screens, but do not require ADMIN_* / JWT_SECRET, and ask before enabling auth.

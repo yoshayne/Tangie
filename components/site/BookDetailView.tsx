@@ -70,6 +70,7 @@ export function BookDetailView({ book }: { book: BookDetail }) {
                     href={l.url}
                     variant={i === 0 ? "filled" : "outline"}
                     newTab
+                    track="book_purchase_click"
                   >
                     {l.label}
                   </Button>

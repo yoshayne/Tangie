@@ -16,6 +16,8 @@ export type ButtonRef = {
   href: string;
   variant?: "filled" | "outline";
   newTab?: boolean;
+  /** Analytics event to fire on click (e.g. "book_purchase_click"). */
+  track?: string;
 };
 
 export type Background = "ivory" | "ivory-deep" | "sand" | "white" | "ink";

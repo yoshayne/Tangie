@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Newsreader } from "next/font/google";
+import { Analytics } from "@/components/site/Analytics";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -37,7 +38,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       className={`${newsreader.variable} ${dmSans.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

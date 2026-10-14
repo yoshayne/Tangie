@@ -19,6 +19,7 @@ export function SectionButtons({
           href={b.href}
           variant={b.variant ?? "filled"}
           newTab={b.newTab}
+          track={b.track}
         >
           {b.label}
         </Button>

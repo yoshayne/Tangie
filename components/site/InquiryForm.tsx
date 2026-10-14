@@ -1,58 +1,70 @@
 "use client";
 
-import { useId, useState } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
+import { useActionState, useEffect, useId } from "react";
+import type { FormState } from "@/app/actions/forms";
+import { track } from "@/lib/analytics";
 
 export type FieldDef = {
   name: string;
   label: string;
   type: "text" | "email" | "tel" | "date" | "select" | "textarea";
   required?: boolean;
-  options?: string[];
+  options?: readonly string[];
   defaultValue?: string;
   half?: boolean;
   autoComplete?: string;
 };
 
-type Errors = Record<string, string>;
+type Action = (prev: FormState, formData: FormData) => Promise<FormState>;
 
 const INPUT =
   "w-full border border-line bg-white px-4 text-[15px] text-charcoal placeholder:text-stone/70 min-h-12 lg:min-h-[calc(var(--u)*54)] lg:text-[calc(var(--u)*17)]";
 
 /**
- * Inquiry form used by the contact and booking sections. It validates in the browser and has a
- * hidden spam-trap field. Sending (database, email, spam check) is wired in M5, so for now a valid
- * form says plainly that online sending is not switched on yet.
+ * Shared by the contact and booking sections. The server action validates, saves the inquiry and
+ * emails Tangie's team through Brevo. A hidden trap field and (when its keys exist) Cloudflare
+ * Turnstile keep bots out.
  */
 export function InquiryForm({
   fields,
   submitLabel,
   formName,
+  action,
 }: {
   fields: FieldDef[];
   submitLabel: string;
   formName: string;
+  action: Action;
 }) {
   const id = useId();
-  const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<"idle" | "unavailable">("idle");
+  const [state, formAction, pending] = useActionState<FormState, FormData>(
+    action,
+    { status: "idle" },
+  );
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const next: Errors = {};
-    for (const f of fields) {
-      const value = String(data.get(f.name) ?? "").trim();
-      if (f.required && !value) next[f.name] = `${f.label} is required.`;
-      else if (f.type === "email" && value && !/^\S+@\S+\.\S+$/.test(value))
-        next[f.name] = "Please enter a valid email address.";
-    }
-    setErrors(next);
-    setStatus(Object.keys(next).length === 0 ? "unavailable" : "idle");
+  useEffect(() => {
+    if (state.status === "success")
+      track("inquiry_submit", { type: state.type ?? formName });
+  }, [state, formName]);
+
+  if (state.status === "success") {
+    return (
+      <div
+        role="status"
+        className="border border-bronze-light bg-white p-8 lg:p-[calc(var(--u)*48)]"
+      >
+        <p className="font-display text-h3 font-normal text-heading">
+          {state.message}
+        </p>
+      </div>
+    );
   }
 
   return (
     <form
-      onSubmit={onSubmit}
+      action={formAction}
       noValidate
       aria-label={formName}
       className="grid gap-5 sm:grid-cols-2 lg:gap-[calc(var(--u)*24)]"
@@ -70,7 +82,15 @@ export function InquiryForm({
 
       {fields.map((f) => {
         const fid = `${id}-${f.name}`;
-        const err = errors[f.name];
+        const err = state.errors?.[f.name];
+        const value = state.values?.[f.name] ?? f.defaultValue;
+        const common = {
+          id: fid,
+          name: f.name,
+          required: f.required,
+          "aria-invalid": Boolean(err),
+          "aria-describedby": err ? `${fid}-err` : undefined,
+        } as const;
         return (
           <div key={f.name} className={f.half ? "" : "sm:col-span-2"}>
             <label
@@ -86,15 +106,7 @@ export function InquiryForm({
               ) : null}
             </label>
             {f.type === "select" ? (
-              <select
-                id={fid}
-                name={f.name}
-                defaultValue={f.defaultValue ?? ""}
-                required={f.required}
-                aria-invalid={Boolean(err)}
-                aria-describedby={err ? `${fid}-err` : undefined}
-                className={INPUT}
-              >
+              <select {...common} defaultValue={value ?? ""} className={INPUT}>
                 <option value="">Select…</option>
                 {f.options?.map((o) => (
                   <option key={o} value={o}>
@@ -104,25 +116,17 @@ export function InquiryForm({
               </select>
             ) : f.type === "textarea" ? (
               <textarea
-                id={fid}
-                name={f.name}
+                {...common}
                 rows={6}
-                defaultValue={f.defaultValue}
-                required={f.required}
-                aria-invalid={Boolean(err)}
-                aria-describedby={err ? `${fid}-err` : undefined}
+                defaultValue={value}
                 className={`${INPUT} py-3`}
               />
             ) : (
               <input
-                id={fid}
-                name={f.name}
+                {...common}
                 type={f.type}
-                defaultValue={f.defaultValue}
+                defaultValue={value}
                 autoComplete={f.autoComplete}
-                required={f.required}
-                aria-invalid={Boolean(err)}
-                aria-describedby={err ? `${fid}-err` : undefined}
                 className={INPUT}
               />
             )}
@@ -135,20 +139,28 @@ export function InquiryForm({
         );
       })}
 
+      {siteKey ? (
+        <div className="sm:col-span-2">
+          <Turnstile siteKey={siteKey} options={{ theme: "light" }} />
+        </div>
+      ) : null}
+
       <div className="sm:col-span-2">
         <button
           type="submit"
-          className="inline-flex h-12 items-center justify-center bg-bronze px-10 text-btn font-semibold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[#815f36] lg:h-[calc(var(--u)*57)] lg:px-[calc(var(--u)*44)]"
+          disabled={pending}
+          className="inline-flex h-12 items-center justify-center bg-bronze px-10 text-btn font-semibold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[#815f36] disabled:opacity-60 lg:h-[calc(var(--u)*57)] lg:px-[calc(var(--u)*44)]"
         >
-          {submitLabel}
+          {pending ? "Sending…" : submitLabel}
         </button>
         <p
-          role="status"
+          role={state.status === "error" ? "alert" : "status"}
           aria-live="polite"
-          className="mt-4 min-h-6 text-small text-charcoal"
+          className={`mt-4 min-h-6 text-small ${state.status === "error" ? "text-[#9b2c2c]" : "text-charcoal"}`}
         >
-          {status === "unavailable"
-            ? "Thank you. Online sending is being switched on and isn't live yet, so this message was not sent. Please check back soon."
+          {state.status === "error" || state.status === "unavailable"
+            ? (state.message ??
+              (state.errors ? "Please fix the highlighted fields." : ""))
             : ""}
         </p>
       </div>

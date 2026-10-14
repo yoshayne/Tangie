@@ -414,6 +414,40 @@ export function buildInnerPages(
       ],
     },
     {
+      // Where Brevo sends people after they click the confirmation link in the signup email.
+      slug: "newsletter-confirmed",
+      title: "You're subscribed",
+      stack: [
+        {
+          type: "page_hero",
+          props: {
+            heading: "You're on the list",
+            intro:
+              "Thank you for confirming. You'll hear about new books, events, and updates.",
+          },
+        },
+        {
+          type: "cta_banner",
+          props: {
+            heading: "While you're here",
+            buttons: [
+              {
+                label: "Explore the Book",
+                href: "/books/justified-lies",
+                variant: "filled",
+              },
+              {
+                label: "Read the Journal",
+                href: "/journal",
+                variant: "outline",
+              },
+            ],
+            background: "sand",
+          },
+        },
+      ],
+    },
+    {
       // TODO(client): privacy policy text.
       slug: "privacy",
       title: "Privacy Policy",
