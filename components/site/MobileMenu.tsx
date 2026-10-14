@@ -2,23 +2,28 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Wordmark } from "@/components/ui/Wordmark";
-import { HEADER_NAV } from "@/lib/site-data";
+import type { NavItem } from "@/lib/site-data";
 
-export function MobileMenu({
-  open,
-  onClose,
-  pathname,
-}: {
+type Props = {
   open: boolean;
   onClose: () => void;
-  pathname: string;
-}) {
+  items: NavItem[];
+  cta: NavItem | null;
+};
+
+// The panel only exists while open, so reading the URL here never blocks the prebuilt page shell.
+export function MobileMenu({ open, ...rest }: Props) {
+  return open ? <MobileMenuPanel {...rest} /> : null;
+}
+
+function MobileMenuPanel({ onClose, items, cta }: Omit<Props, "open">) {
+  const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!open) return;
     const previous = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
     const focusable = () =>
@@ -51,9 +56,7 @@ export function MobileMenu({
       document.body.style.overflow = "";
       previous?.focus();
     };
-  }, [open, onClose]);
-
-  if (!open) return null;
+  }, [onClose]);
 
   return (
     <div
@@ -84,7 +87,7 @@ export function MobileMenu({
       </div>
       <nav aria-label="Mobile" className="mt-8 flex-1">
         <ul className="flex flex-col gap-5">
-          {HEADER_NAV.map((item) => {
+          {items.map((item) => {
             const active =
               item.href === "/"
                 ? pathname === "/"
@@ -104,9 +107,11 @@ export function MobileMenu({
           })}
         </ul>
       </nav>
-      <Button href="/contact" onClick={onClose} className="w-full">
-        Contact
-      </Button>
+      {cta ? (
+        <Button href={cta.href} onClick={onClose} className="w-full">
+          {cta.label}
+        </Button>
+      ) : null}
     </div>
   );
 }

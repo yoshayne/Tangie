@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { renderInline } from "@/lib/inline";
-import { focalToPosition, type ImageRef } from "@/lib/sections/types";
+import {
+  blurProps,
+  focalToPosition,
+  type ImageRef,
+} from "@/lib/sections/types";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { NewsletterForm } from "@/components/site/NewsletterForm";
 
@@ -27,6 +31,7 @@ export function Newsletter({
         <div className="absolute inset-y-0 left-0 hidden w-[calc(var(--gutter-x)+var(--u)*720)] lg:block">
           <Image
             src={image.src}
+            {...blurProps(image)}
             alt={image.alt}
             fill
             sizes="50vw"

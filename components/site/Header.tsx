@@ -1,15 +1,20 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 import { Button } from "@/components/ui/Button";
 import { Wordmark } from "@/components/ui/Wordmark";
-import { HEADER_NAV } from "@/lib/site-data";
+import type { NavItem } from "@/lib/site-data";
 import { MobileMenu } from "./MobileMenu";
+import { ActiveNavList, NavList } from "./NavList";
 
-export function Header() {
-  const pathname = usePathname();
+export function Header({
+  items,
+  cta,
+}: {
+  items: NavItem[];
+  cta: NavItem | null;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
@@ -31,32 +36,18 @@ export function Header() {
           aria-label="Primary"
           className="hidden lg:absolute lg:left-[33.333%] lg:block"
         >
-          <ul className="flex items-center gap-[calc(var(--u)*37.5)]">
-            {HEADER_NAV.map((item) => {
-              const active =
-                item.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(item.href);
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={`border-b pb-1 text-nav font-medium text-[#3d3a3a] ${active ? "border-bronze" : "border-transparent"}`}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          <Suspense fallback={<NavList items={items} pathname={null} />}>
+            <ActiveNavList items={items} />
+          </Suspense>
         </nav>
         <div className="flex items-center gap-2">
-          <div className="hidden lg:block">
-            <Button href="/contact" size="sm">
-              Contact
-            </Button>
-          </div>
+          {cta ? (
+            <div className="hidden lg:block">
+              <Button href={cta.href} size="sm">
+                {cta.label}
+              </Button>
+            </div>
+          ) : null}
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -76,7 +67,7 @@ export function Header() {
           </button>
         </div>
       </div>
-      <MobileMenu open={open} onClose={close} pathname={pathname} />
+      <MobileMenu open={open} onClose={close} items={items} cta={cta} />
     </header>
   );
 }

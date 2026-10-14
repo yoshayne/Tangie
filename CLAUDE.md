@@ -511,6 +511,8 @@ Build the 21 extra section types from §6B. Seed About, Speaking, Books, Events,
 Contact + booking forms (as `contact_form` / `booking_form` sections), Turnstile, Resend notifications + auto-reply, Brevo double opt-in, analytics events.
 
 **M6 — Admin foundation & content CRUD**
+> **Status (client decision):** admin login stays OFF and the site stays public until the client says to turn it on. Build the admin screens, but do not require ADMIN_* / JWT_SECRET, and ask before enabling auth.
+
 Auth, `proxy.ts` admin guard + per-action JWT checks, admin layout + sidebar, Dashboard, **full upload system and Media Library from §6C** (image pipeline, presigned video/document uploads, multi-upload, alt text, focal point, Replace file, usage tracking, safe delete), upload buttons on every image field in the CRUD screens, CRUD for Books, Events, Journal (TipTap), Credits, Speaking Topics, Testimonials, Inquiries inbox, Subscribers + CSV export, Navigation editor, Site Settings.
 
 **M7 — Page builder**

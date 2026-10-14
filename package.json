@@ -12,20 +12,35 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "seed": "tsx scripts/seed.ts",
+    "prebuild": "tsx scripts/check-no-wix.ts",
+    "check:wix": "tsx scripts/check-no-wix.ts",
+    "check:wix:prod": "tsx scripts/check-no-wix.ts --require-db"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.1151.0",
+    "@aws-sdk/s3-request-presigner": "3.1151.0",
+    "drizzle-orm": "0.45.4",
+    "marked": "18.1.1",
     "next": "16.4.0",
+    "postgres": "3.4.9",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "sanitize-html": "2.18.0",
     "sharp": "0.35.5",
-    "simple-icons": "16.35.0"
+    "simple-icons": "16.35.0",
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "24.0.0",
     "@types/react": "19.2.0",
     "@types/react-dom": "19.2.0",
+    "@types/sanitize-html": "2.16.2",
+    "drizzle-kit": "0.31.11",
     "eslint": "10.12.0",
     "eslint-config-next": "16.4.0",
     "prettier": "3.9.10",

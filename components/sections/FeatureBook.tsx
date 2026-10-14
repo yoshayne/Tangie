@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { renderInline } from "@/lib/inline";
 import {
+  blurProps,
   focalToPosition,
   type ButtonRef,
   type ImageRef,
@@ -37,6 +38,7 @@ export function FeatureBook({
         >
           <Image
             src={image.src}
+            {...blurProps(image)}
             alt={image.alt}
             fill
             sizes="(min-width: 1024px) 54vw, 100vw"

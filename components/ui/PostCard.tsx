@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLink } from "./ArrowLink";
-import { focalToPosition, type ImageRef } from "@/lib/sections/types";
+import { QuillIcon } from "./QuillIcon";
+import {
+  blurProps,
+  focalToPosition,
+  type ImageRef,
+} from "@/lib/sections/types";
 
 export type PostCardData = {
   slug: string;
@@ -20,6 +25,7 @@ export function PostCard({ post }: { post: PostCardData }) {
           {post.image ? (
             <Image
               src={post.image.src}
+              {...blurProps(post.image)}
               alt={post.image.alt}
               fill
               sizes="(min-width: 1024px) 30vw, (min-width: 768px) 33vw, 100vw"
@@ -28,13 +34,7 @@ export function PostCard({ post }: { post: PostCardData }) {
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-ivory-deep">
-              <Image
-                src="/dev-seed/quill.png"
-                alt=""
-                width={64}
-                height={64}
-                className="opacity-60"
-              />
+              <QuillIcon className="h-14 w-14 text-bronze-light/70" />
             </div>
           )}
         </div>

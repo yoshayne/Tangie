@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Fragment } from "react";
 import {
+  blurProps,
   focalToPosition,
   type ButtonRef,
   type ImageRef,
@@ -31,6 +32,7 @@ export function HeroSplit({
       <div className="relative aspect-[4/5] max-h-[560px] w-full lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:max-h-none lg:w-[calc(var(--gutter-x)+var(--u)*720)] lg:[mask-image:linear-gradient(to_right,transparent,#000_9%)]">
         <Image
           src={image.src}
+          {...blurProps(image)}
           alt={image.alt}
           fill
           priority

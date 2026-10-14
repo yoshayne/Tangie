@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { renderInline } from "@/lib/inline";
 import {
+  blurProps,
   focalToPosition,
   type ButtonRef,
   type ImageRef,
@@ -29,6 +30,7 @@ export function DarkFeature({
         <div className="absolute inset-y-0 right-0 hidden w-[calc(var(--gutter-x)+var(--u)*900)] lg:block">
           <Image
             src={image.src}
+            {...blurProps(image)}
             alt={image.alt}
             fill
             sizes="62vw"
@@ -42,6 +44,7 @@ export function DarkFeature({
         <div className="relative aspect-[16/9] w-full lg:hidden">
           <Image
             src={image.src}
+            {...blurProps(image)}
             alt={image.alt}
             fill
             sizes="100vw"

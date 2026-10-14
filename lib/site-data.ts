@@ -54,3 +54,18 @@ export const AFFILIATES = [
   { label: "WOW Studio One", href: "https://www.wowstudioone.com" },
   { label: "Destined 2 WOW Foundation", href: "https://www.wow-pac.org" },
 ];
+
+export type SocialLink = {
+  key: SocialKey;
+  label: string;
+  href: string | null;
+};
+
+/** Used as the instant fallback while the database copy loads, and by the seed. */
+export const DEFAULT_CHROME = {
+  headerNav: HEADER_NAV,
+  headerCta: { label: "Contact", href: "/contact" } as NavItem | null,
+  footerNav: FOOTER_NAV,
+  social: SOCIAL_LINKS as SocialLink[],
+  affiliates: AFFILIATES,
+};

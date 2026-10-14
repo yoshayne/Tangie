@@ -2,6 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/cn";
 import { renderInline } from "@/lib/inline";
 import {
+  blurProps,
   focalToPosition,
   type ButtonRef,
   type ImageRef,
@@ -53,6 +54,7 @@ export function ImageText({
         >
           <Image
             src={image.src}
+            {...blurProps(image)}
             alt={image.alt}
             fill
             sizes="(min-width: 1024px) 45vw, 100vw"
@@ -78,6 +80,7 @@ export function ImageText({
         >
           <Image
             src={image.src}
+            {...blurProps(image)}
             alt={image.alt}
             fill
             sizes="(min-width: 1024px) 31vw, 100vw"
