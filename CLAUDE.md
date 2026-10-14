@@ -19,11 +19,11 @@ Companion file: **`SITE_CONTENT.md`** — verbatim content and image URLs scrape
 - Never use `beta`, `rc`, `canary` or `next` tags. Never downgrade below the versions listed.
 - Check peer dependencies before installing (`npm view <pkg> peerDependencies`). If the newest major of one package breaks a peer (see TypeScript below), stay on the newest version that's compatible and say why.
 - Scaffold with `npx create-next-app@latest` (Next.js 16.4+ enables Cache Components by default for new apps). Then run `npx @next/codemod@latest agents-md` so Claude Code reads the docs bundled with the installed Next.js version in `node_modules/next/dist/docs/` instead of relying on memory.
-- Pin exact versions in `package.json` (no `^`), commit `package-lock.json`, and set `"engines": { "node": ">=24" }`.
+- Pin exact versions in `package.json` (no `^`), commit `package-lock.json`, and set `"engines": { "node": ">=22" }`.
 
 | Layer | Choice | Version (verified 2026-10-13) |
 |---|---|---|
-| Runtime | Node.js **24 LTS** (security support to Apr 2028). Set Railway `NIXPACKS_NODE_VERSION=24` or an `.nvmrc`. | 24.x |
+| Runtime | Node.js **22 LTS** (security support to Apr 2027). Set Railway `NIXPACKS_NODE_VERSION=22` or an `.nvmrc`. | 22.x |
 | Framework | **Next.js 16.4** (App Router, TypeScript, Turbopack default) with **Cache Components** on | `next` 16.4.0 |
 | UI library | React | `react` / `react-dom` 19.3.0 |
 | Language | TypeScript **6.0.x** — **not 7.x**: `typescript-eslint` (used by `eslint-config-next`) only supports `<6.1.0` | `typescript` 6.0.3 |
@@ -490,7 +490,7 @@ WCAG 2.1 AA: color contrast (check bronze on ivory for small text — use `--bro
 ## 10. Milestones
 
 **M1 — Scaffold & deploy**
-Run the version checks in §1, then `npx create-next-app@latest` (TypeScript, App Router, Tailwind, ESLint, Turbopack; Cache Components on). Pin TypeScript to 6.0.x. Run the `agents-md` codemod. **Write and run `scripts/download-wix-assets.ts` (§5B) and commit `seed-assets/` with `manifest.json`** so the Wix images are backed up on day one. Add fonts, design tokens in `@theme`, ESLint flat config + Prettier, `proxy.ts` stub, `/health` route, `.nvmrc` (24), Railway deploy from `main`. Placeholder homepage live on the Railway URL. Report the exact installed versions in the milestone summary.
+Run the version checks in §1, then `npx create-next-app@latest` (TypeScript, App Router, Tailwind, ESLint, Turbopack; Cache Components on). Pin TypeScript to 6.0.x. Run the `agents-md` codemod. **Write and run `scripts/download-wix-assets.ts` (§5B) and commit `seed-assets/` with `manifest.json`** so the Wix images are backed up on day one. Add fonts, design tokens in `@theme`, ESLint flat config + Prettier, `proxy.ts` stub, `/health` route, `.nvmrc` (22), Railway deploy from `main`. Placeholder homepage live on the Railway URL. Report the exact installed versions in the milestone summary.
 
 **M2 — Design system & static homepage**
 Build `Header`, `MobileMenu`, `Footer`, `Button`, `Eyebrow`, `SectionHeading`, `ArrowLink`, `DateTile`, `EventCard`, `PostCard`, `NewsletterForm` (UI only). Build all 10 homepage sections with hard-coded content from `SITE_CONTENT.md` and images from `seed-assets/` (copy the chosen files into `public/dev-seed/` for this milestone only; delete that folder in M3). **Never hotlink Wix.** **Compare against the mockup at 1440px, 1024px, 768px, 390px and adjust until it matches.**
