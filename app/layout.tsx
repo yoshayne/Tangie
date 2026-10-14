@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { DM_Sans, Newsreader } from "next/font/google";
 import { Analytics } from "@/components/site/Analytics";
 import { getSiteUrl } from "@/lib/site-url";
@@ -40,7 +41,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body>
         {children}
-        <Analytics />
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
       </body>
     </html>
   );

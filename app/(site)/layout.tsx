@@ -24,7 +24,23 @@ async function loadChrome() {
 
 async function SiteHeader() {
   const chrome = await loadChrome();
-  return <Header items={chrome.headerNav} cta={chrome.headerCta} />;
+  const a = chrome.announcement;
+  return (
+    <>
+      {a ? (
+        <div className="bg-ink px-4 py-2 text-center text-[13px] text-ivory">
+          {a.link ? (
+            <a href={a.link} className="underline underline-offset-2">
+              {a.text}
+            </a>
+          ) : (
+            a.text
+          )}
+        </div>
+      ) : null}
+      <Header items={chrome.headerNav} cta={chrome.headerCta} />
+    </>
+  );
 }
 
 async function SiteFooter() {

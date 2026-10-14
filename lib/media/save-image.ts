@@ -22,14 +22,23 @@ function slugify(name: string) {
  * and records it in `media`. Idempotent: the same file (by hash, or by old Wix URL) is never
  * stored twice, so re-running the seed is safe.
  */
-export async function saveImage(opts: {
+export async function saveImage(opts: SaveImageOptions): Promise<MediaRow> {
+  return (await saveImageDetailed(opts)).row;
+}
+
+type SaveImageOptions = {
   buffer: Buffer;
   filename: string;
   alt: string;
   focal?: [number, number];
   source: "upload" | "wix_migration" | "mockup";
   legacyUrl?: string;
-}): Promise<MediaRow> {
+};
+
+/** Like saveImage, but also says whether the file was new or already in the library. */
+export async function saveImageDetailed(
+  opts: SaveImageOptions,
+): Promise<{ row: MediaRow; created: boolean }> {
   const db = getDb();
   const processed = await processImage(opts.buffer);
 
@@ -45,7 +54,7 @@ export async function saveImage(opts: {
         : eq(schema.media.sha256, processed.sha256),
     )
     .limit(1);
-  if (existing[0]) return existing[0];
+  if (existing[0]) return { row: existing[0], created: false };
 
   const now = new Date();
   const yyyy = now.getUTCFullYear();
@@ -82,5 +91,5 @@ export async function saveImage(opts: {
       legacyUrl: opts.legacyUrl ?? null,
     })
     .returning();
-  return row;
+  return { row, created: true };
 }

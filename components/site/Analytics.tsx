@@ -1,6 +1,7 @@
 "use client";
 
 import Script from "next/script";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { track } from "@/lib/analytics";
 
@@ -10,6 +11,8 @@ import { track } from "@/lib/analytics";
  */
 export function Analytics() {
   const domain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+  const pathname = usePathname();
+  const inAdmin = pathname.startsWith("/admin");
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -25,7 +28,7 @@ export function Analytics() {
     return () => document.removeEventListener("click", onClick);
   }, []);
 
-  if (!domain) return null;
+  if (!domain || inAdmin) return null;
   return (
     <>
       <Script id="plausible-init" strategy="afterInteractive">

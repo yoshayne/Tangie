@@ -15,8 +15,15 @@ const OPTIONS: sanitizeHtml.IOptions = {
     "a",
     "br",
     "hr",
+    "img",
   ],
-  allowedAttributes: { a: ["href", "rel", "target"] },
+  allowedAttributes: {
+    a: ["href", "rel", "target"],
+    img: ["src", "alt", "width", "height"],
+  },
+  // Photos inside articles must come from our own media library.
+  exclusiveFilter: (frame) =>
+    frame.tag === "img" && !(frame.attribs.src ?? "").startsWith("/media/"),
   allowedSchemes: ["http", "https", "mailto", "tel"],
   transformTags: {
     a: (tag, attribs) => ({

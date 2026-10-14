@@ -71,6 +71,7 @@ export type SiteChrome = {
   footerNav: NavItem[];
   social: SocialLink[];
   affiliates: NavItem[];
+  announcement: { text: string; link: string } | null;
 };
 
 /** Header/footer data: navigation from `nav_items`, links from `site_settings`. */
@@ -107,5 +108,12 @@ export async function getSiteChrome(): Promise<SiteChrome> {
       .map((n) => ({ label: n.label, href: n.href })),
     social: setting<SocialLink[]>("social", []),
     affiliates: setting<NavItem[]>("affiliates", []),
+    announcement: (() => {
+      const a = setting<{ on?: boolean; text?: string; link?: string } | null>(
+        "announcement",
+        null,
+      );
+      return a?.on && a.text ? { text: a.text, link: a.link ?? "" } : null;
+    })(),
   };
 }

@@ -68,4 +68,5 @@ export const DEFAULT_CHROME = {
   footerNav: FOOTER_NAV,
   social: SOCIAL_LINKS as SocialLink[],
   affiliates: AFFILIATES,
+  announcement: null as { text: string; link: string } | null,
 };

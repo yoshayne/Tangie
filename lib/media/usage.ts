@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import type { getDb } from "@/lib/db";
 import { schema } from "@/lib/db";
 
@@ -45,4 +45,22 @@ export async function setMediaUsage(
       .insert(schema.mediaUsage)
       .values(refs.map((r) => ({ ...r, entityType, entityId })));
   }
+}
+
+/** Finds photos placed inside article HTML (`<img src="/media/...">`) so "Used on" stays accurate. */
+export async function mediaRefsInHtml(
+  db: Db,
+  html: string | null | undefined,
+  fieldPath: string,
+): Promise<Array<{ mediaId: string; fieldPath: string }>> {
+  if (!html) return [];
+  const urls = [...html.matchAll(/<img[^>]+src="(\/media\/[^"]+)"/g)].map(
+    (m) => m[1],
+  );
+  if (!urls.length) return [];
+  const rows = await db
+    .select({ id: schema.media.id })
+    .from(schema.media)
+    .where(inArray(schema.media.url, urls));
+  return rows.map((r) => ({ mediaId: r.id, fieldPath }));
 }

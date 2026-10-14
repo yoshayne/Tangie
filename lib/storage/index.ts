@@ -4,7 +4,11 @@ import {
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
+import { createWriteStream } from "node:fs";
 import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
+import type { Readable } from "node:stream";
+import { pipeline } from "node:stream/promises";
 import path from "node:path";
 
 /**
@@ -113,6 +117,32 @@ export async function putObject(
   const file = localPath(key);
   await mkdir(path.dirname(file), { recursive: true });
   await writeFile(file, body);
+}
+
+/** Streams a large file (video, PDF) into storage without holding it all in memory. */
+export async function putObjectStream(
+  key: string,
+  body: Readable,
+  contentType: string,
+): Promise<void> {
+  const driver = requireDriver();
+  if (driver) {
+    await new Upload({
+      client: driver.client,
+      params: {
+        Bucket: driver.bucket,
+        Key: key,
+        Body: body,
+        ContentType: contentType,
+      },
+      queueSize: 3,
+      partSize: 8 * 1024 * 1024,
+    }).done();
+    return;
+  }
+  const file = localPath(key);
+  await mkdir(path.dirname(file), { recursive: true });
+  await pipeline(body, createWriteStream(file));
 }
 
 export async function deleteObject(key: string): Promise<void> {

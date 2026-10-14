@@ -38,3 +38,15 @@ Checking a deploy:
 - `/health?deep=1` also checks the database, the loaded content and file storage, names the problem if one fails, and shows which optional services (Brevo, Turnstile, Redis) are switched on.
 
 Before launch run `npm run check:wix:prod` against the production database.
+
+## Admin (`/admin`)
+
+The admin is **switched off** until these three variables exist on the server: `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`. Until then every `/admin` and `/api/admin` address returns 404.
+
+To turn it on:
+
+1. On your computer run `npm run hash-password -- "your long password"` and copy the printed hash.
+2. In Railway → Variables add `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (the hash) and `JWT_SECRET` (random text, 32+ characters).
+3. Redeploy. The first start creates the admin account; sign in at `/admin/login`.
+
+What is in it: Dashboard, Books, Events, Journal (rich-text editor with photos), Film & Theater credits, Speaking topics, Testimonials, Inquiries inbox, Subscribers (CSV download), Media Library (upload, alt text, focal point, replace, safe delete), Navigation and Site Settings (social links, partner links, journal categories, announcement bar).

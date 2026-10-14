@@ -482,6 +482,26 @@ async function seedCredits() {
   });
 }
 
+/** Creates the first admin from ADMIN_EMAIL + ADMIN_PASSWORD_HASH (never from a plain password). Existing admins are left alone. */
+async function seedAdmin() {
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+  if (!email || !passwordHash) {
+    console.log(
+      "admin: ADMIN_EMAIL / ADMIN_PASSWORD_HASH not set, no admin created (admin stays off)",
+    );
+    return;
+  }
+  const [created] = await db
+    .insert(schema.admins)
+    .values({ email, passwordHash })
+    .onConflictDoNothing()
+    .returning();
+  console.log(
+    created ? `admin: created ${email}` : `admin: ${email} already exists`,
+  );
+}
+
 async function main() {
   if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
   console.log(`Storage: ${storageDriverName()}`);
@@ -495,6 +515,7 @@ async function main() {
   await seedHome(media);
   await seedCredits();
   await seedInnerPages(media);
+  await seedAdmin();
   console.log("Seed complete.");
   process.exit(0);
 }
