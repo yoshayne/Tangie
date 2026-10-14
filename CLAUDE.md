@@ -32,7 +32,7 @@ Companion file: **`SITE_CONTENT.md`** — verbatim content and image URLs scrape
 | Fonts | `next/font/google`: **Newsreader** (variable, `opsz` axis, regular + italic) for display; **DM Sans** (400, 500, 600) for UI/body | — |
 | DB | Postgres (Railway or Neon) via **Drizzle ORM** — use the stable 0.45 line; Drizzle 1.0 is still RC, don't use it | `drizzle-orm` 0.45.4, `drizzle-kit` 0.31.11, `postgres` 3.4.9 |
 | Validation | Zod **4** (`import { z } from 'zod'`) | `zod` 4.6.7 |
-| Images & files | Cloudflare R2 (S3 API) is the **only** home for every image, video and download. `sharp` processes uploads; presigned URLs for large files; `next/image` renders. | `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` 3.1151.0, `sharp` 0.35.5, `file-type` 22.1.1 |
+| Images & files | The **Railway Storage Bucket** (S3-compatible, private) is the **only** home for every image, video and download. `sharp` processes uploads; presigned PUT URLs for large files; `next/image` renders. Because the bucket has no public URL, the app serves files itself from a same-origin route `/media/<key>` (streams from the bucket with `Cache-Control: public, max-age=31536000, immutable`; keys contain a uuid so they never change). | `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` 3.1151.0, `sharp` 0.35.5, `file-type` 22.1.1 |
 | Email | Resend (transactional: inquiry notifications + auto-reply) | `resend` 6.32.1 |
 | Newsletter | Store subscribers in DB **and** sync to Brevo list via API (double opt-in through Brevo) | `@getbrevo/brevo` 6.1.0 |
 | Auth (admin only) | Custom: bcryptjs + jose (JWT in httpOnly cookie) + zod. Single admin role. | `bcryptjs` 3.0.3, `jose` 6.2.12 |
@@ -50,21 +50,22 @@ Companion file: **`SITE_CONTENT.md`** — verbatim content and image URLs scrape
 - **Upcoming-events data** depends on today's date: cache it with `cacheLife('hours')` so past events drop off automatically, not `'max'`.
 - **Request APIs are async only:** `await params`, `await searchParams`, `await cookies()`, `await headers()`, `await draftMode()`. Use the generated `PageProps<'/route'>` / `LayoutProps` types (`npx next typegen`).
 - **Admin and preview routes are dynamic** (they read cookies). Wrap their dynamic parts in `<Suspense>` as Cache Components requires. Public `(site)` layout: `export const ensureStatic = 'shell'` so a dynamic component can't sneak into public pages unnoticed.
-- **`next/image`:** use `images.remotePatterns` (not `domains`) for the **R2 public host only**. Never add `static.wixstatic.com` (see §5B). Default `qualities` is now `[75]` only; add `[75, 90]` if the hero needs 90.
+- **`next/image`:** use `images.localPatterns` for `/media/**` (media is served same-origin from the bucket). Do not add any remote hosts and never add `static.wixstatic.com` (see §5B). Default `qualities` is now `[75]` only; add `[75, 90]` if the hero needs 90.
 - Smooth scroll: if `scroll-behavior: smooth` is set globally, add `data-scroll-behavior="smooth"` to `<html>`.
 - Optional, off by default: `reactCompiler: true` (only if build times stay acceptable).
 
 ### Environment variables
 ```
-DATABASE_URL=
+DATABASE_URL=                 # Railway Postgres (reference variable)
+REDIS_URL=                    # Railway Redis (reference variable): login rate limiting
 JWT_SECRET=
 ADMIN_EMAIL=
 ADMIN_PASSWORD_HASH=          # bcrypt hash, used by seed to create first admin
-R2_ACCOUNT_ID=
-R2_ACCESS_KEY_ID=
-R2_SECRET_ACCESS_KEY=
-R2_BUCKET=
-R2_PUBLIC_URL=
+BUCKET_NAME=                  # Railway bucket variables, exactly as Railway names them
+BUCKET_ENDPOINT=
+BUCKET_REGION=
+BUCKET_ACCESS_KEY_ID=
+BUCKET_SECRET_ACCESS_KEY=
 RESEND_API_KEY=
 INQUIRY_TO_EMAIL=tangiebeaty@gmail.com
 INQUIRY_FROM_EMAIL=            # e.g. hello@tangiebeaty.com (verify domain in Resend)
@@ -263,7 +264,7 @@ The Wix site is **cancelled after launch**. Every Wix URL (`static.wixstatic.com
 ### Rules
 1. **No runtime dependency on Wix.** No `wixstatic.com` in code, config, DB rows (except the `media.legacy_url` audit column), `next/image` remotePatterns, or rendered HTML.
 2. **Text content** is already captured in `SITE_CONTENT.md` and goes into Postgres through the seed. Wix is never queried.
-3. **Images** are downloaded **once**, committed to the repo as a permanent backup under `seed-assets/`, then uploaded to R2 by the seed.
+3. **Images** are downloaded **once**, committed to the repo as a permanent backup under `seed-assets/`, then uploaded to the bucket by the seed.
 4. **Automated guard:** `scripts/check-no-wix.ts` searches the codebase (excluding `SITE_CONTENT.md`, `seed-assets/manifest.json` and the script itself) and every text/jsonb column in the DB (excluding `media.legacy_url`) for `wixstatic` or `tangiebeaty.com/_`. Wire it into `npm run build` as a `prebuild` step once M3 is done; the build **fails** if anything is found.
 
 ### `seed-assets/` folder
@@ -287,7 +288,7 @@ seed-assets/
 - Run it **in M1**, before anything else, so the backup exists even if Wix goes away early. Commit `seed-assets/`.
 
 ### Seed upload step (M3)
-- For each manifest slot: process the file through the same pipeline as admin uploads (§6C), upload to R2, insert a `media` row (`source` = `mockup` or `wix_migration`, `legacy_url` kept for audit), and wire the `media.id` into the right book/event/post/section prop.
+- For each manifest slot: process the file through the same pipeline as admin uploads (§6C), upload to the bucket, insert a `media` row (`source` = `mockup` or `wix_migration`, `legacy_url` kept for audit), and wire the `media.id` into the right book/event/post/section prop.
 - Idempotent: re-running the seed doesn't duplicate media (match on `legacy_url` or file hash).
 
 ### Before Wix is cancelled (M9 checklist)
@@ -328,8 +329,8 @@ seed-assets/
 ### Accepted files & limits
 | Kind | Types | Max size | How |
 |---|---|---|---|
-| Image | JPG, PNG, WebP, AVIF | 25 MB | Route handler `POST /api/admin/media/upload` (Node runtime) → processed by `sharp` → R2 |
-| Video | MP4, MOV | 500 MB | Presigned PUT straight from the browser to R2 (`/api/admin/media/presign`), then `POST /api/admin/media/complete` to register |
+| Image | JPG, PNG, WebP, AVIF | 25 MB | Route handler `POST /api/admin/media/upload` (Node runtime) → processed by `sharp` → bucket |
+| Video | MP4, MOV | 500 MB | Presigned PUT straight from the browser to the bucket (`/api/admin/media/presign`), then `POST /api/admin/media/complete` to register |
 | Document | PDF, ZIP | 50 MB | Presigned PUT, same as video |
 
 - Detect the real type with `file-type` (magic bytes); don't trust the file extension or browser MIME type. Reject SVG and HTML uploads (script injection risk).
@@ -342,7 +343,7 @@ seed-assets/
 3. Encode to **WebP** quality 82 for the served file; keep the untouched original under `originals/` in R2 (for future re-crops).
 4. Generate a tiny blurred placeholder (`blur_data_url`) for `next/image` `placeholder="blur"`.
 5. Store width, height, size and a SHA-256 hash (to warn "This photo is already in your library").
-- R2 keys: `media/YYYY/MM/<uuid>-<slugified-name>.webp` and `originals/YYYY/MM/<uuid>.<ext>`. Public URL = `R2_PUBLIC_URL` + key (set up a custom domain such as `media.tangiebeaty.com` on the bucket).
+- Bucket keys: `media/YYYY/MM/<uuid>-<slugified-name>.webp` and `originals/YYYY/MM/<uuid>.<ext>`. Public URL = `/media/` + key (served by the app, see §1).
 
 ### Upload UX
 - Progress bar per file, cancel button, clear error messages ("This file is 40 MB; the limit is 25 MB").
@@ -352,7 +353,7 @@ seed-assets/
 ### Media Library screen
 - Grid with search (filename, alt, caption), filter by kind and "Unused", sort by newest.
 - Detail drawer: preview, dimensions, size, alt/caption/focal editing, **"Used on"** list (from `media_usage`) with links, Replace file, Download original, Delete.
-- Delete is blocked while the item is used anywhere; the message lists where. Deleting removes both R2 objects.
+- Delete is blocked while the item is used anywhere; the message lists where. Deleting removes both bucket objects.
 - Missing-alt-text badge on any image without alt text.
 
 ---
@@ -429,7 +430,7 @@ Implement each as `components/sections/<Type>.tsx` with a matching zod schema in
 | `post_grid` | Pulls journal posts with category chips and pagination |
 | `contact_form` | Contact form; preset inquiry type (optional); heading + intro |
 | `booking_form` | Speaking booking form; heading + intro |
-| `downloads` | Repeater of files (press kit PDFs, headshots) uploaded to R2 |
+| `downloads` | Repeater of files (press kit PDFs, headshots) uploaded to the bucket |
 | `embed` | Raw iframe embed for things like a ticketing widget. **Allowlist domains** (YouTube, Vimeo, Eventbrite, Spotify, Google Maps); reject anything else. |
 | `spacer_divider` | Space + optional thin bronze rule |
 
@@ -501,7 +502,7 @@ Build `Header`, `MobileMenu`, `Footer`, `Button`, `Eyebrow`, `SectionHeading`, `
 > In M2, build each homepage section **as a registry section component that takes props** (not a one-off block of JSX). That way M3 just swaps hard-coded props for DB props, and M7 gets the page builder almost for free.
 
 **M3 — Database, section registry & seed**
-Drizzle schema + migrations (including `pages`, `sections`, `page_revisions`, `section_templates`, `nav_items`, `redirects`). Build `lib/sections/registry.ts` with zod schemas for the 7 mockup section types, `SectionRenderer`, and the catch-all `[[...slug]]` route. Seed script loads everything in `SITE_CONTENT.md` (book, 2 past events, 3 posts, quick facts, speaking topics, social links, settings, nav items) and seeds the homepage section stack, then creates the first admin. Build `lib/media/process-image.ts` (§6C) and have the seed push every `seed-assets/manifest.json` slot through it into R2 + `media` (§5B). Delete `public/dev-seed/`. Add `scripts/check-no-wix.ts` as a `prebuild` step. Homepage now renders entirely from the DB and R2 and still matches the mockup.
+Drizzle schema + migrations (including `pages`, `sections`, `page_revisions`, `section_templates`, `nav_items`, `redirects`). Build `lib/sections/registry.ts` with zod schemas for the 7 mockup section types, `SectionRenderer`, and the catch-all `[[...slug]]` route. Seed script loads everything in `SITE_CONTENT.md` (book, 2 past events, 3 posts, quick facts, speaking topics, social links, settings, nav items) and seeds the homepage section stack, then creates the first admin. Build `lib/media/process-image.ts` (§6C) and have the seed push every `seed-assets/manifest.json` slot through it into the bucket + `media` (§5B). Delete `public/dev-seed/`. Add `scripts/check-no-wix.ts` as a `prebuild` step. Homepage now renders entirely from the DB and bucket and still matches the mockup.
 
 **M4 — Remaining section types & inner pages**
 Build the 21 extra section types from §6B. Seed About, Speaking, Books, Events, Journal, Film & Theater, Contact, Press, Privacy and Terms as section stacks. Build detail templates `/books/[slug]`, `/events/[slug]`, `/journal/[slug]`, custom 404, redirects from §4 plus the `redirects` table in `proxy.ts`.
