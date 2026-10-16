@@ -3,13 +3,14 @@ import { NavigationForm } from "@/components/admin/SiteForms";
 import { PageHeader } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/admin/auth";
 import { getDb, schema } from "@/lib/db";
+import { orderPages } from "@/lib/page-builder/order";
 
 export default async function NavigationAdmin() {
   await requireAdmin();
   const db = getDb();
   const [items, pages] = await Promise.all([
     db.select().from(schema.navItems).orderBy(asc(schema.navItems.sortOrder)),
-    db.select({ slug: schema.pages.slug }).from(schema.pages),
+    db.select().from(schema.pages),
   ]);
   const map = (loc: "header" | "footer") =>
     items
@@ -23,7 +24,12 @@ export default async function NavigationAdmin() {
         subtitle="The menus in the header and footer."
       />
       <NavigationForm
-        pages={pages.map((p) => `/${p.slug}`)}
+        pages={orderPages(
+          pages,
+          items.filter((i) => i.location === "header"),
+        )
+          .filter((p) => !p.slug.startsWith("_template"))
+          .map((p) => `/${p.slug}`)}
         defaults={{
           header: map("header"),
           footer: map("footer"),

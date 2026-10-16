@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageEditor } from "@/components/admin/builder/PageEditor";
 import { createPreviewToken, requireAdmin } from "@/lib/admin/auth";
 import { getDb, schema } from "@/lib/db";
+import { orderPages } from "@/lib/page-builder/order";
 import { knownPaths, loadWorkingDoc } from "@/lib/page-builder/server";
 
 export default async function EditPage({
@@ -14,8 +15,13 @@ export default async function EditPage({
   const working = await loadWorkingDoc(id);
   if (!working) notFound();
 
-  const [paths, books] = await Promise.all([
+  const [paths, allPages, nav, books] = await Promise.all([
     knownPaths(),
+    getDb().select().from(schema.pages),
+    getDb()
+      .select()
+      .from(schema.navItems)
+      .where(eq(schema.navItems.location, "header")),
     getDb()
       .select({ slug: schema.books.slug, title: schema.books.title })
       .from(schema.books)
@@ -33,7 +39,15 @@ export default async function EditPage({
       isTemplate={working.page.slug.startsWith("_template")}
       previewToken={await createPreviewToken(id)}
       ctx={{
-        pages: [...paths].filter((p) => !p.startsWith("/_template")).sort(),
+        // Home first, then the menu order (the same as the Pages list).
+        pages: [
+          ...new Set([
+            ...orderPages(allPages, nav)
+              .filter((p) => !p.slug.startsWith("_template"))
+              .map((p) => `/${p.slug}`),
+            ...[...paths].filter((p) => !p.startsWith("/_template")).sort(),
+          ]),
+        ],
         books: books.map((b) => [b.slug, b.title]),
       }}
     />
