@@ -13,7 +13,7 @@ export function SectionButtons({
   if (!buttons?.length) return null;
   return (
     <div
-      className={`flex flex-wrap gap-3 lg:gap-[calc(var(--u)*18)] ${className ?? ""}`}
+      className={`flex flex-wrap gap-4 lg:gap-[calc(var(--u)*24)] ${className ?? ""}`}
     >
       {buttons.map((b) => (
         <Button

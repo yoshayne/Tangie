@@ -30,7 +30,7 @@ export function Button({
   onClick,
 }: Props) {
   const classes = cn(
-    "inline-flex items-center justify-center whitespace-nowrap active:scale-[0.98] text-btn font-semibold uppercase tracking-[0.16em] transition-colors duration-200 ease-in-out",
+    "group/btn relative inline-flex items-center justify-center whitespace-nowrap active:scale-[0.98] text-btn font-semibold uppercase tracking-[0.16em] transition-colors duration-200 ease-in-out",
     size === "md"
       ? "min-h-12 px-8 lg:h-[calc(var(--u)*57)]"
       : "min-h-11 px-6 lg:h-[calc(var(--u)*53)] lg:px-[calc(var(--u)*28)]",
@@ -39,13 +39,15 @@ export function Button({
         ? "lg:px-[calc(var(--u)*38)]"
         : "lg:px-[calc(var(--u)*42)]"),
     variant === "filled"
-      ? "bg-bronze text-white hover:bg-accent-hover"
+      ? "bg-bronze text-white after:border-gold hover:bg-accent-hover"
       : cn(
-          "border hover:border-bronze hover:bg-bronze hover:text-white",
+          "border after:border-transparent hover:border-bronze hover:bg-bronze hover:text-white hover:after:border-gold",
           onDark
             ? "border-bronze-light text-ivory"
             : "border-outline text-charcoal",
         ),
+    // A fine gold frame just outside the button (its thickness is 0 in themes without gold rules).
+    "after:pointer-events-none after:absolute after:-inset-[5px] after:border-[length:var(--rule-h)] after:transition-all after:duration-200 hover:after:-inset-[7px]",
     className,
   );
   return (
