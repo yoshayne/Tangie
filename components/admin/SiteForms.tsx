@@ -106,6 +106,16 @@ export function SettingsForm({
       </section>
       <section className="space-y-4">
         <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-bronze">
+          Footer
+        </h2>
+        <TextField
+          name="footerTagline"
+          label="Handwritten tagline"
+          hint="A short line in flowing script under the logo in the footer. Leave empty to hide it."
+        />
+      </section>
+      <section className="space-y-4">
+        <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-bronze">
           Motion
         </h2>
         <ToggleField

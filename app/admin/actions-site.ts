@@ -144,8 +144,9 @@ const SettingsForm = z.object({
   ),
   categories: z.string().max(2000).optional(),
   shareImage: uuidOrNull,
+  footerTagline: opt(80),
   motionOn: bool,
-  theme: z.enum(["royal", "teal", "classic"]).default("royal"),
+  theme: z.enum(["studio", "royal", "teal", "classic"]).default("studio"),
   motionLevel: z.enum(["gentle", "bold"]).default("bold"),
   announcementOn: bool,
   announcementText: opt(200),
@@ -197,6 +198,7 @@ export async function saveSettings(
     affiliates,
     journal_categories: categories,
     share_image: { id: d.shareImage },
+    footer_tagline: d.footerTagline ?? "",
     motion: { enabled: d.motionOn, level: d.motionLevel },
     theme: { id: d.theme },
     announcement: {

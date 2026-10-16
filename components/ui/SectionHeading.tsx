@@ -53,6 +53,10 @@ export function SectionHeading({
           </span>
         ))}
       </Tag>
+      {/* Fine gold rule (thickness 0 unless the theme turns it on). It follows the text alignment. */}
+      <div aria-hidden className="mt-[var(--rule-gap)] text-[0px] leading-[0]">
+        <span className="inline-block h-[var(--rule-h)] w-12 bg-gold align-top" />
+      </div>
     </div>
   );
 }

@@ -2,35 +2,38 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  /* Colour theme "royal" (the default). Other themes override these from lib/theme.ts. */
-  --ivory: #f9f6f1;
-  --ivory-deep: #f1eaf0;
-  --ivory-soft: #fcfaf8;
-  --sand: #d6eae6;
+  /* Colour theme "studio" (the default). Other themes override these from lib/theme.ts. */
+  --ivory: #f7f2ea;
+  --ivory-deep: #efe7dc;
+  --ivory-soft: #fbf8f3;
+  --sand: #efddd3;
   --white: #ffffff;
-  --charcoal: #2a1f33;
-  --ink: #2b1245;
-  --stone: #635b6e;
-  /* Action colour (buttons, links): burnt orange. Names kept from the first design. */
-  --bronze: #b34815;
-  --bronze-light: #f2a56e;
-  /* Small orange text needs a deeper tone to reach 4.5:1 on every band (WCAG AA). */
-  --bronze-text: #9a3d10;
-  --accent-hover: #9a3d12;
-  --outline: #c75f26;
-  /* Small uppercase labels above headings: teal. */
-  --label: #0f766e;
-  --label-text: #0b5f59;
-  --label-light: #6ccdc5;
-  --line: #dcd2de;
-  --heading: #1c0f2a;
-  --copy: #4b4358;
-  --copy-strong: #33293d;
-  --hero-a: #dccfe6;
-  --hero-b: #e8dfec;
-  --hero-c: #f0eaf0;
-  --hero-d: #f6f1f2;
-  --tile: #e2f0ee;
+  --charcoal: #302c30;
+  --ink: #3d3044;
+  --stone: #665d6a;
+  /* Action colour (buttons, links): deepened terracotta so white text reaches 4.5:1. Names kept from the first design. */
+  --bronze: #a9573f;
+  --bronze-light: #e8a58f;
+  --bronze-text: #8f4a35;
+  --accent-hover: #8f4a35;
+  --outline: #b5634a;
+  /* Small uppercase labels above headings: teal (text uses a deeper tone for AA contrast). */
+  --label: #4c8585;
+  --label-text: #356565;
+  --label-light: #8fc4c0;
+  --line: #e4dacb;
+  --heading: #26212a;
+  --copy: #4f4852;
+  --copy-strong: #38333b;
+  --hero-a: #efe2d8;
+  --hero-b: #f3eae0;
+  --hero-c: #f6efe6;
+  --hero-d: #f7f2ea;
+  --tile: #e6ede9;
+  /* Fine gold details: set --rule-h to 0px to switch the decorative rules off. */
+  --gold: #c8ad78;
+  --rule-h: 1px;
+  --rule-gap: 18px;
 
   /*
    * Design unit. The approved mockup is laid out on a 1440px canvas, so every desktop
@@ -64,6 +67,8 @@
   --color-label-text: var(--label-text);
   --color-label-light: var(--label-light);
   --color-tile: var(--tile);
+  --color-gold: var(--gold);
+  --font-script: var(--font-pinyon), "Snell Roundhand", cursive;
   --font-display: var(--font-newsreader), Georgia, serif;
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
 

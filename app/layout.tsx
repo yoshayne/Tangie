@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, Pinyon_Script } from "next/font/google";
 import localFont from "next/font/local";
 import { Analytics } from "@/components/site/Analytics";
 import { getSiteUrl } from "@/lib/site-url";
@@ -26,6 +26,15 @@ const newsreader = localFont({
   adjustFontFallback: "Times New Roman",
 });
 
+// Handwritten script for taglines and optional pull quotes. Small file, loaded only when used.
+const pinyon = Pinyon_Script({
+  variable: "--font-pinyon",
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  preload: false,
+});
+
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
@@ -49,7 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${newsreader.variable} ${dmSans.variable}`}
+      className={`${newsreader.variable} ${dmSans.variable} ${pinyon.variable}`}
       suppressHydrationWarning
     >
       <head>

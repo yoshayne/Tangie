@@ -171,6 +171,7 @@ const quote = z.object({
   quote: z.string().min(1).max(400),
   attribution: z.string().max(80).optional(),
   portrait: image.optional(),
+  script: z.boolean().optional(),
   ...appearance,
 });
 

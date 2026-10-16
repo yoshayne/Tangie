@@ -14,18 +14,25 @@ export async function Footer({
   nav,
   social,
   affiliates,
+  tagline,
 }: {
   nav: NavItem[];
   social: SocialLink[];
   affiliates: NavItem[];
+  tagline?: string;
 }) {
   const year = await getYear();
   return (
-    <footer className="bg-ink text-ivory">
+    <footer className="border-t-[length:var(--rule-h)] border-gold bg-ink text-ivory">
       <div className="mx-auto max-w-[1440px] px-4 pb-8 pt-10 md:px-6 lg:flex lg:min-h-[calc(var(--u)*186)] lg:flex-col lg:justify-center lg:px-[calc(var(--u)*83)] lg:py-[calc(var(--u)*20)]">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <Wordmark light />
+            {tagline ? (
+              <p className="mt-3 font-script text-[26px] leading-none text-gold lg:mt-[calc(var(--u)*14)] lg:text-[calc(var(--u)*30)]">
+                {tagline}
+              </p>
+            ) : null}
             <ul className="mt-5 flex items-center gap-[22px] lg:mt-[calc(var(--u)*28)] lg:gap-[calc(var(--u)*30)]">
               {social
                 .filter((s) => s.href)

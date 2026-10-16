@@ -19,7 +19,7 @@ export function SpacerDivider({
       aria-hidden
     >
       {rule ? (
-        <div className="mx-auto h-px w-full lg:max-w-[calc(var(--u)*1200)] bg-bronze-light" />
+        <div className="mx-auto h-px w-full lg:max-w-[calc(var(--u)*1200)] bg-gold" />
       ) : null}
     </div>
   );

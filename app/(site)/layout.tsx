@@ -72,6 +72,7 @@ async function SiteFooter() {
       nav={chrome.footerNav}
       social={chrome.social}
       affiliates={chrome.affiliates}
+      tagline={chrome.tagline}
     />
   );
 }
@@ -109,6 +110,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
             nav={DEFAULT_CHROME.footerNav}
             social={DEFAULT_CHROME.social}
             affiliates={DEFAULT_CHROME.affiliates}
+            tagline={DEFAULT_CHROME.tagline}
           />
         }
       >

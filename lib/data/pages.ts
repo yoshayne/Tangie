@@ -92,6 +92,8 @@ export type SiteChrome = {
   /** False when scroll animations are switched off in Site Settings. */
   motion: { enabled: boolean; level: "gentle" | "bold" };
   theme: ThemeId;
+  /** Short handwritten line in the footer. */
+  tagline: string;
 };
 
 /** Header/footer data: navigation from `nav_items`, links from `site_settings`. */
@@ -128,6 +130,9 @@ export async function getSiteChrome(): Promise<SiteChrome> {
       .map((n) => ({ label: n.label, href: n.href })),
     social: setting<SocialLink[]>("social", []),
     affiliates: setting<NavItem[]>("affiliates", []),
+    tagline:
+      setting<string | null>("footer_tagline", null) ??
+      "Real Stories. Lasting Impact.",
     theme: (() => {
       const t = setting<{ id?: string } | null>("theme", null);
       return isThemeId(t?.id) ? t.id : DEFAULT_THEME;

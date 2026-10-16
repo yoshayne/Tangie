@@ -576,6 +576,12 @@ export const SECTION_META: Record<string, SectionMeta> = {
         label: "Portrait (optional)",
         aspects: () => [["Round portrait", 1]],
       },
+      {
+        kind: "toggle",
+        name: "script",
+        label: "Handwritten script style",
+        hint: "A flowing handwritten look for short, elegant lines. Best for quotes under about 80 characters.",
+      },
       ...appearanceFields,
     ],
   },

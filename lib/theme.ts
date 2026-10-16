@@ -6,7 +6,7 @@
  * Roles: ink = the dark bands and footer; sand = the soft feature bands; bronze = buttons and
  * links (the action colour); label = small uppercase labels above headings.
  */
-export type ThemeId = "royal" | "teal" | "classic";
+export type ThemeId = "studio" | "royal" | "teal" | "classic";
 
 type Vars = {
   ivory: string;
@@ -34,6 +34,11 @@ type Vars = {
   "hero-c": string;
   "hero-d": string;
   tile: string;
+  /** Gold used for hairlines and small details. */
+  gold: string;
+  /** Thickness of the decorative gold rules (0px switches them off). */
+  "rule-h": string;
+  "rule-gap": string;
 };
 
 export type Theme = {
@@ -53,6 +58,41 @@ const ORANGE = {
 };
 
 export const THEMES: Record<ThemeId, Theme> = {
+  studio: {
+    label: "Studio: cream, plum, terracotta, teal and gold",
+    description:
+      "Soft and warm, from the brand mood board: cream pages, blush bands, dusty plum, terracotta buttons, muted teal labels and fine gold lines.",
+    swatches: ["#f7f2ea", "#efddd3", "#3d3044", "#a9573f", "#4c8585"],
+    vars: {
+      ivory: "#f7f2ea",
+      "ivory-deep": "#efe7dc",
+      "ivory-soft": "#fbf8f3",
+      sand: "#efddd3",
+      charcoal: "#302c30",
+      ink: "#3d3044",
+      stone: "#665d6a",
+      bronze: "#a9573f",
+      "bronze-light": "#e8a58f",
+      "bronze-text": "#8f4a35",
+      "accent-hover": "#8f4a35",
+      outline: "#b5634a",
+      label: "#4c8585",
+      "label-text": "#356565",
+      "label-light": "#8fc4c0",
+      line: "#e4dacb",
+      heading: "#26212a",
+      copy: "#4f4852",
+      "copy-strong": "#38333b",
+      "hero-a": "#efe2d8",
+      "hero-b": "#f3eae0",
+      "hero-c": "#f6efe6",
+      "hero-d": "#f7f2ea",
+      tile: "#e6ede9",
+      gold: "#c8ad78",
+      "rule-h": "1px",
+      "rule-gap": "18px",
+    },
+  },
   royal: {
     label: "Royal: deep purple, burnt orange, teal",
     description:
@@ -79,6 +119,9 @@ export const THEMES: Record<ThemeId, Theme> = {
       "hero-c": "#f0eaf0",
       "hero-d": "#f6f1f2",
       tile: "#e2f0ee",
+      gold: "#f2a56e",
+      "rule-h": "0px",
+      "rule-gap": "0px",
     },
   },
   teal: {
@@ -107,6 +150,9 @@ export const THEMES: Record<ThemeId, Theme> = {
       "hero-c": "#e8f1ef",
       "hero-d": "#f2f6f4",
       tile: "#eadff1",
+      gold: "#f2a56e",
+      "rule-h": "0px",
+      "rule-gap": "0px",
     },
   },
   classic: {
@@ -139,11 +185,14 @@ export const THEMES: Record<ThemeId, Theme> = {
       "hero-c": "#ebe4dc",
       "hero-d": "#ece8e1",
       tile: "#ebe4d9",
+      gold: "#b89a72",
+      "rule-h": "0px",
+      "rule-gap": "0px",
     },
   },
 };
 
-export const DEFAULT_THEME: ThemeId = "royal";
+export const DEFAULT_THEME: ThemeId = "studio";
 
 export function isThemeId(v: unknown): v is ThemeId {
   return typeof v === "string" && v in THEMES;

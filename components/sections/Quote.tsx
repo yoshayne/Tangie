@@ -12,6 +12,8 @@ export type QuoteProps = {
   quote: string;
   attribution?: string;
   portrait?: ImageRef;
+  /** Handwritten script style for the quote. */
+  script?: boolean;
   background?: Background;
   spacing?: Spacing;
 };
@@ -20,6 +22,7 @@ export function Quote({
   quote,
   attribution,
   portrait,
+  script = false,
   background = "sand",
   spacing,
 }: QuoteProps) {
@@ -40,8 +43,12 @@ export function Quote({
             />
           </div>
         ) : null}
+        <span
+          aria-hidden
+          className="mb-6 block h-[var(--rule-h)] w-12 bg-gold lg:mb-[calc(var(--u)*28)]"
+        />
         <blockquote
-          className={`font-display text-quote font-normal italic ${dark ? "text-ivory" : "text-heading"}`}
+          className={`${script ? "font-script text-[32px] leading-[1.3] lg:text-[calc(var(--u)*52)]" : "font-display text-quote font-normal italic"} ${dark ? "text-ivory" : "text-heading"}`}
         >
           <p>&ldquo;{quote}&rdquo;</p>
         </blockquote>

@@ -70,5 +70,6 @@ export const DEFAULT_CHROME = {
   affiliates: AFFILIATES,
   announcement: null as { text: string; link: string } | null,
   motion: { enabled: true, level: "bold" as "gentle" | "bold" },
-  theme: "royal" as "royal" | "teal" | "classic",
+  tagline: "Real Stories. Lasting Impact.",
+  theme: "studio" as "studio" | "royal" | "teal" | "classic",
 };

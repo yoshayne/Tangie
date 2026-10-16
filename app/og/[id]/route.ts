@@ -46,7 +46,7 @@ export async function GET(request: Request, ctx: RouteContext<"/og/[id]">) {
       .resize({ height: H - 80, fit: "inside", withoutEnlargement: false })
       .toBuffer();
     out = await sharp({
-      create: { width: W, height: H, channels: 3, background: "#D6EAE6" },
+      create: { width: W, height: H, channels: 3, background: "#EFDDD3" },
     })
       .composite([{ input: fitted, gravity: "centre" }])
       .jpeg({ quality: 84 })

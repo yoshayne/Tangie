@@ -7,11 +7,11 @@ import { THEMES, type ThemeId } from "@/lib/theme";
 export function ThemePicker({ name = "theme" }: { name?: string }) {
   const { state, defaults } = useAdminForm();
   const current = (state.values?.[name] ??
-    String(defaults[name] ?? "royal")) as ThemeId;
+    String(defaults[name] ?? "studio")) as ThemeId;
   return (
     <fieldset>
       <legend className="mb-2 text-sm font-semibold">Color theme</legend>
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-2">
         {(Object.keys(THEMES) as ThemeId[]).map((id) => {
           const t = THEMES[id];
           return (
