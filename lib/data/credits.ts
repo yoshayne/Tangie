@@ -7,7 +7,7 @@ import type { ImageRef } from "@/lib/sections/types";
 export type CreditData = {
   id: string;
   title: string;
-  category: "stage" | "film_tv" | "other";
+  category: "stage" | "film" | "tv" | "other";
   roles: string[];
   year: number | null;
   description: string | null;
@@ -17,7 +17,7 @@ export type CreditData = {
 };
 
 export async function getCredits(opts: {
-  category?: "stage" | "film_tv" | "other";
+  category?: "stage" | "film" | "tv" | "other";
   featuredOnly?: boolean;
 }): Promise<CreditData[]> {
   "use cache";

@@ -22,7 +22,7 @@ import { setMediaUsage } from "@/lib/media/usage";
 // ---------------- Credits (Film & Theater) ----------------
 const CreditForm = z.object({
   title: req("Title"),
-  category: z.enum(["stage", "film_tv", "other"]),
+  category: z.enum(["stage", "film", "tv", "other"]),
   roles: opt(300),
   year: optInt("Year"),
   description: opt(1200),

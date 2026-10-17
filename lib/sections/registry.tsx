@@ -287,7 +287,13 @@ const faq = z.object({
 const creditsList = z.object({
   eyebrow: z.string().max(40).optional(),
   heading: z.string().max(60).optional(),
-  category: z.enum(["stage", "film_tv", "other"]).optional(),
+  // "film_tv" was the single combined type before Film and TV were split; read it as TV.
+  category: z
+    .preprocess(
+      (v) => (v === "film_tv" ? "tv" : v),
+      z.enum(["stage", "film", "tv", "other"]),
+    )
+    .optional(),
   featuredOnly: z.boolean().default(false),
   ...appearance,
 });

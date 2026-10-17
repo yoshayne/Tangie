@@ -4,7 +4,12 @@ import { EmptyState, PageHeader, Table, Td } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/admin/auth";
 import { getDb, schema } from "@/lib/db";
 
-const LABEL = { stage: "Stage play", film_tv: "Film & TV", other: "Other" };
+const LABEL = {
+  stage: "Stage play",
+  film: "Film",
+  tv: "TV",
+  other: "Other",
+};
 
 export default async function CreditsAdmin() {
   await requireAdmin();

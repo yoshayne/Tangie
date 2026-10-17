@@ -175,7 +175,9 @@ export const posts = pgTable(
 export const credits = pgTable("credits", {
   id: id(),
   title: text("title").notNull(),
-  category: text("category", { enum: ["stage", "film_tv", "other"] })
+  category: text("category", {
+    enum: ["stage", "film", "tv", "other"],
+  })
     .notNull()
     .default("other"),
   roles: text("roles").array().notNull().default([]),

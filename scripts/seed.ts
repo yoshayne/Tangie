@@ -474,7 +474,7 @@ async function seedCredits() {
   // TODO(client): the full credits list, roles, years and the Tubi / Peacock links.
   await db.insert(schema.credits).values({
     title: "Secrets in Plain Sight",
-    category: "film_tv",
+    category: "tv",
     description:
       "Hit TV series created with her team, streaming on Tubi and Peacock.",
     featured: true,

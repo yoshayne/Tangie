@@ -922,7 +922,8 @@ export const SECTION_META: Record<string, SectionMeta> = {
         options: [
           ["", "All credits"],
           ["stage", "Stage plays only"],
-          ["film_tv", "Film & TV only"],
+          ["film", "Film only"],
+          ["tv", "TV only"],
           ["other", "Other only"],
         ],
       },

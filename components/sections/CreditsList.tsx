@@ -14,7 +14,8 @@ export type CreditsListProps = {
 
 const GROUPS: Array<{ key: CreditData["category"]; label: string }> = [
   { key: "stage", label: "Stage Plays" },
-  { key: "film_tv", label: "Film & TV" },
+  { key: "film", label: "Film" },
+  { key: "tv", label: "Television" },
   { key: "other", label: "Other Work" },
 ];
 

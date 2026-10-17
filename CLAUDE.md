@@ -182,7 +182,7 @@ All inner pages reuse the header/footer and design tokens. Each begins with a **
 | `/` | Homepage above |
 | `/books` | Series intro ("My stories live at the intersection of secrets, survival, faith, and family…"), book grid (cover, title, series position, status badge: Available / Coming Soon) |
 | `/books/[slug]` | Two-column: cover left; title, tagline ("The Lie That Started It All!"), full synopsis, series info, BUY button(s) for each retailer link, reviews section (hidden until reviews exist), "Book club inquiry" CTA → contact form with type preset |
-| `/film-theater` | Intro, credits list grouped by category (Stage Plays / Film & TV) with role tags (Writer, Director, Producer, Casting), featured *Secrets in Plain Sight* block with streaming buttons (Tubi, Peacock), photo/video gallery, awards & press |
+| `/film-theater` | Intro, credits list grouped by category (Stage Plays / Film / TV) with role tags (Writer, Director, Producer, Casting), featured *Secrets in Plain Sight* block with streaming buttons (Tubi, Peacock), photo/video gallery, awards & press |
 | `/speaking` | Intro, topics grid (5 topics from current site), photo strip, testimonials (hidden until approved ones exist), **booking inquiry form** `#inquiry` |
 | `/events` | Upcoming events list + "Past Events" archive below (collapsed recaps with photos) |
 | `/events/[slug]` | Image, date/time, venue + address (link to Google Maps), description, registration link if any, share buttons, Event JSON-LD |
@@ -221,7 +221,7 @@ events            id, slug, title, starts_at (timestamptz), ends_at, timezone (d
                   registration_url, recap_html, published, created_at, updated_at
 posts             id, slug, title, excerpt, body_html, cover_media_id → media, category, author_name (default "Tangie Brickhouse-Beaty"),
                   published_at, status (draft|published), seo_title, seo_description, legacy_wix_slug, created_at, updated_at
-credits           id, title, category (stage|film_tv|other), roles (text[]), year, description, image_media_id → media,
+credits           id, title, category (stage|film|tv|other), roles (text[]), year, description, image_media_id → media,
                   watch_links (jsonb: [{label,url}]), featured (bool), sort_order
 testimonials      id, quote, name, org, portrait_media_id → media (nullable), context (speaking|book), approved (bool), sort_order
 speaking_topics   id, title, description, sort_order

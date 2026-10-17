@@ -36,7 +36,8 @@ export function CreditForm({
           label="Type"
           options={[
             ["stage", "Stage play"],
-            ["film_tv", "Film & TV"],
+            ["film", "Film"],
+            ["tv", "TV"],
             ["other", "Other"],
           ]}
         />
